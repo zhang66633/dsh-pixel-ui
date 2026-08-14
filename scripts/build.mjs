@@ -16,6 +16,7 @@ const { name: id } = JSON.parse(readFileSync(new URL('../package.json', import.m
 const PLATFORM_EXTERNALS = [
   'react', 'react/jsx-runtime', 'react-dom', 'react-dom/client',
   '@deepseek-ai/cordis',
+  '@deepseek-ai/dsh-client-runtime/client',
   '@deepseek-ai/dsh-client-ui-slots',
   '@deepseek-ai/dsh-client-web-react',
   '@deepseek-ai/dsh-client-ui-primitives',

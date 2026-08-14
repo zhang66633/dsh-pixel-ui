@@ -1,9 +1,10 @@
-/* dsh-pixel-ui — 星露谷风深木色像素皮肤（仅深色）
+/* dsh-pixel-ui — 星露谷风像素皮肤（木屋/羊皮纸/暖阳/终端绿四主题）
  * 全面对标 Agent Xi 前端像素语言（web/src/styles/main.css）：
  *   - 木色/金色/羊皮纸三系色板 + 阶梯硬阴影 + 内凹/凸起 bevel
  *   - 像素字体做界面装饰（标题/页签/按钮/徽章/输入框），正文与代码走 mono
  *   - 木纹条纹纹理、CRT 扫描线 + 暗角 + 微闪烁、像素光标、像素按压动效
- * 作用域 html[data-pixel-ui]：只在 pixel-wood 主题激活时生效。
+ * 作用域 html[data-pixel-ui]：任一像素主题激活时生效，
+ * data-pixel-theme 区分四种配色。切回 现代默认/浅色/深色 即整体退出。
  * 原则：颜色尽量交给主题 token，本表负责 token 表达不了的像素质感。 */
 
 @font-face {
@@ -34,13 +35,77 @@ html[data-pixel-ui] {
   --px-gold-dark: #C99A00;
   --px-gold-deep: #8B6B00;
   --px-parchment: #F5E6C8;
-  --px-cream: #FFFDF5;
   --px-text-on-dark: #E8D5B0;
   --px-text-light: #9B7B5B;
+
+  /* 输入框专用色（各主题单独覆盖，保证任何底色下文字可见） */
+  --px-input-bg: #1A0F06;
+  --px-input-text: #FFFDF5;
+  --px-input-caret: #F4D03F;
+  --px-input-ph: #9B7B5B;
 
   /* 像素字体栈：中文/全角走 fusion-pixel（12px 原生），英文数字兜底 Press Start 2P */
   --px-font: 'Fusion Pixel 12', 'Press Start 2P', monospace;
   --px-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+}
+
+/* ── 四主题色板（Agent Xi 同款）────────────────────────── */
+html[data-pixel-theme='pixel-paper'] {
+  --px-wood-darkest: #F0E8D8;
+  --px-wood-dark: #E8DCC8;
+  --px-wood-mid: #DDD0B8;
+  --px-wood-warm: #D4C4A8;
+  --px-wood-light: #B8A080;
+  --px-wood-pale: #9B8B6B;
+  --px-gold: #C8960C;
+  --px-gold-bright: #E0A800;
+  --px-gold-dark: #A07000;
+  --px-gold-deep: #805000;
+  --px-parchment: #FFFDF5;
+  --px-text-on-dark: #3A2A10;
+  --px-text-light: #8B7040;
+  --px-input-bg: #FFFDF5;
+  --px-input-text: #3A2A10;
+  --px-input-caret: #C8960C;
+  --px-input-ph: #8B7040;
+}
+html[data-pixel-theme='pixel-warm'] {
+  --px-wood-darkest: #1E0E04;
+  --px-wood-dark: #34180A;
+  --px-wood-mid: #4A2210;
+  --px-wood-warm: #5C2E16;
+  --px-wood-light: #8B4A28;
+  --px-wood-pale: #A86B40;
+  --px-gold: #FF8C42;
+  --px-gold-bright: #FFA64D;
+  --px-gold-dark: #D96E30;
+  --px-gold-deep: #A05020;
+  --px-parchment: #FFF0E0;
+  --px-text-on-dark: #F0C8A0;
+  --px-text-light: #A86B40;
+  --px-input-bg: #1E0E04;
+  --px-input-text: #FFFBF5;
+  --px-input-caret: #FF8C42;
+  --px-input-ph: #A86B40;
+}
+html[data-pixel-theme='pixel-retro'] {
+  --px-wood-darkest: #0A0E0A;
+  --px-wood-dark: #0E140E;
+  --px-wood-mid: #121A12;
+  --px-wood-warm: #162016;
+  --px-wood-light: #2A402A;
+  --px-wood-pale: #3A5A3A;
+  --px-gold: #33FF33;
+  --px-gold-bright: #66FF66;
+  --px-gold-dark: #00CC00;
+  --px-gold-deep: #009900;
+  --px-parchment: #0A1A0A;
+  --px-text-on-dark: #33FF33;
+  --px-text-light: #118811;
+  --px-input-bg: #0A0E0A;
+  --px-input-text: #33FF33;
+  --px-input-caret: #33FF33;
+  --px-input-ph: #118811;
 }
 
 /* ── 全局质感：禁次像素平滑（像素字体的灵魂）、位图三件套、方形化 ── */
@@ -241,10 +306,10 @@ html[data-pixel-ui] [contenteditable='true'] {
   font-family: var(--px-font) !important;
   font-size: 12px;
   letter-spacing: 0;
-  color: var(--px-cream) !important;
-  -webkit-text-fill-color: var(--px-cream) !important;
-  caret-color: var(--px-gold) !important;
-  background-color: var(--px-wood-darkest) !important;
+  color: var(--px-input-text) !important;
+  -webkit-text-fill-color: var(--px-input-text) !important;
+  caret-color: var(--px-input-caret) !important;
+  background-color: var(--px-input-bg) !important;
   border: 2px solid var(--px-gold-deep) !important;
   box-shadow:
     inset 3px 3px 0 rgba(0, 0, 0, 0.6),
@@ -263,8 +328,8 @@ html[data-pixel-ui] [contenteditable='true']:focus {
 }
 html[data-pixel-ui] input::placeholder,
 html[data-pixel-ui] textarea::placeholder {
-  color: var(--px-text-light) !important;
-  -webkit-text-fill-color: var(--px-text-light) !important;
+  color: var(--px-input-ph) !important;
+  -webkit-text-fill-color: var(--px-input-ph) !important;
   opacity: 1;
 }
 /* 输入框容器只做边框质感，不压背景（避免把容器文字也染黑） */
@@ -405,4 +470,65 @@ html[data-pixel-ui] body::after {
   html[data-pixel-ui] [class*='card'] {
     transition: none;
   }
+}
+
+/* ── 设置页「像素主题」行（不跟随皮肤作用域：现代模式下也保持可点） ── */
+.px-theme-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(139, 107, 69, 0.35);
+}
+.px-theme-row-title {
+  font-family: 'Fusion Pixel 12', 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #F4D03F;
+  text-shadow: 2px 2px 0 rgba(26, 15, 6, 0.6);
+  letter-spacing: 0.05em;
+}
+.px-theme-row-cubes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.px-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-family: 'Fusion Pixel 12', 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #E8D5B0;
+  background: #2C1A0C;
+  border: 2px solid #1A0F06;
+  border-radius: 0 !important;
+  cursor: pointer;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 248, 231, 0.15),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.4),
+    2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+.px-theme-btn:hover {
+  filter: brightness(1.12);
+  transform: translate(-1px, -1px);
+}
+.px-theme-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+.px-theme-btn-active {
+  color: #1A0F06;
+  background: #F4D03F;
+  border-color: #8B6B00;
+  box-shadow:
+    inset 1px 1px 0 #FFE066,
+    inset -1px -1px 0 #8B6B00,
+    2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+.px-theme-swatch {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #000;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.4);
 }

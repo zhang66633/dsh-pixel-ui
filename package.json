@@ -1,7 +1,7 @@
 {
   "name": "dsh-pixel-ui",
-  "version": "0.1.0",
-  "description": "DSH 像素皮肤：星露谷风深木色 + 金色描边 + 羊皮纸内容区，fusion-pixel + Press Start 2P 像素字体，仅深色模式",
+  "version": "0.2.0",
+  "description": "DSH 像素皮肤：Agent Xi 风格四主题（木屋/羊皮纸/暖阳/终端绿）+ fusion-pixel/Press Start 2P 像素字体 + CRT 扫描线，可一键切回现代默认",
   "type": "module",
   "main": "lib/index.js",
   "files": [
@@ -25,7 +25,9 @@
     },
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-ui-theme"
+        "@deepseek-ai/dsh-client-ui-theme",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-settings-general"
       ],
       "platform": "web"
     }
