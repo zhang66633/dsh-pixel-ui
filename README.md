@@ -1,6 +1,6 @@
 # dsh-pixel-ui
 
-> DeepSeek Harness 的星露谷风像素皮肤：深木色面板 + 金色描边 + 羊皮纸文字，fusion-pixel 中文像素字体 + Press Start 2P 英文像素字体。仅深色模式。
+> DeepSeek Harness 像素皮肤：深木色面板 + 金色描边 + 羊皮纸文字，fusion-pixel 中文像素字体 + Press Start 2P 英文像素字体。仅深色模式。
 
 ## Overview
 
