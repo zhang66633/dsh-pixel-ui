@@ -2,6 +2,16 @@
 
 > DeepSeek Harness 像素皮肤（Agent Xi 风格）：四个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿，随时可切回现代默认 UI。
 
+## Screenshots
+
+| 像素·木屋 | 像素·羊皮纸 | 像素·暖阳 | 像素·终端绿 |
+| --- | --- | --- | --- |
+| ![像素·木屋](./assets/screenshot-wood.png) | ![像素·羊皮纸](./assets/screenshot-paper.png) | ![像素·暖阳](./assets/screenshot-warm.png) | ![像素·终端绿](./assets/screenshot-retro.png) |
+
+对话页与输入框（木屋）：
+
+![木屋对话页](./assets/screenshot-wood-chat.png)
+
 ## Overview
 
 `dsh-pixel-ui` 把 Web GUI 重皮肤成像素 RPG 风：
