@@ -4,7 +4,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.1.0--rc.6-blue)
-![version](https://img.shields.io/badge/version-0.2.0-F4D03F)
+![version](https://img.shields.io/badge/version-1.0.0-F4D03F)
 ![themes](https://img.shields.io/badge/themes-4-orange)
 
 ---
@@ -72,10 +72,16 @@
 
 ### Install
 
-npm 发布后：
+npm（推荐）：
 
 ```bash
 dsh plugin --profile web add dsh-pixel-ui
+```
+
+GitHub 源码（clone 后按本地 link 方式接入，同样无需构建——构建产物已随仓库提交）：
+
+```bash
+git clone --depth 1 https://github.com/zhang66633/dsh-pixel-ui
 ```
 
 本地开发（link 方式）：
