@@ -1,0 +1,7 @@
+# dsh-pixel-ui bundle patch: inserts the dual-face plugin row into the web
+# profile roster. Node half (exports ".") serves the bundled pixel fonts;
+# the `dsh.client` declaration makes the browser half (exports "./client")
+# load in the web GUI and register the pixel theme.
+- insert:
+    - id: dsh-pixel-ui
+      name: dsh-pixel-ui

@@ -1,0 +1,166 @@
+/* dsh-pixel-ui — 星露谷风深木色像素皮肤（仅深色）
+ * 作用域 html[data-pixel-ui]：只在 pixel-wood 主题激活时生效。
+ * 原则：边框/页签/按钮/徽章像素化，大面积内容保持可读；正文用系统字体，
+ * 像素字体只给标题、页签、按钮、徽章。 */
+
+@font-face {
+  font-family: 'Fusion Pixel 12';
+  src: url('/dsh-pixel-ui/fonts/fusion-pixel-12px.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('/dsh-pixel-ui/fonts/PressStart2P-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html[data-pixel-ui] {
+  /* 像素字体栈：中文走 fusion-pixel，英文/数字走 Press Start 2P */
+  --px-font: 'Fusion Pixel 12', 'Press Start 2P', monospace;
+  --px-border-l: #4A3020;   /* 木色浅边 */
+  --px-border-d: #1A0F06;   /* 木色深边 */
+  --px-gold: #F4D03F;
+  --px-parchment: #F5E6C8;
+}
+
+/* ── 全局质感 ─────────────────────────────────────────── */
+html[data-pixel-ui] body {
+  /* 像素字体下关掉次像素平滑，保留锐利边缘 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html[data-pixel-ui] ::selection {
+  background: #F4D03F;
+  color: #1A0F06;
+}
+
+/* 圆角收敛：像素风用小圆角 */
+html[data-pixel-ui] * {
+  border-radius: 4px !important;
+}
+html[data-pixel-ui] .rounded-full,
+html[data-pixel-ui] [class*='rounded-full'],
+html[data-pixel-ui] [class*='round'] {
+  border-radius: 4px !important;
+}
+
+/* 像素滚动条：方形、木色 */
+html[data-pixel-ui] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html[data-pixel-ui] ::-webkit-scrollbar-track {
+  background: #1A0F06;
+  border-left: 2px solid #2C1A0C;
+}
+html[data-pixel-ui] ::-webkit-scrollbar-thumb {
+  background: #6B4C2E;
+  border: 2px solid #1A0F06;
+}
+html[data-pixel-ui] ::-webkit-scrollbar-thumb:hover {
+  background: #8B6B45;
+}
+
+/* ── 标题 / 页签 / 徽章：像素字体 ──────────────────────── */
+html[data-pixel-ui] h1,
+html[data-pixel-ui] h2,
+html[data-pixel-ui] h3,
+html[data-pixel-ui] [class*='title'],
+html[data-pixel-ui] [class*='header'] [class*='label'],
+html[data-pixel-ui] [class*='tab'],
+html[data-pixel-ui] [class*='badge'],
+html[data-pixel-ui] [class*='chip'],
+html[data-pixel-ui] [class*='Tag'] {
+  font-family: var(--px-font) !important;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  text-shadow: 2px 2px 0 rgba(26, 15, 6, 0.6);
+}
+
+/* ── 按钮：8-bit 凸起质感 ─────────────────────────────── */
+html[data-pixel-ui] button,
+html[data-pixel-ui] [role='button'],
+html[data-pixel-ui] [class*='btn'],
+html[data-pixel-ui] [class*='Button'] {
+  font-family: var(--px-font) !important;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  border: 2px solid var(--px-border-d) !important;
+  box-shadow:
+    inset 2px 2px 0 rgba(245, 230, 200, 0.25),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.45),
+    0 2px 0 var(--px-border-d) !important;
+  image-rendering: pixelated;
+}
+html[data-pixel-ui] button:hover,
+html[data-pixel-ui] [role='button']:hover,
+html[data-pixel-ui] [class*='btn']:hover,
+html[data-pixel-ui] [class*='Button']:hover {
+  filter: brightness(1.12);
+}
+html[data-pixel-ui] button:active,
+html[data-pixel-ui] [role='button']:active,
+html[data-pixel-ui] [class*='btn']:active,
+html[data-pixel-ui] [class*='Button']:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.45),
+    inset -2px -2px 0 rgba(245, 230, 200, 0.15) !important;
+}
+
+/* 主按钮（品牌色）用金边点缀 */
+html[data-pixel-ui] button[class*='primary'],
+html[data-pixel-ui] [class*='btn-primary'] {
+  border-color: #8B6B00 !important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 224, 102, 0.5),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    0 2px 0 #8B6B00 !important;
+}
+
+/* ── 输入框：内凹质感 ─────────────────────────────────── */
+html[data-pixel-ui] input,
+html[data-pixel-ui] textarea,
+html[data-pixel-ui] [class*='input'] {
+  border: 2px solid var(--px-border-d) !important;
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.5),
+    inset -2px -2px 0 rgba(245, 230, 200, 0.08) !important;
+  background-color: #1A0F06 !important;
+}
+
+/* ── 面板 / 卡片：硬边框 + 右下硬阴影 ──────────────────── */
+html[data-pixel-ui] [class*='panel'],
+html[data-pixel-ui] [class*='card'],
+html[data-pixel-ui] [class*='Card'],
+html[data-pixel-ui] dialog,
+html[data-pixel-ui] [role='dialog'] {
+  border: 2px solid var(--px-border-l) !important;
+  box-shadow:
+    0 0 0 2px var(--px-border-d),
+    4px 4px 0 rgba(0, 0, 0, 0.35) !important;
+}
+
+/* ── 消息气泡角标：像素三角 ───────────────────────────── */
+html[data-pixel-ui] [class*='message'],
+html[data-pixel-ui] [class*='bubble'] {
+  border: 2px solid var(--px-border-l) !important;
+}
+
+/* ── 链接强调 ────────────────────────────────────────── */
+html[data-pixel-ui] a {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* ── 减少动效的平滑感：像素风用 step 节奏（可选轻量） ──── */
+html[data-pixel-ui] [class*='tab']:hover,
+html[data-pixel-ui] [class*='badge']:hover {
+  transition: none;
+}
