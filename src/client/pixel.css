@@ -44,6 +44,10 @@ html[data-pixel-ui] {
   --px-input-caret: #F4D03F;
   --px-input-ph: #9B7B5B;
 
+  /* 文字阴影强度：暗色主题用 2px 像素硬阴影，浅色主题收敛防重影 */
+  --px-ts-chrome: 2px 2px 0 rgba(26, 15, 6, 0.6), -1px -1px 0 rgba(26, 15, 6, 0.4);
+  --px-ts-btn: 1px 1px 0 rgba(0, 0, 0, 0.4);
+
   /* 像素字体栈：中文/全角走 fusion-pixel（12px 原生），英文数字兜底 Press Start 2P */
   --px-font: 'Fusion Pixel 12', 'Press Start 2P', monospace;
   --px-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
@@ -68,6 +72,9 @@ html[data-pixel-theme='pixel-paper'] {
   --px-input-text: #3A2A10;
   --px-input-caret: #C8960C;
   --px-input-ph: #8B7040;
+  /* 浅色底上 2px 硬阴影会变重影：去掉文字阴影，靠字体本身 */
+  --px-ts-chrome: none;
+  --px-ts-btn: none;
 }
 html[data-pixel-theme='pixel-warm'] {
   --px-wood-darkest: #1E0E04;
@@ -164,9 +171,7 @@ html[data-pixel-ui] [class*='chip'],
 html[data-pixel-ui] [class*='Tag'],
 html[data-pixel-ui] [class*='pill'] {
   font-family: var(--px-font) !important;
-  text-shadow:
-    2px 2px 0 rgba(26, 15, 6, 0.6),
-    -1px -1px 0 rgba(26, 15, 6, 0.4);
+  text-shadow: var(--px-ts-chrome);
 }
 
 /* 标题/页签取金色（Xi .panel-title 语义） */
@@ -260,7 +265,7 @@ html[data-pixel-ui] [class*='Button'] {
     inset -2px -2px 0 rgba(0, 0, 0, 0.5),
     2px 2px 0 #000,
     3px 3px 0 rgba(0, 0, 0, 0.6) !important;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+  text-shadow: var(--px-ts-btn);
   transition: transform 0.08s steps(2), box-shadow 0.08s steps(2), filter 0.08s steps(2);
 }
 html[data-pixel-ui] button:hover,
@@ -484,7 +489,7 @@ html[data-pixel-ui] body::after {
   font-family: 'Fusion Pixel 12', 'Press Start 2P', monospace;
   font-size: 12px;
   color: #F4D03F;
-  text-shadow: 2px 2px 0 rgba(26, 15, 6, 0.6);
+  text-shadow: var(--px-ts-chrome, 2px 2px 0 rgba(26, 15, 6, 0.6));
   letter-spacing: 0.05em;
 }
 .px-theme-row-cubes {
