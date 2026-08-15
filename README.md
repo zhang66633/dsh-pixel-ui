@@ -10,6 +10,9 @@
 ---
 
 ## Overview
+<p align="center">
+  <img src="./assets/screenshot-wood.png" alt="像素·木屋（默认主题）" width="760" />
+</p>
 
 `dsh-pixel-ui` 是一个**皮肤插件**，把 dsh Web GUI 重皮肤成像素 RPG 风：
 
@@ -19,9 +22,6 @@
 
 **适合谁**：想要像素风 / 星露谷风 / 复古终端外观的 dsh 用户；想给会话截图加一点氛围感的博主和开发者。
 
-<p align="center">
-  <img src="./assets/screenshot-wood.png" alt="像素·木屋（默认主题）" width="760" />
-</p>
 
 ## Themes
 
