@@ -48,6 +48,10 @@ html[data-pixel-ui] {
   --px-ts-chrome: 2px 2px 0 rgba(26, 15, 6, 0.6), -1px -1px 0 rgba(26, 15, 6, 0.4);
   --px-ts-btn: 1px 1px 0 rgba(0, 0, 0, 0.4);
 
+  /* CRT 覆盖层强度（暗色主题）：扫描线 + 暗角，浅色主题另行收敛 */
+  --px-scan: rgba(0, 0, 0, 0.1);
+  --px-vignette: rgba(0, 0, 0, 0.22);
+
   /* 像素字体栈：中文/全角走 fusion-pixel（12px 原生），英文数字兜底 Press Start 2P */
   --px-font: 'Fusion Pixel 12', 'Press Start 2P', monospace;
   --px-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
@@ -75,6 +79,9 @@ html[data-pixel-theme='pixel-paper'] {
   /* 浅色底上 2px 硬阴影会变重影：去掉文字阴影，靠字体本身 */
   --px-ts-chrome: none;
   --px-ts-btn: none;
+  /* 浅色底收敛 CRT：扫描线更轻，暗角几乎取消 */
+  --px-scan: rgba(0, 0, 0, 0.05);
+  --px-vignette: rgba(0, 0, 0, 0.08);
 }
 html[data-pixel-theme='pixel-warm'] {
   --px-wood-darkest: #1E0E04;
@@ -328,8 +335,14 @@ html[data-pixel-ui] [contenteditable='true']:focus {
   border-color: var(--px-gold) !important;
   box-shadow:
     inset 3px 3px 0 rgba(0, 0, 0, 0.6),
-    0 0 0 2px var(--px-gold),
-    0 0 8px rgba(244, 208, 63, 0.4) !important;
+    0 0 0 2px var(--px-gold) !important;
+}
+/* 输入件自带金框聚焦环：关掉全局焦点描边，避免双环 */
+html[data-pixel-ui] input:focus-visible,
+html[data-pixel-ui] textarea:focus-visible,
+html[data-pixel-ui] select:focus-visible,
+html[data-pixel-ui] [contenteditable='true']:focus-visible {
+  outline: none !important;
 }
 html[data-pixel-ui] input::placeholder,
 html[data-pixel-ui] textarea::placeholder {
@@ -370,9 +383,10 @@ html[data-pixel-ui] [class*='popup'] {
       rgba(0, 0, 0, 0.06) 10px,
       rgba(0, 0, 0, 0.06) 11px
     ) !important;
+  transition: transform 0.08s steps(2), box-shadow 0.08s steps(2);
 }
 
-/* 卡片悬停：抬升 + 阴影加厚（Xi hover 位移） */
+/* 卡片悬停：抬升 + 阴影加厚（Xi hover 位移），与按钮同款二阶过渡 */
 html[data-pixel-ui] [class*='card']:hover,
 html[data-pixel-ui] [class*='Card']:hover {
   transform: translate(-2px, -2px);
@@ -381,6 +395,14 @@ html[data-pixel-ui] [class*='Card']:hover {
     inset -1px -1px 0 rgba(0, 0, 0, 0.4),
     4px 4px 0 #000,
     5px 5px 0 rgba(0, 0, 0, 0.6) !important;
+}
+html[data-pixel-ui] [class*='card']:active,
+html[data-pixel-ui] [class*='Card']:active {
+  transform: translate(0, 0);
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.45),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.06),
+    2px 2px 0 #000 !important;
 }
 
 /* ── 顶栏/侧栏：木纹渐变 + 黑底边 + 金色发丝 ─────────────── */
@@ -444,6 +466,221 @@ html[data-pixel-ui] [contenteditable='true'] {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M5 3h4v2h2v2h2v2h2v2h2v2h2v6h-2v2h-4v2H5z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='2'/%3E%3C/svg%3E") 4 3, text;
 }
 
+/* ── 危险按钮：主题错误色包边（token 由四主题 JS 侧声明） ── */
+html[data-pixel-ui] button[class*='danger'],
+html[data-pixel-ui] button[class*='Danger'],
+html[data-pixel-ui] [class*='btn-danger'],
+html[data-pixel-ui] [class*='btn-Danger'],
+html[data-pixel-ui] [class*='destructive'] {
+  border-color: var(--dsw-alias-state-error-primary, #E74C3C) !important;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.18),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    2px 2px 0 #000,
+    3px 3px 0 rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ── 禁用态：沉底无阴影，不可点（光标同步） ────────────── */
+html[data-pixel-ui] button:disabled,
+html[data-pixel-ui] [role='button'][aria-disabled='true'],
+html[data-pixel-ui] [class*='btn'][disabled],
+html[data-pixel-ui] [class*='Button'][disabled],
+html[data-pixel-ui] input:disabled,
+html[data-pixel-ui] textarea:disabled,
+html[data-pixel-ui] select:disabled {
+  filter: none !important;
+  transform: none !important;
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.45),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ── 下拉框：原生箭头换成金色阶梯三角 ──────────────────── */
+html[data-pixel-ui] select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 28px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='8' height='2'/%3E%3Crect x='1' y='2' width='6' height='2'/%3E%3Crect x='2' y='4' width='4' height='2'/%3E%3Crect x='3' y='6' width='2' height='2'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+}
+html[data-pixel-ui] select option {
+  background-color: var(--px-input-bg);
+  color: var(--px-input-text);
+}
+
+/* ── 复选框：金底黑勾的像素方格 ────────────────────────── */
+html[data-pixel-ui] input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  flex-shrink: 0;
+}
+html[data-pixel-ui] input[type='checkbox']:checked {
+  background-color: var(--px-gold) !important;
+  background-image:
+    linear-gradient(45deg, transparent 44%, var(--px-wood-darkest) 44%, var(--px-wood-darkest) 62%, transparent 62%),
+    linear-gradient(-45deg, transparent 58%, var(--px-wood-darkest) 58%, var(--px-wood-darkest) 76%, transparent 76%) !important;
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.5),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.25),
+    0 0 0 1px #000 !important;
+}
+
+/* ── 单选：方块内金点（像素时代没有圆角） ──────────────── */
+html[data-pixel-ui] input[type='radio'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  flex-shrink: 0;
+}
+html[data-pixel-ui] input[type='radio']:checked {
+  background-color: var(--px-gold) !important;
+  box-shadow:
+    inset 0 0 0 3px var(--px-input-bg),
+    0 0 0 1px #000 !important;
+}
+
+/* ── 开关：内凹轨道（滑块由宿主组件绘制，只铺轨道质感） ── */
+html[data-pixel-ui] [role='switch'],
+html[data-pixel-ui] [class*='switch-track'],
+html[data-pixel-ui] [class*='Switch'] {
+  border: 2px solid #000 !important;
+  background-color: var(--px-wood-dark) !important;
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ── 滑块：刻度轨道 + 方块拇指 ────────────────────────── */
+html[data-pixel-ui] input[type='range'] {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 14px;
+  padding: 0;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html[data-pixel-ui] input[type='range']::-webkit-slider-runnable-track {
+  height: 8px;
+  border: 2px solid #000;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 5px,
+    rgba(0, 0, 0, 0.3) 5px,
+    rgba(0, 0, 0, 0.3) 6px
+  );
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+html[data-pixel-ui] input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 14px;
+  margin-top: -5px;
+  background-color: var(--px-gold);
+  border: 2px solid #000;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.4),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+}
+html[data-pixel-ui] input[type='range']::-moz-range-track {
+  height: 8px;
+  border: 2px solid #000;
+  background: var(--px-wood-mid);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+html[data-pixel-ui] input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 14px;
+  background-color: var(--px-gold);
+  border: 2px solid #000;
+  border-radius: 0;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.4),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* ── 提示框：黑底金边 + 阶梯阴影 ──────────────────────── */
+html[data-pixel-ui] [role='tooltip'],
+html[data-pixel-ui] [class*='tooltip'],
+html[data-pixel-ui] [class*='Tooltip'] {
+  font-family: var(--px-font) !important;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--px-parchment) !important;
+  background: var(--px-wood-darkest) !important;
+  border: 2px solid var(--px-gold-deep) !important;
+  box-shadow: 2px 2px 0 #000, 3px 3px 0 rgba(0, 0, 0, 0.6) !important;
+  text-shadow: var(--px-ts-btn);
+}
+
+/* ── 内容排版：消息正文里的分隔线/引用/表格/折叠 ────────── */
+html[data-pixel-ui] hr {
+  border: none !important;
+  height: 4px;
+  background-image: linear-gradient(
+    180deg,
+    var(--px-wood-light) 0px,
+    var(--px-wood-light) 1px,
+    transparent 1px,
+    transparent 3px,
+    var(--px-wood-light) 3px,
+    var(--px-wood-light) 4px
+  ) !important;
+}
+html[data-pixel-ui] blockquote {
+  border-left: 4px solid var(--px-gold) !important;
+  background-color: var(--px-wood-dark) !important;
+  color: var(--px-text-on-dark) !important;
+  padding: 6px 10px;
+  box-shadow: inset 2px 0 0 rgba(0, 0, 0, 0.18) !important;
+}
+html[data-pixel-ui] table {
+  border: 2px solid var(--px-wood-warm) !important;
+  border-collapse: collapse;
+}
+html[data-pixel-ui] th {
+  background-color: var(--px-wood-warm) !important;
+  color: var(--px-parchment) !important;
+  font-family: var(--px-font) !important;
+  font-size: 12px;
+  border: 1px solid var(--px-wood-light) !important;
+}
+html[data-pixel-ui] td {
+  border: 1px solid var(--px-wood-light) !important;
+}
+html[data-pixel-ui] summary {
+  cursor: pointer;
+  font-family: var(--px-font) !important;
+  color: var(--px-gold-bright) !important;
+}
+html[data-pixel-ui] summary::marker {
+  color: var(--px-gold);
+}
+
+/* ── 菜单项悬停：金色左条 + 木色底 ─────────────────────── */
+html[data-pixel-ui] [role='menuitem']:hover,
+html[data-pixel-ui] [class*='menu-item']:hover,
+html[data-pixel-ui] [class*='dropdown'] [class*='item']:hover,
+html[data-pixel-ui] [class*='popover'] [class*='item']:hover {
+  background-color: var(--px-wood-mid) !important;
+  box-shadow: inset 3px 0 0 var(--px-gold) !important;
+}
+
+/* ── 滚动条：Firefox 同步 + 角落 ───────────────────────── */
+html[data-pixel-ui] {
+  scrollbar-color: var(--px-wood-light) var(--px-wood-darkest);
+}
+html[data-pixel-ui] ::-webkit-scrollbar-corner {
+  background: var(--px-wood-darkest);
+}
+
 /* ── CRT 覆盖层：扫描线 + 暗角 + 微闪烁（Xi v3 滤镜） ────
  * 盖在最顶层但不拦截任何事件；尊重系统“减少动态效果”偏好。 */
 html[data-pixel-ui] body::after {
@@ -455,12 +692,12 @@ html[data-pixel-ui] body::after {
   background:
     repeating-linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.1) 0px,
-      rgba(0, 0, 0, 0.1) 1px,
+      var(--px-scan) 0px,
+      var(--px-scan) 1px,
       transparent 1px,
       transparent 3px
     ),
-    radial-gradient(ellipse at center, transparent 62%, rgba(0, 0, 0, 0.22) 100%);
+    radial-gradient(ellipse at center, transparent 62%, var(--px-vignette) 100%);
   animation: px-crt-flicker 4s steps(60) infinite;
 }
 @keyframes px-crt-flicker {
@@ -470,9 +707,13 @@ html[data-pixel-ui] body::after {
 @media (prefers-reduced-motion: reduce) {
   html[data-pixel-ui] body::after { animation: none; }
   html[data-pixel-ui] button,
+  html[data-pixel-ui] [role='button'],
   html[data-pixel-ui] [class*='btn'],
   html[data-pixel-ui] [class*='Button'],
-  html[data-pixel-ui] [class*='card'] {
+  html[data-pixel-ui] [class*='panel'],
+  html[data-pixel-ui] [class*='card'],
+  html[data-pixel-ui] [class*='Card'],
+  .px-theme-btn {
     transition: none;
   }
 }
@@ -513,10 +754,15 @@ html[data-pixel-ui] body::after {
     inset 1px 1px 0 rgba(255, 248, 231, 0.15),
     inset -1px -1px 0 rgba(0, 0, 0, 0.4),
     2px 2px 0 rgba(0, 0, 0, 0.5);
+  transition: transform 0.06s steps(2), box-shadow 0.06s steps(2), filter 0.06s steps(2);
 }
 .px-theme-btn:hover {
   filter: brightness(1.12);
   transform: translate(-1px, -1px);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 248, 231, 0.2),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.35),
+    3px 3px 0 rgba(0, 0, 0, 0.5);
 }
 .px-theme-btn:active {
   transform: translate(1px, 1px);
@@ -524,11 +770,12 @@ html[data-pixel-ui] body::after {
 }
 .px-theme-btn-active {
   color: #1A0F06;
-  background: #F4D03F;
-  border-color: #8B6B00;
+  /* 皮肤激活时跟随当前主题强调色（木屋金/暖阳橙/终端绿），现代模式回落金色 */
+  background: var(--px-gold, #F4D03F);
+  border-color: var(--px-gold-deep, #8B6B00);
   box-shadow:
-    inset 1px 1px 0 #FFE066,
-    inset -1px -1px 0 #8B6B00,
+    inset 1px 1px 0 var(--px-gold-bright, #FFE066),
+    inset -1px -1px 0 var(--px-gold-deep, #8B6B00),
     2px 2px 0 rgba(0, 0, 0, 0.5);
 }
 .px-theme-swatch {
