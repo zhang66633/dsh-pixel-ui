@@ -52,6 +52,10 @@ html[data-pixel-ui] {
   --px-scan: rgba(0, 0, 0, 0.1);
   --px-vignette: rgba(0, 0, 0, 0.22);
 
+  /* 侧边栏色阶：整体比内容区亮一档，读出「凸起面板」而非凹槽 */
+  --px-sidebar-hi: #6B4C2E;
+  --px-sidebar-lo: #4A3020;
+
   /* 像素字体栈：中文/全角走 fusion-pixel（12px 原生），英文数字兜底 Press Start 2P */
   --px-font: 'Fusion Pixel 12', 'Press Start 2P', monospace;
   --px-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
@@ -82,6 +86,9 @@ html[data-pixel-theme='pixel-paper'] {
   /* 浅色底收敛 CRT：扫描线更轻，暗角几乎取消 */
   --px-scan: rgba(0, 0, 0, 0.05);
   --px-vignette: rgba(0, 0, 0, 0.08);
+  /* 浅色主题：侧栏用更亮的奶油白，与内容区（#F0E8D8）区分 */
+  --px-sidebar-hi: #FFFDF5;
+  --px-sidebar-lo: #E8DCC8;
 }
 html[data-pixel-theme='pixel-warm'] {
   --px-wood-darkest: #1E0E04;
@@ -101,6 +108,8 @@ html[data-pixel-theme='pixel-warm'] {
   --px-input-text: #FFFBF5;
   --px-input-caret: #FF8C42;
   --px-input-ph: #C08A5C;
+  --px-sidebar-hi: #8B4A28;
+  --px-sidebar-lo: #5C2E16;
 }
 html[data-pixel-theme='pixel-retro'] {
   --px-wood-darkest: #0A0E0A;
@@ -120,6 +129,8 @@ html[data-pixel-theme='pixel-retro'] {
   --px-input-text: #33FF33;
   --px-input-caret: #33FF33;
   --px-input-ph: #118811;
+  --px-sidebar-hi: #2A402A;
+  --px-sidebar-lo: #162016;
 }
 
 /* ── 全局质感：禁次像素平滑（像素字体的灵魂）、位图三件套、方形化 ── */
@@ -432,7 +443,7 @@ html[data-pixel-ui] [class*='titlebar'] {
 }
 html[data-pixel-ui] [class*='sidebar'],
 html[data-pixel-ui] [class*='Sidebar'] {
-  background-image: linear-gradient(90deg, var(--px-wood-light) 0%, var(--px-wood-warm) 50%, var(--px-wood-dark) 100%) !important;
+  background-image: linear-gradient(90deg, var(--px-sidebar-hi) 0%, var(--px-sidebar-lo) 100%) !important;
   border-right: 3px solid #000 !important;
   box-shadow:
     inset 2px 0 0 var(--px-wood-pale),
