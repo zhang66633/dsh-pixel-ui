@@ -1,6 +1,6 @@
 {
   "name": "dsh-pixel-ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "DSH 像素皮肤：Agent Xi 风格四主题（木屋/羊皮纸/暖阳/终端绿）+ fusion-pixel/Press Start 2P 像素字体 + CRT 扫描线，可一键切回现代默认",
   "type": "module",
   "main": "lib/index.js",

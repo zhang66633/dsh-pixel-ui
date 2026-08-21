@@ -4,7 +4,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.1.0--rc.7-blue)
-![version](https://img.shields.io/badge/version-1.1.0-F4D03F)
+![version](https://img.shields.io/badge/version-1.2.0-F4D03F)
 ![themes](https://img.shields.io/badge/themes-4-orange)
 
 ---
@@ -83,7 +83,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.1.0.tgz
+dsh plugin add ./dsh-pixel-ui-1.2.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：

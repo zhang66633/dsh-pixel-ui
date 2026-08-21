@@ -42,7 +42,7 @@ html[data-pixel-ui] {
   --px-input-bg: #1A0F06;
   --px-input-text: #FFFDF5;
   --px-input-caret: #F4D03F;
-  --px-input-ph: #9B7B5B;
+  --px-input-ph: #B08A5E;
 
   /* 文字阴影强度：暗色主题用 2px 像素硬阴影，浅色主题收敛防重影 */
   --px-ts-chrome: 2px 2px 0 rgba(26, 15, 6, 0.6), -1px -1px 0 rgba(26, 15, 6, 0.4);
@@ -100,7 +100,7 @@ html[data-pixel-theme='pixel-warm'] {
   --px-input-bg: #1E0E04;
   --px-input-text: #FFFBF5;
   --px-input-caret: #FF8C42;
-  --px-input-ph: #A86B40;
+  --px-input-ph: #C08A5C;
 }
 html[data-pixel-theme='pixel-retro'] {
   --px-wood-darkest: #0A0E0A;
@@ -190,13 +190,27 @@ html[data-pixel-ui] [class*='title'] {
   letter-spacing: 0.02em;
 }
 
-/* 页签：选中态金色下划线 */
-html[data-pixel-ui] [class*='tab'],
-html[data-pixel-ui] [aria-selected='true'] {
+/* 页签/分段控件（对话/轨迹）：选中凸起+金底边，未选内凹——去掉按钮式重边框，避免与顶栏双框打架 */
+html[data-pixel-ui] [role='tab'],
+html[data-pixel-ui] [class*='tab']:not([class*='table']) {
   font-size: 12px;
+  border: 2px solid #000 !important;
+  background-color: var(--px-wood-dark) !important;
+  color: var(--px-text-light) !important;
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.35) !important;
+  transition: box-shadow 0.06s steps(2), background-color 0.06s steps(2);
 }
-html[data-pixel-ui] [class*='tab'][class*='active'],
-html[data-pixel-ui] [aria-selected='true'] {
+html[data-pixel-ui] [role='tab'][aria-selected='true'],
+html[data-pixel-ui] [class*='tab'][class*='active']:not([class*='table']) {
+  color: var(--px-parchment) !important;
+  background-color: var(--px-wood-mid) !important;
+  box-shadow:
+    inset 2px 2px 0 var(--px-wood-pale),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    inset 0 -3px 0 var(--px-gold) !important;
+}
+/* 其它 aria-selected 元素只给金色底边，不套页签凸起 */
+html[data-pixel-ui] [aria-selected='true']:not([role='tab']):not([class*='tab']) {
   box-shadow: inset 0 -3px 0 var(--px-gold) !important;
 }
 
@@ -405,24 +419,77 @@ html[data-pixel-ui] [class*='Card']:active {
     2px 2px 0 #000 !important;
 }
 
-/* ── 顶栏/侧栏：木纹渐变 + 黑底边 + 金色发丝 ─────────────── */
+/* ── 顶栏/侧栏：亮上缘 + 暗下缘的凸起 bevel + 外投阴影，与聊天区拉开立体层级 ── */
 html[data-pixel-ui] [class*='header'],
 html[data-pixel-ui] [class*='topbar'],
-html[data-pixel-ui] [class*='titlebar'],
-html[data-pixel-ui] [class*='sidebar'],
-html[data-pixel-ui] [class*='Sidebar'] {
-  background-image: linear-gradient(180deg, var(--px-wood-warm) 0%, var(--px-wood-dark) 100%) !important;
+html[data-pixel-ui] [class*='titlebar'] {
+  background-image: linear-gradient(180deg, var(--px-wood-light) 0%, var(--px-wood-warm) 45%, var(--px-wood-dark) 100%) !important;
   border-bottom: 3px solid #000 !important;
   box-shadow:
-    inset 0 2px 0 rgba(244, 208, 63, 0.1),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.5) !important;
+    inset 0 2px 0 var(--px-wood-pale),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.55),
+    0 3px 0 rgba(0, 0, 0, 0.35) !important;
 }
 html[data-pixel-ui] [class*='sidebar'],
 html[data-pixel-ui] [class*='Sidebar'] {
+  background-image: linear-gradient(90deg, var(--px-wood-light) 0%, var(--px-wood-warm) 50%, var(--px-wood-dark) 100%) !important;
   border-right: 3px solid #000 !important;
   box-shadow:
-    inset -3px 0 0 rgba(0, 0, 0, 0.4),
-    inset 2px 0 0 rgba(255, 255, 255, 0.05) !important;
+    inset 2px 0 0 var(--px-wood-pale),
+    inset -3px 0 0 rgba(0, 0, 0, 0.5),
+    3px 0 0 rgba(0, 0, 0, 0.35) !important;
+}
+
+/* 侧栏项目：悬停金色左条 + 木色底；时间戳等次要文字弱化对齐 */
+html[data-pixel-ui] [class*='sidebar'] [class*='item']:hover,
+html[data-pixel-ui] [class*='Sidebar'] [class*='item']:hover {
+  background-color: var(--px-wood-mid) !important;
+  box-shadow: inset 3px 0 0 var(--px-gold) !important;
+}
+html[data-pixel-ui] [class*='sidebar'] [class*='time'],
+html[data-pixel-ui] [class*='Sidebar'] [class*='time'],
+html[data-pixel-ui] [class*='sidebar'] [class*='meta'],
+html[data-pixel-ui] [class*='sidebar'] [class*='desc'],
+html[data-pixel-ui] [class*='sidebar'] [class*='secondary'],
+html[data-pixel-ui] [class*='Sidebar'] [class*='secondary'] {
+  color: var(--px-text-light) !important;
+  font-family: var(--px-mono) !important;
+  font-size: 10px;
+  letter-spacing: 0;
+  opacity: 0.85;
+}
+
+/* 状态栏/指标：数字走 mono，弱化整体以区分正文 */
+html[data-pixel-ui] [class*='status'],
+html[data-pixel-ui] [class*='Status'],
+html[data-pixel-ui] [class*='metrics'],
+html[data-pixel-ui] [class*='stats'] {
+  font-family: var(--px-mono) !important;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--px-text-light) !important;
+}
+
+/* 消息正文的小节标题（音效/操作/镜头…）：金色像素方块前缀 */
+html[data-pixel-ui] [class*='message'] h2::before,
+html[data-pixel-ui] [class*='message'] h3::before,
+html[data-pixel-ui] [class*='markdown'] h2::before,
+html[data-pixel-ui] [class*='markdown'] h3::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  background: var(--px-gold);
+  box-shadow: 2px 2px 0 #000;
+  vertical-align: baseline;
+}
+
+/* 输入占位文字：统一提亮配色（含 contenteditable 空态占位） */
+html[data-pixel-ui] [contenteditable='true']:empty::before,
+html[data-pixel-ui] [class*='placeholder'] {
+  color: var(--px-input-ph) !important;
+  -webkit-text-fill-color: var(--px-input-ph) !important;
 }
 
 /* ── 链接：金色下划线 ──────────────────────────────────── */
