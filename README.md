@@ -3,8 +3,8 @@
 > DeepSeek Harness 像素皮肤（Agent Xi 风格）：四个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿，随时可切回现代默认 UI。
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
-![dsh](https://img.shields.io/badge/dsh-0.1.0--rc.6-blue)
-![version](https://img.shields.io/badge/version-1.0.0-F4D03F)
+![dsh](https://img.shields.io/badge/dsh-0.1.0--rc.7-blue)
+![version](https://img.shields.io/badge/version-1.0.1-F4D03F)
 ![themes](https://img.shields.io/badge/themes-4-orange)
 
 ---
@@ -63,7 +63,8 @@
 
 | 项 | 支持范围 |
 | --- | --- |
-| dsh 生态 | `0.1.0-rc.6`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；最后验证 2026-08-14） |
+| dsh 生态 | `0.1.0-rc.6` ~ `0.1.0-rc.7`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；rc.6 最后实机验证 2026-08-14，rc.7 对应 DSH Desktop 2.0.1 内置内核） |
+| DSH Desktop | 2.0.x（web 兼容模式/高级模式均适用；见下方「DSH Desktop 固定端口」） |
 | 模式 | 三深色 + 一浅色（`colorScheme` 按主题声明） |
 | 浏览器 | 现代 Chromium / Firefox（`localStorage` + CSS 变量 + SVG 光标） |
 | 字体 | fusion-pixel 12px zh_hans（MIT）+ Press Start 2P（OFL），随包分发 |
@@ -75,19 +76,26 @@
 npm（推荐）：
 
 ```bash
-dsh plugin --profile web add dsh-pixel-ui
+dsh plugin add dsh-pixel-ui
 ```
 
-GitHub 源码（clone 后按本地 link 方式接入，同样无需构建——构建产物已随仓库提交）：
+GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
-git clone --depth 1 https://github.com/zhang66633/dsh-pixel-ui
+# 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
+dsh plugin add ./dsh-pixel-ui-1.0.1.tgz
+```
+
+GitHub 源码（构建产物已随仓库提交，无需构建）：
+
+```bash
+dsh plugin add github:zhang66633/dsh-pixel-ui
 ```
 
 本地开发（link 方式）：
 
 ```jsonc
-// ~/.dsh/profiles/web/package.json
+// <profile>/package.json
 {
   "dependencies": { "dsh-pixel-ui": "link:<仓库路径>" },
   "dsh": { "profile": { "bundles": ["dsh-pixel-ui"] } }
@@ -95,8 +103,19 @@ git clone --depth 1 https://github.com/zhang66633/dsh-pixel-ui
 ```
 
 ```bash
-cd ~/.dsh/profiles/web && pnpm install
+cd <profile> && pnpm install
 ```
+
+安装后重启 dsh / DSH Desktop，皮肤才会进入 Loader 组合。
+
+#### DSH Desktop 用户
+
+1. 托盘右键 → **Open DSH Terminal**，在终端里执行 `dsh plugin add dsh-pixel-ui`（自动作用于当前 profile，如 `desktop`）；
+2. 退出并重新打开 DSH Desktop。
+
+#### DSH Desktop 固定端口（主题记忆）
+
+DSH Desktop 默认每次启动随机分配本地 Web 端口，浏览器的 `localStorage` 按 origin（含端口）隔离——**不固定端口时，像素主题的选择会在重启后回到默认「像素·木屋」**。需要记住选择时，请在 DSH Desktop 设置中为 `dsh-desktop.port` 指定一个固定端口（例如 `43189`），保存后应用会自动重启。
 
 ### Upgrade
 
@@ -113,7 +132,7 @@ cd ~/.dsh/profiles/web && pnpm install
 
 ## Quick start
 
-1. 安装后重启 `dsh web`；
+1. 安装后重启 dsh / DSH Desktop；
 2. 首次加载自动激活默认主题「像素·木屋」；
 3. 设置 → 通用 → **像素主题**，五个按钮一键切换四个皮肤和「现代默认」；
 4. 选「现代默认」（或外观行选 浅色 / 深色 / 跟随系统）即整体退出皮肤，选择会被记住，下次打开不复活。
@@ -124,7 +143,7 @@ cd ~/.dsh/profiles/web && pnpm install
 
 - **无配置项**：四个主题的 13 个 `--dsw-alias-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感样式在 `src/client/pixel.css`；
 - **默认主题**：`pixel-wood`（仅首次安装时自动激活，之后尊重你的选择）；
-- **持久化**：最后的选择存于浏览器 `localStorage` 的 `dsh-pixel-ui:theme`；
+- **持久化**：最后的选择存于浏览器 `localStorage` 的 `dsh-pixel-ui:theme`；DSH Desktop 需固定本地端口（见「DSH Desktop 固定端口」）。
 - 无环境变量、无敏感项。
 
 ## Permissions & data
@@ -136,10 +155,10 @@ cd ~/.dsh/profiles/web && pnpm install
 
 | 现象 | 处理 |
 | --- | --- |
-| 皮肤没生效 | `dsh --profile web --dump-config` 确认 `dsh-pixel-ui` 在树；设置 → 通用 → 像素主题 里选一个主题；重启 |
+| 皮肤没生效 | `dsh --profile <name> --dump-config`（DSH Desktop 终端里直接 `dsh --dump-config`）确认 `dsh-pixel-ui` 在树；设置 → 通用 → 像素主题 里选一个主题；重启 |
 | 想回现代默认 | 设置 → 通用 → 像素主题 → 点「现代默认」（或外观行选 浅色/深色/跟随系统） |
 | 字体没加载 | 浏览器控制台（F12 → Network）看 `/dsh-pixel-ui/fonts/*` 是否 200 |
-| 主题没记住 | 确认浏览器未禁用 `localStorage` |
+| 主题没记住 | 确认浏览器未禁用 `localStorage`；DSH Desktop 下先确认已配置固定端口（`dsh-desktop.port`） |
 | 回滚 | 从 `dsh.profile.bundles` 移除插件条目并 `pnpm install` —— profile 其余部分不受影响 |
 
 ## Development
