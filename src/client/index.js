@@ -179,16 +179,34 @@ export function apply(ctx) {
     else document.documentElement.removeAttribute('data-pixel-theme')
   }
 
-  // Custom theme ids do not survive the host settings scope, so carry the
-  // latest preference here; built-in choices ride along too.
-  const persist = (snapshot) => {
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, snapshot.preference)
-    } catch {
-      // Storage unavailable (private mode / quota): persistence is best-effort.
-    }
+  // The host settings scope only knows built-in preferences (light/dark/system),
+  // so switching model / reasoning-effort re-applies that built-in and would
+  // visibly drop the skin. We keep the user's intended theme here and re-assert
+  // a pixel theme whenever a built-in arrives without an explicit choice in the
+  // row below (restore must be a user action, not an app-forced re-init).
+  const wantedTheme = () => {
+    try { return localStorage.getItem(THEME_STORAGE_KEY) } catch { return null }
   }
-  ctx.on('theme/change', (snapshot) => { syncScope(); persist(snapshot) })
+  const storeWanted = (id) => {
+    try { localStorage.setItem(THEME_STORAGE_KEY, id) } catch { /* best-effort */ }
+  }
+
+  // True only for the moment the user picks a theme in the settings row below.
+  let explicit = false
+  ctx.on('theme/change', (snapshot) => {
+    syncScope()
+    const pref = snapshot.preference
+    if (explicit) { explicit = false; storeWanted(pref); return }
+    if (PIXEL_IDS.includes(pref)) { storeWanted(pref); return }
+    const want = wantedTheme()
+    if (want !== null && PIXEL_IDS.includes(want)) {
+      // Host reapplied a built-in (model / reasoning switch): restore the skin.
+      try { ctx.theme.setTheme(want) } catch { /* ignore */ }
+      return
+    }
+    // A genuine build-in choice (e.g. user clicked Modern default): adopt it.
+    storeWanted(pref)
+  })
 
   ctx.effect(() => {
     const disposers = THEMES.map((definition) => ctx.theme.register(definition))
@@ -217,7 +235,7 @@ export function apply(ctx) {
       // Re-sync from the getter so no event is lost between registration and
       // first render (the store's revision guard drops stale duplicates).
       syncRow(ctx.theme.getTheme())
-      return { setTheme: (id) => { ctx.theme.setTheme(id) } }
+      return { setTheme: (id) => { explicit = true; ctx.theme.setTheme(id) } }
     },
   }, ThemeRow))
 
