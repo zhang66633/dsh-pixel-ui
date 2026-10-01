@@ -85,7 +85,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.3.0.tgz
+dsh plugin add ./dsh-pixel-ui-1.5.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
