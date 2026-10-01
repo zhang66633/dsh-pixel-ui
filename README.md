@@ -4,7 +4,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.0--rc.2-blue)
-![version](https://img.shields.io/badge/version-1.4.0-F4D03F)
+![version](https://img.shields.io/badge/version-1.5.0-F4D03F)
 ![themes](https://img.shields.io/badge/themes-4-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -17,9 +17,9 @@
 
 `dsh-pixel-ui` 是一个**皮肤插件**，把 dsh Web GUI 重皮肤成像素 RPG 风：
 
-1. **四个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（CRT 绿字），色板与 Agent Xi 主题系统同源；
-2. **像素质感**：阶梯硬阴影、8-bit 凸起按钮、内凹输入框、木纹条纹、CRT 扫描线 + 暗角、像素光标；
-3. **像素字体**：标题/页签/按钮/徽章/输入框用 fusion-pixel（中文）+ Press Start 2P（英文数字），正文与代码走 mono，长文不累眼。
+1. **四个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字），色板与 Agent Xi 主题系统同源；
+2. **像素质感**：**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），全表零 `box-shadow` 与 `text-shadow`；标题/页签/列表用像素字体，正文与代码走 mono，长文不累眼；
+3. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复。
 
 **适合谁**：想要像素风 / 星露谷风 / 复古终端外观的 dsh 用户；想给会话截图加一点氛围感的博主和开发者。
 
@@ -117,7 +117,7 @@ cd <profile> && pnpm install
 
 #### 主题记忆（桌面端随机端口不再失忆）
 
-DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `localStorage` 按 origin（含端口）隔离——旧版本因此会在重启后忘记皮肤选择。v1.4.0 起，最后一次选择的主题会同时写入宿主侧文件（`$DSH_HOME/storages/dsh-pixel-ui/preference.json`，经 `/dsh-pixel-ui/preference` 路由读写），与端口无关；`localStorage` 退化为同端口的快速镜像。无需任何配置，固定端口（`dsh-desktop.port`）现在只是可选项。
+DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `localStorage` 按 origin（含端口）隔离——旧版本因此会在重启后忘记皮肤选择。v1.4.0 起（v1.5.0 起桌面端改走宿主 index 注入），最后一次选择的主题会同时写入宿主侧文件（`$DSH_HOME/storages/dsh-pixel-ui/preference.json`，经 `/dsh-pixel-ui/preference` 路由读写），与端口无关；`localStorage` 退化为同端口的快速镜像。无需任何配置，固定端口（`dsh-desktop.port`）现在只是可选项。
 
 ### Upgrade
 
@@ -159,7 +159,7 @@ DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `loca
 | --- | --- |
 | 皮肤没生效 | `dsh --profile <name> --dump-config`（DSH Desktop 终端里直接 `dsh --dump-config`）确认 `dsh-pixel-ui` 在树；设置 → 通用 → 像素主题 里选一个主题；重启（node 半边改路由后必须重启，client 半边刷新即可） |
 | 想回现代默认 | 设置 → 通用 → 像素主题 → 点「现代默认」（或外观行选 浅色/深色/跟随系统） |
-| 主题没记住 | 确认浏览器未禁用 `localStorage`；v1.4.0 起以宿主文件为权威，检查 `$DSH_HOME/storages/dsh-pixel-ui/preference.json` 是否存在且内容合法 |
+| 主题没记住 | 确认浏览器未禁用 `localStorage`；v1.4.0 起以宿主文件为权威（桌面端经 index 注入下发），检查 `$DSH_HOME/storages/dsh-pixel-ui/preference.json` 是否存在且内容合法 |
 | 字体没加载 | 浏览器控制台（F12 → Network）看 `/dsh-pixel-ui/fonts/*` 是否 200 |
 | 偏好路由 404 | 宿主还是旧版 node 半边：重启 DSH Desktop；未重启期间功能自动降级为 localStorage 记忆 |
 | 回滚 | 从 `dsh.profile.bundles` 移除插件条目并 `pnpm install` —— profile 其余部分不受影响 |
