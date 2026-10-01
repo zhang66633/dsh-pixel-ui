@@ -34,7 +34,7 @@
 
 ### 像素·羊皮纸 · `pixel-paper`
 
-> 浅色 · 纸面 `#F0E8D8` + 金棕 `#C8960C`
+> 浅色 · 纸面 `#F0E8D8` + 深金棕 `#A07000`
 
 <img src="./assets/screenshot-paper.png" alt="像素·羊皮纸" width="100%" />
 
@@ -50,15 +50,8 @@
 
 <img src="./assets/screenshot-retro.png" alt="像素·终端绿" width="100%" />
 
-<details>
-<summary>📷 对话页与输入框（展开查看四主题截图）</summary>
-
-<img src="./assets/screenshot-wood-chat.png" alt="木屋对话页" width="100%" />
-<img src="./assets/screenshot-paper-chat.png" alt="羊皮纸对话页" width="100%" />
-<img src="./assets/screenshot-warm-chat.png" alt="暖阳对话页" width="100%" />
-<img src="./assets/screenshot-retro-chat.png" alt="终端绿对话页" width="100%" />
-
-</details>
+> 截图取自 DSH Desktop（1920×1200 @125% 缩放）。截图由插件市场按本仓库根的
+> [`screenshots.json`](screenshots.json) 读取——换图只推自己的仓库，不必提 PR。
 
 ## Compatibility
 
