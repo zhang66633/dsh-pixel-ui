@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/cover.jpg" alt="dsh-pixel-ui 四主题角色封面：像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿" width="720" />
+</p>
+
 # 🪵 dsh-pixel-ui
 
 > DeepSeek Harness 像素皮肤（Agent Xi 风格）：四个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿，随时可切回现代默认 UI。
@@ -11,9 +15,6 @@
 ---
 
 ## Overview
-<p align="center">
-  <img src="./assets/screenshot-wood.png" alt="像素·木屋（默认主题）" width="760" />
-</p>
 
 `dsh-pixel-ui` 是一个**皮肤插件**，把 dsh Web GUI 重皮肤成像素 RPG 风：
 
