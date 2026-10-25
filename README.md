@@ -8,7 +8,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
-![version](https://img.shields.io/badge/version-1.5.1-F4D03F)
+![version](https://img.shields.io/badge/version-1.6.0-F4D03F)
 ![themes](https://img.shields.io/badge/themes-4-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -20,7 +20,8 @@
 
 1. **四个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字），色板与 Agent Xi 主题系统同源；
 2. **像素质感**：**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），全表零 `box-shadow` 与 `text-shadow`；标题/页签/列表用像素字体，正文与代码走 mono，长文不累眼；
-3. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复。
+3. **细节与动感**：所有动效走 `steps()` 阶梯（80/140/220ms），按下 1px 位移、页签下划线逐格生长、思考中闪烁光标、运行中左条呼吸、toast 三帧进入；另有主题化勾/点、代码块终端顶栏、表格斑马纹、吸顶标题底线、滚动条握把、纸面专用深色光标。`prefers-reduced-motion` 下一律关闭；
+4. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复。
 
 **适合谁**：想要像素风 / 星露谷风 / 复古终端外观的 dsh 用户；想给会话截图加一点氛围感的博主和开发者。
 
@@ -54,6 +55,24 @@
 > 截图取自 DSH Desktop（1920×1200 @125% 缩放）。截图由插件市场按本仓库根的
 > [`screenshots.json`](screenshots.json) 读取——换图只推自己的仓库，不必提 PR。
 
+## Motion & detail
+
+| 层 | 细节 | 动效 |
+| --- | --- | --- |
+| 按钮 | 主按钮主题化实心块 + 2px 描边；hover 叠 2px 棋盘 | 80ms `steps(2)`；按下 1px 位移 |
+| 页签 | 金色下划线，2→3px | 140ms `steps(4)` 的 `scaleX` |
+| 输入 | 2px 金框、方块光标、hover 提亮 | 边框 80ms `steps(2)` |
+| 选择件 | 勾/点按主题换色（纸面用纸白） | 80ms `steps(2)` |
+| 代码块 | 终端顶栏、左侧金色运行条、inline code 底色 | — |
+| 表格 | 斑马纹 + 行 hover 木色 | — |
+| 吸顶标题 | 2px 底线 + 2px 抖动 | — |
+| 思考中 | 宿主 shimmer 改 4 帧，左侧 2px 光标闪烁 | 1.2s `steps(1)` / `steps(4)` |
+| 运行中 | 终端左侧运行条呼吸 | 1.1s `steps(2)` |
+| 状态点 / 转圈 | 方点闪烁；圆形 spinner 改 8 帧旋转 | `steps(8)` |
+| Toast | 2px 框 + 左侧金条 | 220ms `steps(3)` 进入 |
+| 滚动条 | 4×2 像素握把 | hover / active 换色 |
+| 无障碍 | `prefers-reduced-motion` 下一律关闭 | — |
+
 ## Compatibility
 
 | 项 | 支持范围 |
@@ -80,7 +99,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.5.1.tgz
+dsh plugin add ./dsh-pixel-ui-1.6.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
@@ -138,7 +157,7 @@ DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `loca
 
 ## Configuration
 
-- **无配置项**：四个主题的 13+1 个 `--dsw-alias-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感样式在 `src/client/pixel.css`；
+- **无配置项**：四个主题的 16+1 个 `--dsw-alias-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感样式在 `src/client/pixel.css`；
 - **默认主题**：`pixel-wood`（仅首次安装时自动激活，之后尊重你的选择）；
 - **持久化**：双层——宿主文件 `$DSH_HOME/storages/dsh-pixel-ui/preference.json`（权威，跨端口/跨浏览器）+ 浏览器 `localStorage` 的 `dsh-pixel-ui:theme`（同 origin 镜像）；
 - 无环境变量、无敏感项。
@@ -164,11 +183,12 @@ DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `loca
 ```bash
 npm install
 npm run build    # 构建 lib/client.js（wire 格式，CSS 以文本内联）
-npm test         # test:host + test:client + test:contrast 三件套
+npm test         # test:compat + test:host + test:client + test:contrast
 ```
 
+- `scripts/check-compat.mjs`：`engines.dsh` / dsh peers / dshReleases 的声明门禁（0.2.1-rc.3 严格安装路径）
 - `scripts/test-host.mjs`：node 半边（字体白名单 / 偏好路由读写与校验 / dispose）
-- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、dispose）
+- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、dispose）
 - `scripts/audit-contrast.mjs`：四主题 WCAG 对比度门禁（改 palette 必跑）
 
 改动皮肤后重新构建并刷新浏览器即可（link 安装方式下无需重启 dsh；动了 `lib/index.js` 的路由则需重启）。开发文档在 `docs/dev/`（计划 / 迭代 / 踩坑）。欢迎 PR；行为变更请同步更新 README。

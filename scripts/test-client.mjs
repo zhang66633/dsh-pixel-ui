@@ -247,13 +247,14 @@ function boot({ localTheme = null, hostTheme = null, bootTheme = undefined } = {
 console.log('== client: registration ==')
 {
   const ctx = boot()
-  check('four pixel themes registered with the 14-token palette', () => {
+  check('four pixel themes registered with the 17-token palette', () => {
     const ids = ctx._themes.map((t) => t.id)
     for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro']) assert.ok(ids.includes(id))
     const wood = ctx._themes.find((t) => t.id === 'pixel-wood')
     assert.equal(wood.colorScheme, 'dark')
-    assert.equal(Object.keys(wood.tokens).length, 14)
+    assert.equal(Object.keys(wood.tokens).length, 17)
     assert.equal(wood.tokens['--dsw-alias-state-idle-primary'], '#7A5C3E')
+    assert.equal(wood.tokens['--dsw-alias-button-primary-fill'], '#F4D03F')
     const paper = ctx._themes.find((t) => t.id === 'pixel-paper')
     assert.equal(paper.colorScheme, 'light')
     assert.equal(paper.tokens['--dsw-alias-brand-primary'], '#8A6400')
@@ -298,6 +299,31 @@ console.log('== client: registration ==')
       bad.push(m[0])
     }
     assert.deepEqual([...new Set(bad)], [], `unscoped blanket selectors: ${bad.join(' ')}`)
+  })
+  check('motion is stepped, state-driven, and reduced-motion aware', () => {
+    const raw = styleTags[0].textContent
+    for (const token of ['--px-t-fast', '--px-t-mid', '--px-t-slow', '--px-step-2', '--px-step-4', '--px-step-8']) {
+      assert.ok(raw.includes(token), `${token} declared`)
+    }
+    for (const keyframe of ['px-blink', 'px-toast-in', 'px-running']) {
+      assert.ok(raw.includes(`@keyframes ${keyframe}`), `${keyframe} declared`)
+    }
+    for (const selector of [
+      "[data-shimmer]",
+      "[data-state='ongoing']",
+      "[role='alert']",
+      "[role='dialog']",
+      "[data-terminal][data-running]",
+      '[data-code-block-banner]',
+      '[data-stuck]',
+      "[data-tone]",
+      "[role='tab']::after",
+    ]) {
+      assert.ok(raw.includes(selector), `${selector} styled`)
+    }
+    assert.ok(raw.includes('@media (prefers-reduced-motion: reduce)'), 'reduced-motion guard')
+    assert.ok(raw.includes('--px-check'), 'themeable pixel check')
+    assert.equal(raw.includes('transition: all'), false, 'no transition: all')
   })
   check('locale dictionaries registered (zh/en key sets equal)', () => {
     const reg = ctx.locale.registered.find((r) => r.ns === 'settings.pixel-ui')

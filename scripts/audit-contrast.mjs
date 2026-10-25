@@ -80,7 +80,11 @@ function pairsFor(theme, vars) {
     ['link+title gold-bright / bg-base', P('--px-gold-bright'), T('--dsw-alias-bg-base'), 4.5],
     ['tooltip text / tooltip bg', P('--px-parchment'), P('--px-tooltip-bg'), 4.5],
     ['accent ink / accent bg (selection+row active)', P('--px-accent-ink'), P('--px-accent-bg'), 4.5],
+    ['accent ink / accent hover (primary hover)', P('--px-accent-ink'), P('--px-accent-hover'), 4.5],
+    ['primary button ink / primary fill', T('--dsw-alias-label-primary-foreground'), T('--dsw-alias-button-primary-fill'), 4.5],
+    ['primary button ink / primary hover', T('--dsw-alias-label-primary-foreground'), T('--dsw-alias-button-primary-hover'), 4.5],
     ['ink-on-mid / wood-mid (active tab + th)', P('--px-ink-on-mid'), P('--px-wood-mid'), 4.5],
+    ['code banner meta / wood-mid', P('--px-text-light'), P('--px-wood-mid'), 4.5],
     ['row idle text / row idle bg', P('--px-text-on-dark'), P('--px-wood-dark'), 4.5],
     ['text-light / bg-layer-1 (sidebar meta)', P('--px-text-light'), T('--dsw-alias-bg-layer-1'), 4.5],
     // UI pairs (>= 3.0)

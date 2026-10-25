@@ -73,6 +73,9 @@ const THEMES = [
       '--dsw-alias-state-warn-primary': '#F39C12',
       '--dsw-alias-state-idle-primary': '#7A5C3E',
       '--dsw-specific-sidebar-fill': '#241408',
+      '--dsw-alias-button-primary-fill': '#F4D03F',
+      '--dsw-alias-button-primary-hover': '#FFE066',
+      '--dsw-alias-label-primary-foreground': '#1A0F06',
     },
   },
   {
@@ -93,6 +96,9 @@ const THEMES = [
       '--dsw-alias-state-warn-primary': '#805000',
       '--dsw-alias-state-idle-primary': '#847458',
       '--dsw-specific-sidebar-fill': '#E8DCC8',
+      '--dsw-alias-button-primary-fill': '#7A5A00',
+      '--dsw-alias-button-primary-hover': '#5C4400',
+      '--dsw-alias-label-primary-foreground': '#FFFDF5',
     },
   },
   {
@@ -113,6 +119,9 @@ const THEMES = [
       '--dsw-alias-state-warn-primary': '#FF8C42',
       '--dsw-alias-state-idle-primary': '#8A5A38',
       '--dsw-specific-sidebar-fill': '#2A1308',
+      '--dsw-alias-button-primary-fill': '#FF8C42',
+      '--dsw-alias-button-primary-hover': '#FFA64D',
+      '--dsw-alias-label-primary-foreground': '#1E0E04',
     },
   },
   {
@@ -133,6 +142,9 @@ const THEMES = [
       '--dsw-alias-state-warn-primary': '#FFCC33',
       '--dsw-alias-state-idle-primary': '#359035',
       '--dsw-specific-sidebar-fill': '#0C100C',
+      '--dsw-alias-button-primary-fill': '#33FF33',
+      '--dsw-alias-button-primary-hover': '#66FF66',
+      '--dsw-alias-label-primary-foreground': '#0A0E0A',
     },
   },
 ]

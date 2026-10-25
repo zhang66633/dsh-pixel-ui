@@ -1,7 +1,7 @@
 {
   "name": "dsh-pixel-ui",
-  "version": "1.5.1",
-  "description": "DSH 像素皮肤：Agent Xi 风格四主题（木屋/羊皮纸/暖阳/终端绿）+ fusion-pixel/Press Start 2P 像素字体；完全平面（无立体/无阴影）、整像素描边、内容列宽随视口撑开；宿主侧记忆主题选择，桌面端 dsh-app:// 也能恢复",
+  "version": "1.6.0",
+  "description": "DSH 像素皮肤：Agent Xi 风格四主题（木屋/羊皮纸/暖阳/终端绿）+ fusion-pixel/Press Start 2P 像素字体；完全平面（无立体/无阴影）、阶梯像素动效、整像素描边、内容列宽随视口撑开；宿主侧记忆主题选择，桌面端 dsh-app:// 也能恢复",
   "type": "module",
   "main": "lib/index.js",
   "files": [
