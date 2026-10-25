@@ -62,6 +62,7 @@
 | 按钮 | 主按钮主题化实心块 + 2px 描边；hover 叠 2px 棋盘 | 80ms `steps(2)`；按下 1px 位移 |
 | 页签 | 金色下划线，2→3px | 140ms `steps(4)` 的 `scaleX` |
 | 会话 / 项目行 | 选中行 hover 提亮；未选行补 2px 金色左条 | 像素手 cursor 全覆盖（含子元素） |
+| 面板导航（插件/市场…） | hover 用 `--px-wood-mid`，纸面不再和侧栏同色；当前项木色底 + 金左条 | hover 再叠 2px dither |
 | 输入 | 2px 金框、方块光标、hover 提亮 | 边框 80ms `steps(2)` |
 | 选择件 | 勾/点按主题换色（纸面用纸白） | 80ms `steps(2)` |
 | 代码块 | 终端顶栏、左侧金色运行条、inline code 底色 | — |

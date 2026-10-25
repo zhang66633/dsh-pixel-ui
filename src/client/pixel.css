@@ -391,9 +391,10 @@ html[data-pixel-ui] button {
 }
 /* 主按钮/危险按钮的底色由宿主 token 负责，这里不能再把它们刷成木色，
  * 否则 hover 时深字落在深底上（v1.5.0 的 generic hover 就踩过这个）。
- * 只给「普通按钮」用木色 hover。 */
+ * 只给「普通按钮」用木色 hover。用 wood-mid 而不是 wood-dark：
+ * 纸面主题的 wood-dark 和 sidebar 同色，hover 会完全看不见。 */
 html[data-pixel-ui] button:not(:disabled):not([class*='primary']):not([class*='Primary']):not([class*='danger']):not([class*='Danger']):hover {
-  background-color: var(--px-wood-dark) !important;
+  background-color: var(--px-wood-mid) !important;
 }
 /* 主按钮：实心块 + 2px 描边；hover 由 --dsw-alias-button-primary-hover 控制，
  * dither 是叠加的 2px 棋盘（不改变底色）。 */
@@ -776,10 +777,24 @@ html[data-pixel-ui] [role='menuitem'][aria-current='page'] {
 }
 /* 侧栏/列表的当前项：3px 金色左条，不占布局。 */
 html[data-pixel-ui] [aria-current='page'] {
+  background-color: var(--px-wood-mid) !important;
+  color: var(--px-gold-bright) !important;
   background-image: linear-gradient(var(--px-gold), var(--px-gold));
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: 3px 100%;
+}
+html[data-pixel-ui] [aria-current='page']:hover {
+  background-color: var(--px-wood-mid) !important;
+  background-image:
+    linear-gradient(var(--px-gold), var(--px-gold)),
+    repeating-conic-gradient(
+      color-mix(in srgb, var(--px-gold) 8%, transparent) 0 25%,
+      transparent 0 50%
+    ) !important;
+  background-size: 3px 100%, 4px 4px !important;
+  background-position: 0 0, 0 0 !important;
+  background-repeat: no-repeat, repeat !important;
 }
 /* 吸顶分组标题：粘住时补 2px 底线，和滚动内容分开。 */
 html[data-pixel-ui] [data-stuck] {
