@@ -323,6 +323,9 @@ console.log('== client: registration ==')
     }
     assert.ok(raw.includes('@media (prefers-reduced-motion: reduce)'), 'reduced-motion guard')
     assert.ok(raw.includes('--px-check'), 'themeable pixel check')
+    assert.ok(raw.includes("[role='treeitem'][aria-selected='true']:hover"), 'selected tree row hover')
+    assert.ok(raw.includes('[role=\'treeitem\']:hover:not([aria-selected=\'true\'])'), 'unselected tree row hover bar')
+    assert.ok(raw.includes('cursor: inherit !important'), 'interactive row descendants keep the pixel hand')
     assert.equal(raw.includes('transition: all'), false, 'no transition: all')
   })
   check('locale dictionaries registered (zh/en key sets equal)', () => {
