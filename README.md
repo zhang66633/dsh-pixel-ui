@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="./assets/cover.jpg" alt="dsh-pixel-ui 四主题角色封面：像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿" width="720" />
+  <img src="./assets/cover.jpg" alt="dsh-pixel-ui 主题角色封面：像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿" width="720" />
 </p>
 
 # 🪵 dsh-pixel-ui
 
-> DeepSeek Harness 像素皮肤（Agent Xi 风格）：四个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿，随时可切回现代默认 UI。
+> DeepSeek Harness 像素皮肤（Agent Xi 风格）：五个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿 / 像素·木刻，随时可切回现代默认 UI。
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
-![version](https://img.shields.io/badge/version-1.6.0-F4D03F)
-![themes](https://img.shields.io/badge/themes-4-orange)
+![version](https://img.shields.io/badge/version-1.7.0-F4D03F)
+![themes](https://img.shields.io/badge/themes-5-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
 ---
@@ -18,8 +18,8 @@
 
 `dsh-pixel-ui` 是一个**皮肤插件**，把 dsh Web GUI 重皮肤成像素 RPG 风：
 
-1. **四个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字），色板与 Agent Xi 主题系统同源；
-2. **像素质感**：**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），全表零 `box-shadow` 与 `text-shadow`；标题/页签/列表用像素字体，正文与代码走 mono，长文不累眼；
+1. **五个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字）、像素·木刻（真 PNG 9-slice 木框 + 奶油面板）；
+2. **像素质感**：前四套**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），零 `box-shadow` 与 `text-shadow`；木刻是**唯一例外**，它故意使用 Complete UI 素材自带的浮雕边框（CC BY 4.0，见下方授权），作为「真素材」分支；
 3. **细节与动感**：所有动效走 `steps()` 阶梯（80/140/220ms），按下 1px 位移、页签下划线逐格生长、思考中闪烁光标、运行中左条呼吸、toast 三帧进入；另有主题化勾/点、代码块终端顶栏、表格斑马纹、吸顶标题底线、滚动条握把、纸面专用深色光标。`prefers-reduced-motion` 下一律关闭；
 4. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复。
 
@@ -52,7 +52,22 @@
 
 <img src="./assets/screenshot-retro.png" alt="像素·终端绿" width="100%" />
 
-> 截图取自 DSH Desktop（1920×1200 @125% 缩放）。截图由插件市场按本仓库根的
+### 像素·木刻 · `pixel-woodcut`
+
+> 深色 · 深棕 `#24110D` + 奶油 `#F8E5CF`；对话框/菜单/主按钮/输入框/选中行/Toast/滚动条使用 **真实 PNG 9-slice**（Complete UI · Wood，CC BY 4.0）。
+
+- 面板：`panel.png` 96×96 → `border-image-slice:24 fill`；
+- 主按钮：`button-primary.png` 96×32 → `slice:8 20`、`border-width:6px 10px`（保留奶油浮雕，又不挤掉文字）；hover/press/lock 三态；
+- 输入框：`input.png` 32×32 → `slice:10 fill`；选中行：`select-bar.png`；滚动条：`scroll-handle.png`；
+- 奶油面板内部自动把宿主 label/border/layer 令牌切到深墨色，避免「奶油底 + 奶油字」。
+
+> 素材：Complete UI Essential Pack v2.4 · `03_Wood_Theme` by **Crusenho Agus Hennihuno**，CC BY 4.0；
+> 只取 7 张切片，完整署名与许可证在
+> [`assets/complete-ui/wood/ATTRIBUTION.md`](assets/complete-ui/wood/ATTRIBUTION.md)。
+> 木刻主题是**可选**的第五套，前四套仍保持零立体、零阴影。
+
+> 截图取自 DSH Desktop（1920×1200 @125% 缩放），目前覆盖前四套；木刻主题的实机截图
+> 待重启加载素材路由后补拍。截图由插件市场按本仓库根的
 > [`screenshots.json`](screenshots.json) 读取——换图只推自己的仓库，不必提 PR。
 
 ## Motion & detail
@@ -84,10 +99,10 @@
 | dsh 生态 | `0.1.0-rc.6` ~ `0.2.x`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；`0.2.1-rc.3` 已按源码逐条核对，并用 0.2.1 真实的 `ThemeRuntime` 跑通注册/恢复/切换契约；见 `docs/dev/迭代记录.md`） |
 | 兼容声明 | 同时声明 `engines.dsh` 与 `@deepseek-ai/dsh-*` peers：0.2.1 的 app-boot 优先读 `engines.dsh`，dshmarket 的发现页把两者取交集；任一判定器都能过 |
 | DSH Desktop | 2.0.x（web 兼容模式/高级模式均适用） |
-| 模式 | 三深色 + 一浅色（`colorScheme` 按主题声明） |
+| 模式 | 四深色 + 一浅色（`colorScheme` 按主题声明） |
 | 浏览器 | 现代 Chromium / Firefox（`localStorage` + CSS 变量 + SVG 光标） |
 | 字体 | fusion-pixel 12px zh_hans（MIT）+ Press Start 2P（OFL），随包分发 |
-| 对比度 | 四主题全部通过 WCAG AA（正文 ≥4.5:1、非文本 ≥3:1，`npm run test:contrast` 门禁） |
+| 对比度 | 五主题全部通过 WCAG AA（正文 ≥4.5:1、非文本 ≥3:1，`npm run test:contrast` 门禁） |
 
 ## Install / Uninstall
 
@@ -103,7 +118,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.6.0.tgz
+dsh plugin add ./dsh-pixel-ui-1.7.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
@@ -161,7 +176,7 @@ DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `loca
 
 ## Configuration
 
-- **无配置项**：四个主题的 16+1 个 `--dsw-alias-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感样式在 `src/client/pixel.css`；
+- **无配置项**：五个主题的 16+1 个 `--dsw-alias-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感样式在 `src/client/pixel.css`；
 - **默认主题**：`pixel-wood`（仅首次安装时自动激活，之后尊重你的选择）；
 - **持久化**：双层——宿主文件 `$DSH_HOME/storages/dsh-pixel-ui/preference.json`（权威，跨端口/跨浏览器）+ 浏览器 `localStorage` 的 `dsh-pixel-ui:theme`（同 origin 镜像）；
 - 无环境变量、无敏感项。
@@ -191,14 +206,15 @@ npm test         # test:compat + test:host + test:client + test:contrast
 ```
 
 - `scripts/check-compat.mjs`：`engines.dsh` / dsh peers / dshReleases 的声明门禁（0.2.1-rc.3 严格安装路径）
-- `scripts/test-host.mjs`：node 半边（字体白名单 / 偏好路由读写与校验 / dispose）
-- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、dispose）
-- `scripts/audit-contrast.mjs`：四主题 WCAG 对比度门禁（改 palette 必跑）
+- `scripts/test-host.mjs`：node 半边（字体白名单 / **木刻素材路由** / 偏好路由读写与校验 / dispose）
+- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、**木刻 9-slice 注入**、dispose）
+- `scripts/audit-contrast.mjs`：五主题 WCAG 对比度门禁（改 palette 必跑）
 
-改动皮肤后重新构建并刷新浏览器即可（link 安装方式下无需重启 dsh；动了 `lib/index.js` 的路由则需重启）。开发文档在 `docs/dev/`（计划 / 迭代 / 踩坑）。欢迎 PR；行为变更请同步更新 README。
+改动皮肤后重新构建并刷新浏览器即可；**新增木刻素材路由动了 `lib/index.js`，首次需重启 DSH Desktop**。开发文档在 `docs/dev/`（计划 / 迭代 / 踩坑）。欢迎 PR；行为变更请同步更新 README。
 
 ## License & security
 
 [MIT](./LICENSE) © 2026 zhang66633 · 字体：fusion-pixel（MIT）、Press Start 2P（SIL OFL）。
+`pixel-woodcut` 的 7 张 Complete UI 切片 © Crusenho Agus Hennihuno，[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)，见 [`assets/complete-ui/wood/ATTRIBUTION.md`](assets/complete-ui/wood/ATTRIBUTION.md)。
 
 安全问题请通过 GitHub **security advisory** 私下报告，不要发公开 issue。

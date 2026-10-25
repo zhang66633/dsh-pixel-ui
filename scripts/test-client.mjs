@@ -247,9 +247,10 @@ function boot({ localTheme = null, hostTheme = null, bootTheme = undefined } = {
 console.log('== client: registration ==')
 {
   const ctx = boot()
-  check('four pixel themes registered with the 17-token palette', () => {
+  check('five pixel themes registered with the 17-token palette', () => {
     const ids = ctx._themes.map((t) => t.id)
-    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro']) assert.ok(ids.includes(id))
+    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 5)
+    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-woodcut']) assert.ok(ids.includes(id))
     const wood = ctx._themes.find((t) => t.id === 'pixel-wood')
     assert.equal(wood.colorScheme, 'dark')
     assert.equal(Object.keys(wood.tokens).length, 17)
@@ -258,6 +259,11 @@ console.log('== client: registration ==')
     const paper = ctx._themes.find((t) => t.id === 'pixel-paper')
     assert.equal(paper.colorScheme, 'light')
     assert.equal(paper.tokens['--dsw-alias-brand-primary'], '#8A6400')
+    const woodcut = ctx._themes.find((t) => t.id === 'pixel-woodcut')
+    assert.equal(woodcut.colorScheme, 'dark')
+    assert.equal(Object.keys(woodcut.tokens).length, 17)
+    assert.equal(woodcut.tokens['--dsw-alias-brand-primary'], '#F2B07A')
+    assert.equal(woodcut.tokens['--dsw-alias-button-primary-fill'], '#F8E4CE')
   })
   check('stylesheet injected with plugin dataset', () => {
     assert.equal(styleTags.length, 1)
@@ -265,6 +271,16 @@ console.log('== client: registration ==')
     assert.ok(styleTags[0].textContent.includes('html[data-pixel-ui]'))
     assert.ok(styleTags[0].textContent.includes('--px-accent-bg'))
     assert.equal(styleTags[0].appended, true)
+  })
+  check('woodcut theme uses real 9-slice assets from the host route', () => {
+    const css = styleTags[0].textContent
+    for (const token of [
+      "html[data-pixel-theme='pixel-woodcut']",
+      '/dsh-pixel-ui/assets/wood/panel.png',
+      '/dsh-pixel-ui/assets/wood/button-primary.png',
+      '/dsh-pixel-ui/assets/wood/input.png',
+      'border-image: var(--pxw-panel) 24 fill / 24px / 0 stretch !important',
+    ]) assert.ok(css.includes(token), `asset theme carries ${token}`)
   })
   check('stylesheet widens the host content column and drops the scanline overlay', () => {
     const css = styleTags[0].textContent
@@ -466,14 +482,15 @@ console.log('== client: interactions ==')
   })
 
   const { tree, buttons, t } = renderRow(ctx)
-  check('row renders group + title + desc + five choices', () => {
+  check('row renders group + title + desc + six choices', () => {
     assert.equal(tree.props.role, 'group')
     assert.equal(tree.props['aria-label'], '像素主题')
     assert.ok(textOf(tree).includes('像素主题'))
     assert.ok(textOf(tree).includes('选择后立即生效'))
-    assert.equal(buttons.length, 5)
+    assert.equal(buttons.length, 6)
     assert.equal(textOf(buttons[0]), '像素·木屋')
-    assert.equal(textOf(buttons[4]), '现代默认')
+    assert.equal(textOf(buttons[4]), '像素·木刻')
+    assert.equal(textOf(buttons[5]), '现代默认')
   })
   check('aria-pressed marks the current pick; swatch is decorative', () => {
     assert.equal(buttons[1].props['aria-pressed'], true)
@@ -483,7 +500,7 @@ console.log('== client: interactions ==')
     assert.equal(swatch.props.style.background, '#FFFDF5')
   })
   const putCountBefore = fetchCalls.filter((c) => c.method === 'PUT').length
-  buttons[4].props.onClick()
+  buttons[5].props.onClick()
   check('explicit pick writes both layers', () => {
     assert.equal(ctx.theme.getTheme().preference, 'system')
     assert.equal(globalThis.localStorage.getItem('dsh-pixel-ui:theme'), 'system')
@@ -494,7 +511,7 @@ console.log('== client: interactions ==')
   })
   const row2 = renderRow(ctx)
   check('row re-render moves aria-pressed to 现代默认', () => {
-    assert.equal(row2.buttons[4].props['aria-pressed'], true)
+    assert.equal(row2.buttons[5].props['aria-pressed'], true)
     assert.equal(row2.buttons[1].props['aria-pressed'], false)
   })
   row2.buttons[0].props.onClick()

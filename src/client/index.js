@@ -1,7 +1,7 @@
 /**
  * dsh-pixel-ui — browser half (the pixel skin).
  *
- * Registers four Agent-Xi-style pixel themes on the ThemeService seam
+ * Registers five pixel themes on the ThemeService seam
  * (`ctx.theme.register` with --dsw-alias-* token overrides): wood (dark),
  * paper (light), warm (dark), retro-green (dark). The stylesheet carries
  * the pixel borders, fonts, CRT overlay, and component tweaks that alias
@@ -147,6 +147,29 @@ const THEMES = [
       '--dsw-alias-label-primary-foreground': '#0A0E0A',
     },
   },
+  {
+    id: 'pixel-woodcut',
+    colorScheme: 'dark',
+    tokens: {
+      '--dsw-alias-bg-base': '#24110D',
+      '--dsw-alias-bg-layer-1': '#321A14',
+      '--dsw-alias-bg-layer-2': '#3E221A',
+      '--dsw-alias-bg-overlay': '#2A140F',
+      '--dsw-alias-border-l1': '#6A3A2A',
+      '--dsw-alias-border-l2': '#C98A68',
+      '--dsw-alias-brand-primary': '#F2B07A',
+      '--dsw-alias-label-primary': '#F8E6D2',
+      '--dsw-alias-label-secondary': '#D3A585',
+      '--dsw-alias-state-error-primary': '#E86A5A',
+      '--dsw-alias-state-success-primary': '#9AD6A0',
+      '--dsw-alias-state-warn-primary': '#F2C46D',
+      '--dsw-alias-state-idle-primary': '#8A5A48',
+      '--dsw-specific-sidebar-fill': '#1E0D0A',
+      '--dsw-alias-button-primary-fill': '#F8E4CE',
+      '--dsw-alias-button-primary-hover': '#FFD3B8',
+      '--dsw-alias-label-primary-foreground': '#3A1D14',
+    },
+  },
 ]
 
 const PIXEL_IDS = THEMES.map((theme) => theme.id)
@@ -164,6 +187,7 @@ const MESSAGES = {
     'theme.pixel-paper': '像素·羊皮纸',
     'theme.pixel-warm': '像素·暖阳',
     'theme.pixel-retro': '像素·终端绿',
+    'theme.pixel-woodcut': '像素·木刻',
     'theme.system': '现代默认',
   },
   en: {
@@ -173,6 +197,7 @@ const MESSAGES = {
     'theme.pixel-paper': 'Pixel · Paper',
     'theme.pixel-warm': 'Pixel · Warm',
     'theme.pixel-retro': 'Pixel · Terminal Green',
+    'theme.pixel-woodcut': 'Pixel · Woodcut',
     'theme.system': 'Modern default',
   },
 }
@@ -183,6 +208,7 @@ const THEME_CHOICES = [
   { id: 'pixel-paper', swatch: '#FFFDF5' },
   { id: 'pixel-warm', swatch: '#FF8C42' },
   { id: 'pixel-retro', swatch: '#33FF33' },
+  { id: 'pixel-woodcut', swatch: '#F8E4CE' },
   { id: 'system', swatch: '#7A7A7A' },
 ]
 
@@ -209,7 +235,7 @@ function createThemeRowStore() {
 }
 
 /**
- * General-section row: switch between the four pixel skins and back to the
+ * General-section row: switch between the five pixel skins and back to the
  * modern default. Reads selection state through props.useStore, localized
  * copy through props.t, and writes through the injected setTheme callback.
  * Each button carries aria-pressed so the current pick is announced, and the
@@ -306,7 +332,7 @@ function writeHostTheme(id) {
   } catch { /* fetch missing: ignore */ }
 }
 
-/** Client plugin body: register the four themes, restore/persist the choice, inject CSS, locale and the settings row. */
+/** Client plugin body: register the five themes, restore/persist the choice, inject CSS, locale and the settings row. */
 export function apply(ctx) {
   // Scope attributes mirror the active theme, so the stylesheet only shades
   // while a pixel theme is selected and the variant rules can pick the palette.
