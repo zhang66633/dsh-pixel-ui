@@ -127,7 +127,16 @@ function makeCtx(initialPreference = 'light') {
   let revision = 0
   const snapshot = () => {
     const active = themes.find((t) => t.id === preference) ?? themes[0]
-    return { preference, revision, active: { id: active.id, colorScheme: active.colorScheme, tokens: active.tokens }, themes }
+    // 0.2.1-rc.3 adds per-role fontSizes/fontFamilies to the snapshot; the
+    // skin only reads preference/active/revision and must tolerate the extras.
+    return {
+      preference,
+      revision,
+      fontSizes: { text: 14, code: 13, terminal: 13 },
+      fontFamilies: { text: '', code: '', terminal: '' },
+      active: { id: active.id, colorScheme: active.colorScheme, tokens: active.tokens },
+      themes,
+    }
   }
   const ctx = {
     theme: {
@@ -305,6 +314,13 @@ console.log('== client: registration ==')
     assert.equal(typeof entry.component, 'function')
   })
   await tick()
+  check('0.2.1 snapshot shape (fontSizes/fontFamilies) leaves the skin intact', () => {
+    const snapshot = ctx.theme.getTheme()
+    assert.deepEqual(snapshot.fontSizes, { text: 14, code: 13, terminal: 13 })
+    assert.deepEqual(snapshot.fontFamilies, { text: '', code: '', terminal: '' })
+    assert.equal(snapshot.active.id, 'pixel-wood')
+    assert.equal(htmlAttrs.get('data-pixel-ui'), '')
+  })
 }
 
 /* ── restore matrix ──────────────────────────────────────── */

@@ -7,8 +7,8 @@
 > DeepSeek Harness 像素皮肤（Agent Xi 风格）：四个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿，随时可切回现代默认 UI。
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
-![dsh](https://img.shields.io/badge/dsh-0.2.0--rc.2-blue)
-![version](https://img.shields.io/badge/version-1.5.0-F4D03F)
+![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
+![version](https://img.shields.io/badge/version-1.5.1-F4D03F)
 ![themes](https://img.shields.io/badge/themes-4-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -58,7 +58,8 @@
 
 | 项 | 支持范围 |
 | --- | --- |
-| dsh 生态 | `0.1.0-rc.6` ~ `0.2.x`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；`0.2.0-rc.2` 已按源码逐条核对客户端契约，host/node 半边于 2026-10-01 在运行中的桌面端实测；见 `docs/dev/迭代记录.md`） |
+| dsh 生态 | `0.1.0-rc.6` ~ `0.2.x`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；`0.2.1-rc.3` 已按源码逐条核对，并用 0.2.1 真实的 `ThemeRuntime` 跑通注册/恢复/切换契约；见 `docs/dev/迭代记录.md`） |
+| 兼容声明 | 同时声明 `engines.dsh` 与 `@deepseek-ai/dsh-*` peers：0.2.1 的 app-boot 优先读 `engines.dsh`，dshmarket 的发现页把两者取交集；任一判定器都能过 |
 | DSH Desktop | 2.0.x（web 兼容模式/高级模式均适用） |
 | 模式 | 三深色 + 一浅色（`colorScheme` 按主题声明） |
 | 浏览器 | 现代 Chromium / Firefox（`localStorage` + CSS 变量 + SVG 光标） |
@@ -79,7 +80,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.5.0.tgz
+dsh plugin add ./dsh-pixel-ui-1.5.1.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
