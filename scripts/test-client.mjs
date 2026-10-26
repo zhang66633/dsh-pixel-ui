@@ -250,7 +250,7 @@ console.log('== client: registration ==')
   check('five pixel themes registered with the 17-token palette', () => {
     const ids = ctx._themes.map((t) => t.id)
     assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 5)
-    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-woodcut']) assert.ok(ids.includes(id))
+    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram']) assert.ok(ids.includes(id))
     const wood = ctx._themes.find((t) => t.id === 'pixel-wood')
     assert.equal(wood.colorScheme, 'dark')
     assert.equal(Object.keys(wood.tokens).length, 17)
@@ -259,11 +259,11 @@ console.log('== client: registration ==')
     const paper = ctx._themes.find((t) => t.id === 'pixel-paper')
     assert.equal(paper.colorScheme, 'light')
     assert.equal(paper.tokens['--dsw-alias-brand-primary'], '#8A6400')
-    const woodcut = ctx._themes.find((t) => t.id === 'pixel-woodcut')
-    assert.equal(woodcut.colorScheme, 'dark')
-    assert.equal(Object.keys(woodcut.tokens).length, 17)
-    assert.equal(woodcut.tokens['--dsw-alias-brand-primary'], '#F2B07A')
-    assert.equal(woodcut.tokens['--dsw-alias-button-primary-fill'], '#F8E4CE')
+    const hologram = ctx._themes.find((t) => t.id === 'pixel-hologram')
+    assert.equal(hologram.colorScheme, 'dark')
+    assert.equal(Object.keys(hologram.tokens).length, 17)
+    assert.equal(hologram.tokens['--dsw-alias-brand-primary'], '#14DCEE')
+    assert.equal(hologram.tokens['--dsw-alias-button-primary-fill'], '#2C416D')
   })
   check('stylesheet injected with plugin dataset', () => {
     assert.equal(styleTags.length, 1)
@@ -272,14 +272,15 @@ console.log('== client: registration ==')
     assert.ok(styleTags[0].textContent.includes('--px-accent-bg'))
     assert.equal(styleTags[0].appended, true)
   })
-  check('woodcut theme uses real 9-slice assets from the host route', () => {
+  check('hologram theme uses real 9-slice assets from the host route', () => {
     const css = styleTags[0].textContent
     for (const token of [
-      "html[data-pixel-theme='pixel-woodcut']",
-      '/dsh-pixel-ui/assets/wood/panel.png',
-      '/dsh-pixel-ui/assets/wood/button-primary.png',
-      '/dsh-pixel-ui/assets/wood/input.png',
-      'border-image: var(--pxw-panel) 24 fill / 24px / 0 stretch !important',
+      "html[data-pixel-theme='pixel-hologram']",
+      '/dsh-pixel-ui/assets/hologram/panel.png',
+      '/dsh-pixel-ui/assets/hologram/button-primary.png',
+      '/dsh-pixel-ui/assets/hologram/input.png',
+      'border-image: var(--pxh-panel) 24 fill / 24px / 0 stretch !important',
+      '/dsh-pixel-ui/assets/hologram/icon-button.png',
     ]) assert.ok(css.includes(token), `asset theme carries ${token}`)
   })
   check('stylesheet widens the host content column and drops the scanline overlay', () => {
@@ -489,7 +490,7 @@ console.log('== client: interactions ==')
     assert.ok(textOf(tree).includes('选择后立即生效'))
     assert.equal(buttons.length, 6)
     assert.equal(textOf(buttons[0]), '像素·木屋')
-    assert.equal(textOf(buttons[4]), '像素·木刻')
+    assert.equal(textOf(buttons[4]), '像素·全息')
     assert.equal(textOf(buttons[5]), '现代默认')
   })
   check('aria-pressed marks the current pick; swatch is decorative', () => {

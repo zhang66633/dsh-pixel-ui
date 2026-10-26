@@ -1068,176 +1068,165 @@ html[data-pixel-ui] [contenteditable='true'] {
   flex-shrink: 0;
 }
 
-/* ── pixel-woodcut：真 PNG 9-slice 主题（Complete UI · Wood） ────────
- * 与上面四个「纯 CSS 平面」主题并列的第五套主题：对话框、菜单、主按钮、
- * 输入框、选中行、Toast、滚动条改用 CC BY 4.0 的木质 PNG 切片。
- * 素材经 /dsh-pixel-ui/assets/wood/* 路由提供；字号/布局仍由本皮肤控制。
- * 授权：assets/complete-ui/wood/ATTRIBUTION.md（Crusenho Agus Hennihuno）。
+/* ── pixel-hologram：真 PNG 9-slice 主题（Complete UI · Hologram） ───
+ * 深蓝全息：96×96 面板、96×32 主按钮、32×32 输入框/选中条/滚动条，
+ * 以及 32×32 的 Frame_Lite 用作图标按钮（避免把 96×32 的横条按钮塞进方块）。
+ * 工具提示/Toast 保持扁平薄边——不套大木框，这是上一版木刻的教训。
+ * 素材 CC BY 4.0；署名见 assets/complete-ui/hologram/ATTRIBUTION.md。
  */
-html[data-pixel-theme='pixel-woodcut'] {
-  --px-wood-darkest: #24110D;
-  --px-wood-dark: #321A14;
-  --px-wood-mid: #3E221A;
-  --px-wood-warm: #5A3022;
-  --px-wood-light: #8A5A3A;
-  --px-wood-pale: #F0C9A8;
-  --px-text-on-dark: #F8E6D2;
-  --px-text-light: #E4B998;
-  --px-parchment: #F8E6D2;
-  --px-gold: #F2B07A;
-  --px-gold-bright: #FFD28A;
-  --px-gold-dark: #C27A50;
-  --px-gold-deep: #8A4A2E;
-  --px-sidebar-fill: #1E0D0A;
-  --px-line: #1A0B08;
-  --px-accent-bg: #F6C4AA;
-  --px-accent-hover: #FFD7BB;
-  --px-accent-ink: #3A1D14;
-  --px-input-bg: #F0D8BE;
-  --px-input-text: #3A1D14;
-  --px-input-ph: #6B4030;
-  --px-input-caret: #3A1D14;
-  --px-tooltip-bg: #2A140F;
-  --px-code-bg: #2A140F;
-  --px-code-ink: #FFD28A;
-  --px-code-meta: #C99470;
-  --px-ink-on-mid: #F8E6D2;
-  --pxw-ink: #3A1D14;
-  --pxw-ink-2: #6B4030;
-  --pxw-cream: #F8E5CF;
-  --pxw-cream-2: #F0D8BE;
-  --pxw-salmon: #F1A08C;
-  --pxw-panel: url('/dsh-pixel-ui/assets/wood/panel.png');
-  --pxw-button: url('/dsh-pixel-ui/assets/wood/button-primary.png');
-  --pxw-button-press: url('/dsh-pixel-ui/assets/wood/button-primary-press.png');
-  --pxw-button-lock: url('/dsh-pixel-ui/assets/wood/button-primary-lock.png');
-  --pxw-input: url('/dsh-pixel-ui/assets/wood/input.png');
-  --pxw-select: url('/dsh-pixel-ui/assets/wood/select-bar.png');
-  --pxw-scroll: url('/dsh-pixel-ui/assets/wood/scroll-handle.png');
+html[data-pixel-theme='pixel-hologram'] {
+  --px-wood-darkest: #071426;
+  --px-wood-dark: #10233B;
+  --px-wood-mid: #1A2E4A;
+  --px-wood-warm: #244A6A;
+  --px-wood-light: #3E8FB0;
+  --px-wood-pale: #9BC4D4;
+  --px-text-on-dark: #E8F7FF;
+  --px-text-light: #9BC4D4;
+  --px-parchment: #E8F7FF;
+  --px-gold: #14DCEE;
+  --px-gold-bright: #7DF3FF;
+  --px-gold-dark: #0FA8B8;
+  --px-gold-deep: #0B6F7A;
+  --px-sidebar-fill: #081624;
+  --px-line: #1B5A6A;
+  --px-accent-bg: #2C416D;
+  --px-accent-hover: #385586;
+  --px-accent-ink: #E8F7FF;
+  --px-input-bg: #1A2E4A;
+  --px-input-text: #E8F7FF;
+  --px-input-ph: #8FB6C9;
+  --px-input-caret: #14DCEE;
+  --px-tooltip-bg: #0A1A2E;
+  --px-code-bg: #071426;
+  --px-code-ink: #7DF3FF;
+  --px-code-meta: #9BC4D4;
+  --px-ink-on-mid: #E8F7FF;
+  --pxh-text: #E8F7FF;
+  --pxh-muted: #9BC4D4;
+  --pxh-cyan: #14DCEE;
+  --pxh-cyan-bright: #7DF3FF;
+  --pxh-overlay: #0A1A2E;
+  --pxh-panel: url('/dsh-pixel-ui/assets/hologram/panel.png');
+  --pxh-button: url('/dsh-pixel-ui/assets/hologram/button-primary.png');
+  --pxh-button-press: url('/dsh-pixel-ui/assets/hologram/button-primary-press.png');
+  --pxh-button-lock: url('/dsh-pixel-ui/assets/hologram/button-primary-lock.png');
+  --pxh-input: url('/dsh-pixel-ui/assets/hologram/input.png');
+  --pxh-select: url('/dsh-pixel-ui/assets/hologram/select-bar.png');
+  --pxh-scroll: url('/dsh-pixel-ui/assets/hologram/scroll-handle.png');
+  --pxh-icon: url('/dsh-pixel-ui/assets/hologram/icon-button.png');
 }
-html[data-pixel-theme='pixel-woodcut'] body {
+html[data-pixel-theme='pixel-hologram'] body {
   background-color: var(--px-wood-darkest);
-  background-image: repeating-conic-gradient(rgba(255, 200, 160, 0.035) 0 25%, transparent 0 50%);
-  background-size: 4px 4px;
+  background-image:
+    linear-gradient(rgba(20, 220, 238, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 220, 238, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='dialog'] {
+html[data-pixel-theme='pixel-hologram'] [role='dialog'] {
   border: 24px solid transparent !important;
-  border-image: var(--pxw-panel) 24 fill / 24px / 0 stretch !important;
+  border-image: var(--pxh-panel) 24 fill / 24px / 0 stretch !important;
   background: transparent !important;
   box-sizing: border-box !important;
-  color: var(--pxw-ink) !important;
-  --dsw-alias-label-primary: var(--pxw-ink);
-  --dsw-alias-label-secondary: var(--pxw-ink-2);
-  --dsw-alias-label-tertiary: #8A5A44;
-  --dsw-alias-border-l1: #C99A74;
-  --dsw-alias-border-l2: #8A4A2E;
-  --dsw-alias-bg-layer-1: var(--pxw-cream-2);
-  --dsw-alias-bg-layer-2: var(--pxw-cream);
-  --dsw-alias-bg-layer-3: var(--pxw-cream-2);
-  --dsw-alias-interactive-bg-hover: #EFCBB0;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='dialog'] :where(h1, h2, h3, h4, p, span, div, label, strong, em, li) {
-  color: var(--pxw-ink) !important;
-}
-html[data-pixel-theme='pixel-woodcut'] [role='dialog'] button[class*='danger'],
-html[data-pixel-theme='pixel-woodcut'] [role='dialog'] button[class*='danger'] * {
-  color: #B13A2E !important;
-}
-html[data-pixel-theme='pixel-woodcut'] [data-menu-material] {
+html[data-pixel-theme='pixel-hologram'] [data-menu-material] {
   border: 10px solid transparent !important;
-  border-image: var(--pxw-panel) 20 fill / 10px / 0 stretch !important;
+  border-image: var(--pxh-panel) 20 fill / 10px / 0 stretch !important;
   background: transparent !important;
   box-sizing: border-box !important;
   overflow-x: hidden !important;
-  color: var(--pxw-ink) !important;
-  --dsw-alias-label-primary: var(--pxw-ink);
-  --dsw-alias-label-secondary: var(--pxw-ink-2);
-  --dsw-alias-interactive-bg-hover: #EFCBB0;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='menu']:not([data-menu-material]) {
+html[data-pixel-theme='pixel-hologram'] [role='menu']:not([data-menu-material]) {
   border: 0 !important;
   border-image: none !important;
   background: transparent !important;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='menuitem'] {
-  color: var(--pxw-ink) !important;
+html[data-pixel-theme='pixel-hologram'] [role='menuitem'] {
+  color: var(--pxh-text) !important;
   background: transparent !important;
   background-image: none !important;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='menuitem']:hover {
-  color: var(--pxw-ink) !important;
-  background-color: #EFCBB0 !important;
+html[data-pixel-theme='pixel-hologram'] [role='menuitem']:hover {
+  color: var(--pxh-cyan-bright) !important;
+  background-color: rgba(20, 220, 238, 0.1) !important;
   background-image: none !important;
 }
-html[data-pixel-theme='pixel-woodcut'] button[class*='primary'],
-html[data-pixel-theme='pixel-woodcut'] button[class*='Primary'] {
+html[data-pixel-theme='pixel-hologram'] button[class*='primary'],
+html[data-pixel-theme='pixel-hologram'] button[class*='Primary'] {
   border: 6px 10px solid transparent !important;
-  border-image: var(--pxw-button) 8 20 fill / 6px 10px / 0 stretch !important;
+  border-image: var(--pxh-button) 8 20 fill / 6px 10px / 0 stretch !important;
   background: transparent !important;
-  color: var(--pxw-ink) !important;
+  color: var(--pxh-text) !important;
   min-height: 32px;
 }
-html[data-pixel-theme='pixel-woodcut'] button[class*='primary']:hover,
-html[data-pixel-theme='pixel-woodcut'] button[class*='Primary']:hover {
-  border-image-source: var(--pxw-button-press) !important;
-  color: var(--pxw-ink) !important;
+html[data-pixel-theme='pixel-hologram'] button[class*='primary']:hover,
+html[data-pixel-theme='pixel-hologram'] button[class*='Primary']:hover {
+  border-image-source: var(--pxh-button-press) !important;
+  color: var(--pxh-text) !important;
   background: transparent !important;
   background-image: none !important;
 }
-html[data-pixel-theme='pixel-woodcut'] button[class*='primary']:active,
-html[data-pixel-theme='pixel-woodcut'] button[class*='Primary']:active {
-  border-image-source: var(--pxw-button-lock) !important;
+html[data-pixel-theme='pixel-hologram'] button[class*='primary']:active,
+html[data-pixel-theme='pixel-hologram'] button[class*='Primary']:active {
+  border-image-source: var(--pxh-button-lock) !important;
   transform: none !important;
 }
-html[data-pixel-theme='pixel-woodcut'] input:not([type='checkbox']):not([type='radio']):not([type='range']),
-html[data-pixel-theme='pixel-woodcut'] textarea,
-html[data-pixel-theme='pixel-woodcut'] [contenteditable='true'] {
-  border: 8px solid transparent !important;
-  border-image: var(--pxw-input) 10 fill / 8px / 0 stretch !important;
+/* Icon-only primary (send / close / etc.): use the small square frame,
+ * never squeeze the wide 96×32 plaque into a 36px square. */
+html[data-pixel-theme='pixel-hologram'] button[class*='primary']:has(> svg:only-child),
+html[data-pixel-theme='pixel-hologram'] button[class*='Primary']:has(> svg:only-child) {
+  border: 5px solid transparent !important;
+  border-image: var(--pxh-icon) 8 fill / 5px / 0 stretch !important;
   background: transparent !important;
-  color: var(--pxw-ink) !important;
-  caret-color: var(--pxw-ink) !important;
+  color: var(--pxh-text) !important;
+  min-height: 0;
+}
+html[data-pixel-theme='pixel-hologram'] input:not([type='checkbox']):not([type='radio']):not([type='range']),
+html[data-pixel-theme='pixel-hologram'] textarea,
+html[data-pixel-theme='pixel-hologram'] [contenteditable='true'] {
+  border: 8px solid transparent !important;
+  border-image: var(--pxh-input) 10 fill / 8px / 0 stretch !important;
+  background: transparent !important;
+  color: var(--pxh-text) !important;
+  caret-color: var(--pxh-cyan) !important;
   box-sizing: border-box !important;
 }
-html[data-pixel-theme='pixel-woodcut'] input::placeholder,
-html[data-pixel-theme='pixel-woodcut'] textarea::placeholder {
-  color: #8A5A44 !important;
+html[data-pixel-theme='pixel-hologram'] input::placeholder,
+html[data-pixel-theme='pixel-hologram'] textarea::placeholder {
+  color: var(--pxh-muted) !important;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='menuitem'][aria-current='page'],
-html[data-pixel-theme='pixel-woodcut'] [role='treeitem'][aria-selected='true'] {
+html[data-pixel-theme='pixel-hologram'] [role='menuitem'][aria-current='page'],
+html[data-pixel-theme='pixel-hologram'] [role='treeitem'][aria-selected='true'] {
   border: 8px solid transparent !important;
-  border-image: var(--pxw-select) 10 fill / 8px / 0 stretch !important;
+  border-image: var(--pxh-select) 10 fill / 8px / 0 stretch !important;
   background: transparent !important;
   background-image: none !important;
-  color: var(--pxw-ink) !important;
+  color: var(--pxh-text) !important;
   box-sizing: border-box !important;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='alert'] {
-  border: 10px solid transparent !important;
-  border-image: var(--pxw-panel) 20 fill / 10px / 0 stretch !important;
-  background: transparent !important;
-  color: var(--pxw-ink) !important;
-  animation: none !important;
+/* Tooltip and toast stay slim and flat: the old asset theme applied a 10px
+ * frame to a tooltip and it looked like a floating door. */
+html[data-pixel-theme='pixel-hologram'] [role='tooltip'] {
+  border: 2px solid var(--pxh-cyan) !important;
+  border-image: none !important;
+  background-color: var(--pxh-overlay) !important;
+  color: var(--pxh-text) !important;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='tooltip'] {
-  border: 8px solid transparent !important;
-  border-image: var(--pxw-panel) 20 fill / 8px / 0 stretch !important;
-  background: transparent !important;
-  color: var(--pxw-ink) !important;
+html[data-pixel-theme='pixel-hologram'] [role='alert'] {
+  border: 2px solid var(--pxh-cyan) !important;
+  border-left: 4px solid var(--pxh-cyan) !important;
+  border-image: none !important;
+  background-color: var(--pxh-overlay) !important;
+  color: var(--pxh-text) !important;
 }
-html[data-pixel-theme='pixel-woodcut'] [role='dialog'] button:not([class*='primary']):not([class*='Primary']):not([class*='danger']):not([class*='Danger']):hover,
-html[data-pixel-theme='pixel-woodcut'] [data-menu-material] button:hover {
-  background-color: #EFCBB0 !important;
-  color: var(--pxw-ink) !important;
-}
-html[data-pixel-theme='pixel-woodcut'] ::-webkit-scrollbar-thumb {
-  background: var(--pxw-scroll) center / 100% 100% no-repeat !important;
+html[data-pixel-theme='pixel-hologram'] ::-webkit-scrollbar-thumb {
+  background: var(--pxh-scroll) center / 100% 100% no-repeat !important;
   border: 2px solid var(--px-wood-darkest) !important;
 }
-html[data-pixel-theme='pixel-woodcut'] ::-webkit-scrollbar-track {
-  background: #3A221A !important;
+html[data-pixel-theme='pixel-hologram'] ::-webkit-scrollbar-track {
+  background: var(--px-wood-dark);
   border-left: 2px solid var(--px-line);
 }
-html[data-pixel-theme='pixel-woodcut'] [role='tab']::after {
-  background: var(--pxw-salmon, #F1A08C) !important;
+html[data-pixel-theme='pixel-hologram'] [role='tab']::after {
+  background: var(--pxh-cyan) !important;
 }

@@ -4,7 +4,7 @@
 
 # 🪵 dsh-pixel-ui
 
-> DeepSeek Harness 像素皮肤（Agent Xi 风格）：五个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿 / 像素·木刻，随时可切回现代默认 UI。
+> DeepSeek Harness 像素皮肤（Agent Xi 风格）：五个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿 / 像素·全息，随时可切回现代默认 UI。
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
@@ -18,8 +18,8 @@
 
 `dsh-pixel-ui` 是一个**皮肤插件**，把 dsh Web GUI 重皮肤成像素 RPG 风：
 
-1. **五个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字）、像素·木刻（真 PNG 9-slice 木框 + 奶油面板）；
-2. **像素质感**：前四套**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），零 `box-shadow` 与 `text-shadow`；木刻是**唯一例外**，它故意使用 Complete UI 素材自带的浮雕边框（CC BY 4.0，见下方授权），作为「真素材」分支；
+1. **五个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字）、像素·全息（真 PNG 9-slice 深蓝全息框 + 青色描边）；
+2. **像素质感**：前四套**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），零 `box-shadow` 与 `text-shadow`；全息是**唯一例外**，它故意使用 Complete UI 素材自带的浮雕边框（CC BY 4.0，见下方授权），作为「真素材」分支；
 3. **细节与动感**：所有动效走 `steps()` 阶梯（80/140/220ms），按下 1px 位移、页签下划线逐格生长、思考中闪烁光标、运行中左条呼吸、toast 三帧进入；另有主题化勾/点、代码块终端顶栏、表格斑马纹、吸顶标题底线、滚动条握把、纸面专用深色光标。`prefers-reduced-motion` 下一律关闭；
 4. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复。
 
@@ -52,21 +52,22 @@
 
 <img src="./assets/screenshot-retro.png" alt="像素·终端绿" width="100%" />
 
-### 像素·木刻 · `pixel-woodcut`
+### 像素·全息 · `pixel-hologram`
 
-> 深色 · 深棕 `#24110D` + 奶油 `#F8E5CF`；对话框/菜单/主按钮/输入框/选中行/Toast/滚动条使用 **真实 PNG 9-slice**（Complete UI · Wood，CC BY 4.0）。
+> 深色 · 深蓝 `#071426` + 青色 `#14DCEE`；对话框/菜单/主按钮/输入框/选中行/滚动条使用 **真实 PNG 9-slice**（Complete UI · Hologram，CC BY 4.0）。
 
-- 面板：`panel.png` 96×96 → `border-image-slice:24 fill`；
-- 主按钮：`button-primary.png` 96×32 → `slice:8 20`、`border-width:6px 10px`（保留奶油浮雕，又不挤掉文字）；hover/press/lock 三态；
+- 面板：`panel.png` 96×96 → `border-image-slice:24 fill`；深蓝网格底 + 青色描边；
+- 主按钮：`button-primary.png` 96×32 → `slice:8 20`、`border-width:6px 10px`；hover/press/lock 三态；
+- **图标按钮**：发送/关闭等 `only-child svg` 的主按钮改用 32×32 `Frame_Lite`，不再把 96×32 横条塞进方块；
 - 输入框：`input.png` 32×32 → `slice:10 fill`；选中行：`select-bar.png`；滚动条：`scroll-handle.png`；
-- 奶油面板内部自动把宿主 label/border/layer 令牌切到深墨色，避免「奶油底 + 奶油字」。
+- **Tooltip / Toast 保持扁平薄边**（2px 青色），不再套 10px 面板框——这是木刻版本翻车的直接原因。
 
-> 素材：Complete UI Essential Pack v2.4 · `03_Wood_Theme` by **Crusenho Agus Hennihuno**，CC BY 4.0；
-> 只取 7 张切片，完整署名与许可证在
-> [`assets/complete-ui/wood/ATTRIBUTION.md`](assets/complete-ui/wood/ATTRIBUTION.md)。
-> 木刻主题是**可选**的第五套，前四套仍保持零立体、零阴影。
+> 素材：Complete UI Essential Pack v2.4 · `06_Hologram_Theme` by **Crusenho Agus Hennihuno**，CC BY 4.0；
+> 只取 8 张切片，完整署名与许可证在
+> [`assets/complete-ui/hologram/ATTRIBUTION.md`](assets/complete-ui/hologram/ATTRIBUTION.md)。
+> 全息主题是**可选**的第五套，前四套仍保持零立体、零阴影。
 
-> 截图取自 DSH Desktop（1920×1200 @125% 缩放），目前覆盖前四套；木刻主题的实机截图
+> 截图取自 DSH Desktop（1920×1200 @125% 缩放），目前覆盖前四套；全息主题的实机截图
 > 待重启加载素材路由后补拍。截图由插件市场按本仓库根的
 > [`screenshots.json`](screenshots.json) 读取——换图只推自己的仓库，不必提 PR。
 
@@ -206,15 +207,15 @@ npm test         # test:compat + test:host + test:client + test:contrast
 ```
 
 - `scripts/check-compat.mjs`：`engines.dsh` / dsh peers / dshReleases 的声明门禁（0.2.1-rc.3 严格安装路径）
-- `scripts/test-host.mjs`：node 半边（字体白名单 / **木刻素材路由** / 偏好路由读写与校验 / dispose）
-- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、**木刻 9-slice 注入**、dispose）
+- `scripts/test-host.mjs`：node 半边（字体白名单 / **全息素材路由** / 偏好路由读写与校验 / dispose）
+- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、**全息 9-slice 注入**、dispose）
 - `scripts/audit-contrast.mjs`：五主题 WCAG 对比度门禁（改 palette 必跑）
 
-改动皮肤后重新构建并刷新浏览器即可；**新增木刻素材路由动了 `lib/index.js`，首次需重启 DSH Desktop**。开发文档在 `docs/dev/`（计划 / 迭代 / 踩坑）。欢迎 PR；行为变更请同步更新 README。
+改动皮肤后重新构建并刷新浏览器即可；**新增全息素材路由动了 `lib/index.js`，首次需重启 DSH Desktop**。开发文档在 `docs/dev/`（计划 / 迭代 / 踩坑）。欢迎 PR；行为变更请同步更新 README。
 
 ## License & security
 
 [MIT](./LICENSE) © 2026 zhang66633 · 字体：fusion-pixel（MIT）、Press Start 2P（SIL OFL）。
-`pixel-woodcut` 的 7 张 Complete UI 切片 © Crusenho Agus Hennihuno，[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)，见 [`assets/complete-ui/wood/ATTRIBUTION.md`](assets/complete-ui/wood/ATTRIBUTION.md)。
+`pixel-hologram` 的 8 张 Complete UI 切片 © Crusenho Agus Hennihuno，[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)，见 [`assets/complete-ui/hologram/ATTRIBUTION.md`](assets/complete-ui/hologram/ATTRIBUTION.md)。
 
 安全问题请通过 GitHub **security advisory** 私下报告，不要发公开 issue。
