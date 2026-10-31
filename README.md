@@ -4,12 +4,12 @@
 
 # 🪵 dsh-pixel-ui
 
-> DeepSeek Harness 像素皮肤（Agent Xi 风格）：七个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿 / 像素·全息 / 像素·南瓜灯 / 像素·便签本，随时可切回现代默认 UI。
+> DeepSeek Harness 像素皮肤（Agent Xi 风格）：八个主题一键切换——像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿 / 像素·全息 / 像素·南瓜灯 / 像素·便签本 / 像素·云石，随时可切回现代默认 UI。
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
-![version](https://img.shields.io/badge/version-1.8.1-F4D03F)
-![themes](https://img.shields.io/badge/themes-7-orange)
+![version](https://img.shields.io/badge/version-1.9.0-F4D03F)
+![themes](https://img.shields.io/badge/themes-8-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
 ---
@@ -18,8 +18,8 @@
 
 `dsh-pixel-ui` 是一个**皮肤插件**，把 dsh Web GUI 重皮肤成像素 RPG 风：
 
-1. **七个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字）、像素·全息（真 PNG 9-slice 深蓝全息框 + 青色描边）、像素·南瓜灯（暗橙藤蔓框 + 暖金）、像素·便签本（浅色活页纸 + 铅笔光标）；
-2. **像素质感**：前四套**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），零 `box-shadow` 与 `text-shadow`；后三套是**真素材分支**，使用 Complete UI 素材自带的浮雕边框（CC BY 4.0，见下方授权），全息/南瓜灯/便签本的对话框、菜单、主按钮、输入框、选中行各取不同的 9-slice 策略；
+1. **八个主题**：像素·木屋（深木 + 金）、像素·羊皮纸（浅色纸面 + 金棕）、像素·暖阳（暖橙木）、像素·终端绿（终端绿字）、像素·全息（真 PNG 9-slice 深蓝全息框 + 青色描边）、像素·南瓜灯（暗橙藤蔓框 + 暖金）、像素·便签本（浅色活页纸 + 铅笔光标）、像素·云石（板岩 + 白石框 + 钢青）；
+2. **像素质感**：前四套**完全平面**——整像素 2px 描边、平涂色块的一档明度差、2px 棋盘抖动、手绘 SVG 像素图形（对勾/单选点/下拉箭头/光标），零 `box-shadow` 与 `text-shadow`；后四套是**真素材分支**，使用 Complete UI 素材自带的浮雕边框（CC BY 4.0，见下方授权），全息/南瓜灯/便签本/云石的对话框、菜单、主按钮、输入框、选中行各取不同的 9-slice 策略；
 3. **宿主表面一起换色**：主题 token 从 17 个扩到 23 个，新增用户气泡、弹层菜单、输入区、选择键、提示底等宿主自绘表面的颜色，气泡/输入区不再留着宿主默认蓝；
 4. **细节与动感**：所有动效走 `steps()` 阶梯（80/140/220ms），按下 1px 位移、页签下划线逐格生长、思考中闪烁光标、运行中左条呼吸、toast 三帧进入；另有主题化勾/点、代码块终端顶栏、表格斑马纹、吸顶标题底线、滚动条握把、纸面专用深色光标。`prefers-reduced-motion` 下一律关闭；
 5. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复；素材在构建期转成 data URI 内联，换素材只需重新 build + 刷新页面，不必重启宿主。
@@ -89,6 +89,18 @@
 
 ![像素·便签本组件预览：活页纸对话框、便签菜单、便签条按钮、输入框、选中行](./assets/preview-papernote.png)
 
+### 像素·云石 · `pixel-marble`
+
+> 深色 · 板岩 `#161C26` + 白石 `#E8EFF2` + 钢青 `#7FB2E5`；对话框是一整圈白石框，按钮/输入框/选中行是白石控件、深墨文字。
+
+- **对话框**：`Frame_Standard_01a.png` 96×96 → `slice:20 fill`、`border-image-repeat:repeat`；白石的 20px 边框只给对话框和菜单；
+- **菜单**：`Frame_Lite_01a.png` 32×32 → `slice:12 fill`；`repeat` 平铺，石纹不会被拉糊；
+- **主按钮**：`Button_Large_Release/Press/Lock`（96×32，三态）→ `slice:5 8 6 8`、`border-width:5px 6px 6px 6px`；白石底 + 深墨字；
+- **图标按钮**：`Button_Small_Release` 32×32 → `slice:6 fill`；
+- **输入框 / 选中行**：`Textfield_01a` / `Dropdown_01a` 32×32 → `slice:6 fill`；浅色控件单独用 `--pxa-select-ink`，不会出现浅字压浅底。
+
+![像素·云石组件预览：白石对话框、菜单、主按钮、图标键、输入框、选中行](./assets/preview-marble.png)
+
 ## Motion & detail
 
 | 层 | 细节 | 动效 |
@@ -118,10 +130,10 @@
 | dsh 生态 | `0.1.0-rc.6` ~ `0.2.x`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；`0.2.1-rc.3` 已按源码逐条核对，并用 0.2.1 真实的 `ThemeRuntime` 跑通注册/恢复/切换契约；见 `docs/dev/迭代记录.md`） |
 | 兼容声明 | 同时声明 `engines.dsh` 与 `@deepseek-ai/dsh-*` peers：0.2.1 的 app-boot 优先读 `engines.dsh`，dshmarket 的发现页把两者取交集；任一判定器都能过 |
 | DSH Desktop | 2.0.x（web 兼容模式/高级模式均适用） |
-| 模式 | 五深色 + 两浅色（`colorScheme` 按主题声明） |
+| 模式 | 六深色 + 两浅色（`colorScheme` 按主题声明） |
 | 浏览器 | 现代 Chromium / Firefox（`localStorage` + CSS 变量 + SVG 光标） |
 | 字体 | fusion-pixel 12px zh_hans（MIT）+ Press Start 2P（OFL），随包分发 |
-| 对比度 | 七主题全部通过 WCAG AA（正文 ≥4.5:1、非文本 ≥3:1，`npm run test:contrast` 门禁） |
+| 对比度 | 八主题全部通过 WCAG AA（正文 ≥4.5:1、非文本 ≥3:1，`npm run test:contrast` 门禁） |
 
 ## Install / Uninstall
 
@@ -137,7 +149,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.8.1.tgz
+dsh plugin add ./dsh-pixel-ui-1.9.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
@@ -188,21 +200,21 @@ DSH Desktop 默认每次启动随机分配本地 Web 端口，而浏览器 `loca
 
 1. 安装后重启 dsh / DSH Desktop；
 2. 首次加载自动激活默认主题「像素·木屋」；
-3. 设置 → 通用 → **像素主题**，八个按钮一键切换七个皮肤和「现代默认」；
+3. 设置 → 通用 → **像素主题**，九个按钮一键切换八个皮肤和「现代默认」；
 4. 选「现代默认」（或外观行选 浅色 / 深色 / 跟随系统）即整体退出皮肤，选择会被记住，下次打开不复活。
 
 最小可复现示例：安装 → 重启 → 木屋主题上身 → 切换到「像素·便签本」→ 对话框变成带装订孔的活页纸 → 输入框文字清晰可读 → 点「现代默认」→ 页面立即回到现代 UI → 刷新页面仍是现代 UI。
 
 ## Configuration
 
-- **无配置项**：七个主题的 23 个 `--dsw-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感与 9-slice 素材层在 `src/client/pixel.css`；
+- **无配置项**：八个主题的 23 个 `--dsw-*` token 定义在 `src/client/index.js` 的 `THEMES`，像素质感与 9-slice 素材层在 `src/client/pixel.css`；
 - **默认主题**：`pixel-wood`（仅首次安装时自动激活，之后尊重你的选择）；
 - **持久化**：双层——宿主文件 `$DSH_HOME/storages/dsh-pixel-ui/preference.json`（权威，跨端口/跨浏览器）+ 浏览器 `localStorage` 的 `dsh-pixel-ui:theme`（同 origin 镜像）；
 - 无环境变量、无敏感项。
 
 ## Permissions & data
 
-- 宿主进程：**只读**本包内字体文件；在 `$DSH_HOME/storages/dsh-pixel-ui/` 下读写一个主题偏好 JSON（只注册 `/dsh-pixel-ui/fonts/*` 与 `/dsh-pixel-ui/preference` 两个路由，字体文件名白名单、主题 id 白名单，均无路径穿越）；三套素材主题的 PNG 在构建期已内联进 `lib/client.js`，宿主不再按路径读素材；
+- 宿主进程：**只读**本包内字体文件；在 `$DSH_HOME/storages/dsh-pixel-ui/` 下读写一个主题偏好 JSON（只注册 `/dsh-pixel-ui/fonts/*` 与 `/dsh-pixel-ui/preference` 两个路由，字体文件名白名单、主题 id 白名单，均无路径穿越）；四套素材主题的 PNG 在构建期已内联进 `lib/client.js`，宿主不再按路径读素材；
 - 浏览器半边：注册主题 + 注入样式表 + 一个设置行；无网络请求、无遥测、不读凭据，只在 `localStorage` 存一个主题 id。
 
 ## Troubleshooting
@@ -228,18 +240,19 @@ npm test         # test:compat + test:host + test:client + test:contrast
 - `scripts/check-compat.mjs`：`engines.dsh` / dsh peers / dshReleases 的声明门禁（0.2.1-rc.3 严格安装路径）
 - `scripts/asset-inline.mjs`：把 CSS 里的 `url('pxasset:<theme>/<file>.png')` 换成 data URI，并用 `ASSET_DIRS` 白名单校验主题名
 - `scripts/test-host.mjs`：node 半边（字体白名单 / 偏好路由读写与校验 / **确认没有素材路由** / dispose）
-- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、**三套素材主题的内联 9-slice**、`data-pixel-asset` 开关、dispose）
-- `scripts/audit-contrast.mjs`：七主题 WCAG 对比度门禁（改 palette 必跑；新增用户气泡 / 菜单面 / 输入区三对）
+- `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、**四套素材主题的内联 9-slice**、`data-pixel-asset` 开关、dispose）
+- `scripts/audit-contrast.mjs`：八主题 WCAG 对比度门禁（改 palette 必跑；新增用户气泡 / 菜单面 / 输入区三对）
 
 改动皮肤后重新构建并刷新浏览器即可；**素材已内联，新增素材主题不再需要重启宿主**。开发文档在 `docs/dev/`（计划 / 迭代 / 踩坑）。欢迎 PR；行为变更请同步更新 README。
 
 ## License & security
 
 [MIT](./LICENSE) © 2026 zhang66633 · 字体：fusion-pixel（MIT）、Press Start 2P（SIL OFL）。
-`pixel-hologram`（8 张）、`pixel-pumpkin`（8 张）、`pixel-papernote`（7 张）的 Complete UI 切片
+`pixel-hologram`（8 张）、`pixel-pumpkin`（8 张）、`pixel-papernote`（7 张）、`pixel-marble`（8 张）的 Complete UI 切片
 © Crusenho Agus Hennihuno，[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)，
 分别见 [`hologram`](assets/complete-ui/hologram/ATTRIBUTION.md) /
 [`pumpkin`](assets/complete-ui/pumpkin/ATTRIBUTION.md) /
-[`papernote`](assets/complete-ui/papernote/ATTRIBUTION.md) 的 ATTRIBUTION。
+[`papernote`](assets/complete-ui/papernote/ATTRIBUTION.md) /
+[`marble`](assets/complete-ui/marble/ATTRIBUTION.md) 的 ATTRIBUTION。
 
 安全问题请通过 GitHub **security advisory** 私下报告，不要发公开 issue。
