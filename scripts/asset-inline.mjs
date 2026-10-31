@@ -29,6 +29,7 @@ export const ASSET_DIRS = {
   hologram: 'complete-ui/hologram',
   pumpkin: 'complete-ui/pumpkin',
   papernote: 'complete-ui/papernote',
+  marble: 'complete-ui/marble',
 }
 
 const PXASSET_REF = /url\(\s*(['"]?)pxasset:([a-z0-9-]+)\/([a-z0-9_.-]+\.png)\1\s*\)/gi

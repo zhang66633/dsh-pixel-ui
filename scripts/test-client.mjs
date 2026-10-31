@@ -247,10 +247,10 @@ function boot({ localTheme = null, hostTheme = null, bootTheme = undefined } = {
 console.log('== client: registration ==')
 {
   const ctx = boot()
-  check('seven pixel themes registered with the 23-token palette', () => {
+  check('eight pixel themes registered with the 23-token palette', () => {
     const ids = ctx._themes.map((t) => t.id)
-    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 7)
-    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram', 'pixel-pumpkin', 'pixel-papernote']) assert.ok(ids.includes(id))
+    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 8)
+    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram', 'pixel-pumpkin', 'pixel-papernote', 'pixel-marble']) assert.ok(ids.includes(id))
     const wood = ctx._themes.find((t) => t.id === 'pixel-wood')
     assert.equal(wood.colorScheme, 'dark')
     assert.equal(Object.keys(wood.tokens).length, 23)
@@ -273,6 +273,11 @@ console.log('== client: registration ==')
     assert.equal(papernote.colorScheme, 'light')
     assert.equal(Object.keys(papernote.tokens).length, 23)
     assert.equal(papernote.tokens['--dsw-alias-button-primary-fill'], '#A3551B')
+    const marble = ctx._themes.find((t) => t.id === 'pixel-marble')
+    assert.equal(marble.colorScheme, 'dark')
+    assert.equal(Object.keys(marble.tokens).length, 23)
+    assert.equal(marble.tokens['--dsw-alias-brand-primary'], '#7FB2E5')
+    assert.equal(marble.tokens['--dsw-alias-button-primary-fill'], '#E8EFF2')
     // Every theme must declare the same host-surface token set, otherwise a
     // host-native surface silently falls back to the modern palette.
     const keys = Object.keys(wood.tokens).sort()
@@ -293,6 +298,7 @@ console.log('== client: registration ==')
       "html[data-pixel-theme='pixel-hologram']",
       "html[data-pixel-theme='pixel-pumpkin']",
       "html[data-pixel-theme='pixel-papernote']",
+      "html[data-pixel-theme='pixel-marble']",
       "html[data-pixel-asset] [role='dialog']",
       '--pxa-panel: url("data:image/png;base64,',
       'border-image: var(--pxa-panel)',
@@ -315,6 +321,8 @@ console.log('== client: registration ==')
     assert.ok(css.includes('border-width: var(--pxa-button-width) !important'), 'button reserves border space')
     assert.ok(css.includes('border-width: var(--pxa-input-width, 8px) !important'), 'input reserves border space')
     assert.equal(/border:\s*var\(--pxa-/.test(css), false, 'no multi-value border shorthand in the asset layer')
+    assert.ok(css.includes('var(--pxa-menu-repeat, stretch)'), 'menu repeat is themeable')
+    assert.ok(css.includes('var(--pxa-select-ink, var(--pxa-ink))'), 'select ink is themeable for light rows')
   })
   check('stylesheet widens the host content column and drops the scanline overlay', () => {
     const css = styleTags[0].textContent
@@ -517,17 +525,18 @@ console.log('== client: interactions ==')
   })
 
   const { tree, buttons, t } = renderRow(ctx)
-  check('row renders group + title + desc + eight choices', () => {
+  check('row renders group + title + desc + nine choices', () => {
     assert.equal(tree.props.role, 'group')
     assert.equal(tree.props['aria-label'], '像素主题')
     assert.ok(textOf(tree).includes('像素主题'))
     assert.ok(textOf(tree).includes('选择后立即生效'))
-    assert.equal(buttons.length, 8)
+    assert.equal(buttons.length, 9)
     assert.equal(textOf(buttons[0]), '像素·木屋')
     assert.equal(textOf(buttons[4]), '像素·全息')
     assert.equal(textOf(buttons[5]), '像素·南瓜灯')
     assert.equal(textOf(buttons[6]), '像素·便签本')
-    assert.equal(textOf(buttons[7]), '现代默认')
+    assert.equal(textOf(buttons[7]), '像素·云石')
+    assert.equal(textOf(buttons[8]), '现代默认')
   })
   check('aria-pressed marks the current pick; swatch is decorative', () => {
     assert.equal(buttons[1].props['aria-pressed'], true)
@@ -537,7 +546,7 @@ console.log('== client: interactions ==')
     assert.equal(swatch.props.style.background, '#FFFDF5')
   })
   const putCountBefore = fetchCalls.filter((c) => c.method === 'PUT').length
-  buttons[7].props.onClick()
+  buttons[8].props.onClick()
   check('explicit pick writes both layers', () => {
     assert.equal(ctx.theme.getTheme().preference, 'system')
     assert.equal(globalThis.localStorage.getItem('dsh-pixel-ui:theme'), 'system')
@@ -548,7 +557,7 @@ console.log('== client: interactions ==')
   })
   const row2 = renderRow(ctx)
   check('row re-render moves aria-pressed to 现代默认', () => {
-    assert.equal(row2.buttons[7].props['aria-pressed'], true)
+    assert.equal(row2.buttons[8].props['aria-pressed'], true)
     assert.equal(row2.buttons[1].props['aria-pressed'], false)
   })
   row2.buttons[5].props.onClick()
@@ -564,7 +573,13 @@ console.log('== client: interactions ==')
     assert.equal(htmlAttrs.has('data-pixel-asset'), true)
   })
   const row4 = renderRow(ctx)
-  row4.buttons[0].props.onClick()
+  row4.buttons[7].props.onClick()
+  check('marble is a sprite theme too', () => {
+    assert.equal(ctx.theme.getTheme().preference, 'pixel-marble')
+    assert.equal(htmlAttrs.has('data-pixel-asset'), true)
+  })
+  const row5 = renderRow(ctx)
+  row5.buttons[0].props.onClick()
   check('picking a flat theme disarms the 9-slice layer', () => {
     assert.equal(ctx.theme.getTheme().preference, 'pixel-wood')
     assert.equal(htmlAttrs.get('data-pixel-theme'), 'pixel-wood')

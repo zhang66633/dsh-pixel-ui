@@ -1317,6 +1317,79 @@ html[data-pixel-theme='pixel-papernote'] body * {
   cursor: url('pxasset:papernote/cursor.png') 4 4, auto !important;
 }
 
+/* 云石：板岩底 + 白石框 + 钢青。白石的 20px 边框只给对话框和菜单；
+ * 按钮/输入框本身是白石控件，文字用深墨色。 */
+html[data-pixel-theme='pixel-marble'] {
+  --px-wood-darkest: #161C26;
+  --px-wood-dark: #1F2836;
+  --px-wood-mid: #2A3548;
+  --px-wood-warm: #354258;
+  --px-wood-light: #5C708C;
+  --px-wood-pale: #AEBCCB;
+  --px-text-on-dark: #E9F0F7;
+  --px-text-light: #AEBCCB;
+  --px-parchment: #E9F0F7;
+  --px-gold: #7FB2E5;
+  --px-gold-bright: #A9D1F2;
+  --px-gold-dark: #5A88B8;
+  --px-gold-deep: #3C5A7A;
+  --px-sidebar-fill: #121821;
+  --px-line: #0D1219;
+  --px-accent-bg: #7FB2E5;
+  --px-accent-hover: #9CC6EE;
+  --px-accent-ink: #121A24;
+  --px-input-bg: #E8EFF2;
+  --px-input-text: #1B2230;
+  --px-input-ph: #5A6B80;
+  --px-input-caret: #5A88B8;
+  --px-tooltip-bg: #1B2230;
+  --px-code-bg: #1F2836;
+  --px-code-ink: #A9D1F2;
+  --px-code-meta: #AEBCCB;
+  --px-ink-on-mid: #E9F0F7;
+  --px-topbar-fill: #1F2836;
+  --px-dither: #1B2330;
+  --pxa-panel: url('pxasset:marble/panel.png');
+  --pxa-panel-slice: 20 fill;
+  --pxa-panel-width: 20px;
+  --pxa-panel-repeat: repeat;
+  --pxa-menu: url('pxasset:marble/popover.png');
+  --pxa-menu-slice: 12 fill;
+  --pxa-menu-width: 12px;
+  --pxa-menu-repeat: repeat;
+  --pxa-button: url('pxasset:marble/button.png');
+  --pxa-button-hover: url('pxasset:marble/button-hover.png');
+  --pxa-button-active: url('pxasset:marble/button-press.png');
+  --pxa-button-slice: 5 8 6 8 fill;
+  --pxa-button-width: 5px 6px 6px 6px;
+  --pxa-button-ink: #1B2230;
+  --pxa-button-hover-ink: #1B2230;
+  --pxa-icon: url('pxasset:marble/icon-button.png');
+  --pxa-icon-slice: 6 fill;
+  --pxa-icon-width: 6px;
+  --pxa-input: url('pxasset:marble/input.png');
+  --pxa-input-slice: 6 fill;
+  --pxa-input-width: 6px;
+  --pxa-input-ink: #1B2230;
+  --pxa-placeholder: #5A6B80;
+  --pxa-caret: #5A88B8;
+  --pxa-select: url('pxasset:marble/select.png');
+  --pxa-select-slice: 6 fill;
+  --pxa-select-width: 6px;
+  --pxa-select-ink: #1B2230;
+  --pxa-ink: #E9F0F7;
+  --pxa-accent: #7FB2E5;
+  --pxa-accent-bright: #A9D1F2;
+  --pxa-hover-wash: rgba(127, 178, 229, 0.14);
+  --pxa-tooltip-bg: #1B2230;
+  --pxa-tooltip-ink: #E9F0F7;
+}
+html[data-pixel-theme='pixel-marble'] body {
+  background-color: var(--px-wood-darkest);
+  background-image: repeating-conic-gradient(rgba(127, 178, 229, 0.035) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+}
+
 /* ── 共用 9-slice 规则：只在素材主题生效 ─────────────────────────── */
 /* 便签的纸面几乎与页面同色，补 2px 墨线把「纸」钉出来；其他素材主题的
  * 边缘本身对比足够，--pxa-outline 不设即透明。 */
@@ -1336,7 +1409,7 @@ html[data-pixel-asset] [role='dialog'] {
 html[data-pixel-asset] [data-menu-material] {
   border: 0 solid transparent !important;
   border-width: var(--pxa-menu-width, 10px) !important;
-  border-image: var(--pxa-menu) var(--pxa-menu-slice, 10 fill) / var(--pxa-menu-width, 10px) / 0 stretch !important;
+  border-image: var(--pxa-menu) var(--pxa-menu-slice, 10 fill) / var(--pxa-menu-width, 10px) / 0 var(--pxa-menu-repeat, stretch) !important;
   background: transparent !important;
   box-sizing: border-box !important;
   overflow-x: hidden !important;
@@ -1421,7 +1494,7 @@ html[data-pixel-asset] [role='treeitem'][aria-selected='true'] {
   border-image: var(--pxa-select) var(--pxa-select-slice, 10 fill) / var(--pxa-select-width, 8px) / 0 stretch !important;
   background: transparent !important;
   background-image: none !important;
-  color: var(--pxa-ink) !important;
+  color: var(--pxa-select-ink, var(--pxa-ink)) !important;
   box-sizing: border-box !important;
 }
 /* 浮层只换颜色：2px 主题色边 + 实色底，不套面板图。 */
