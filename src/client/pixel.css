@@ -485,6 +485,19 @@ html[data-pixel-ui] button:not([class]):not([role]):not(:has(> svg:only-child)):
   background-color: var(--px-wood-mid) !important;
   border-color: var(--px-gold-dark) !important;
 }
+/* 宿主 0.2.1 的“新会话”按钮是独立 CSS-module class（wtg9ga_newSession），
+ * 自带灰底；真实宿主截图里它是唯一没被皮肤覆盖的大块面。 */
+html[data-pixel-ui] body button[class*='newSession'] {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 2px solid var(--px-wood-warm) !important;
+  border-radius: 0 !important;
+  color: var(--px-text-on-dark) !important;
+}
+html[data-pixel-ui] body button[class*='newSession']:hover {
+  background: var(--px-wood-mid) !important;
+  border-color: var(--px-gold-dark) !important;
+}
 
 /* ── 页签（对话/轨迹/记忆）：文字 + 金下沿，**不加边框**
  * v1.4 给页签套了 2px 黑框，整条读起来像凹陷的输入框（用户报「凹陷了」）。
@@ -595,6 +608,11 @@ html[data-pixel-ui] select:disabled {
   background-color: color-mix(in srgb, var(--px-input-bg) 75%, var(--px-wood-dark)) !important;
 }
 html[data-pixel-ui] input::placeholder,
+html[data-pixel-ui] [data-placeholder]::before,
+html[data-pixel-ui] [data-placeholder]::after {
+  color: var(--px-input-ph) !important;
+  opacity: 1 !important;
+}
 html[data-pixel-ui] textarea::placeholder {
   color: var(--px-input-ph) !important;
   -webkit-text-fill-color: var(--px-input-ph) !important;

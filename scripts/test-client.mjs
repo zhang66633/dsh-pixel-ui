@@ -336,6 +336,8 @@ console.log('== client: registration ==')
     assert.ok(css.includes('M8.5 1.5c-1.1 0-2 .9-2 2v8.6'), 'pointer cursor is a classic hand, not a recolored arrow')
     assert.ok(css.includes('M7 3h10v3h-3v12h3v3H7v-3h3V6H7z'), 'text cursor is a proper I-beam')
     assert.ok(css.includes("html[data-pixel-theme='pixel-papernote'] :is(button, input, select, textarea"), 'papernote still overrides pencil for blocked states')
+    assert.ok(css.includes("button[class*='newSession']"), 'host new-session button is themed')
+    assert.ok(css.includes('[data-placeholder]::before'), 'Lexical composer placeholder is themed')
     // The `border` shorthand only takes ONE width; `border: 6px 10px solid`
     // is invalid and silently leaves border-width at 0, so the border-image
     // paints over the content instead of reserving space. Widths must go
