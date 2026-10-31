@@ -8,7 +8,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
-![version](https://img.shields.io/badge/version-1.10.0-F4D03F)
+![version](https://img.shields.io/badge/version-1.11.0-F4D03F)
 ![themes](https://img.shields.io/badge/themes-9-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -23,6 +23,7 @@
 3. **宿主表面一起换色**：主题 token 从 17 个扩到 23 个，新增用户气泡、弹层菜单、输入区、选择键、提示底等宿主自绘表面的颜色，气泡/输入区不再留着宿主默认蓝；
 4. **细节与动感**：所有动效走 `steps()` 阶梯（80/140/220ms），按下 1px 位移、页签下划线逐格生长、思考中闪烁光标、运行中左条呼吸、toast 三帧进入；另有主题化勾/点、代码块终端顶栏、表格斑马纹、吸顶标题底线、滚动条握把、纸面专用深色光标。`prefers-reduced-motion` 下一律关闭；
 5. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复；素材在构建期转成 data URI 内联，换素材只需重新 build + 刷新页面，不必重启宿主。
+6. **控件细节（v1.11.0）**：菜单/选项/原生 select 不再落回宿主默认浅灰；无 class 的第三方按钮、危险按钮有主题描边；输入框内凹 2px 斜面 + `focus-visible` 金环 + 禁用态；表格等宽数字；宿主额外别称（`bg-layer-3` / `border-l3/l4` / `interactive-bg-hover` / `menu-group-header-fill`）也映射到主题色；
 
 **适合谁**：想要像素风 / 星露谷风 / 复古终端外观的 dsh 用户；想给会话截图加一点氛围感的博主和开发者。
 
@@ -160,7 +161,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.10.0.tgz
+dsh plugin add ./dsh-pixel-ui-1.11.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
