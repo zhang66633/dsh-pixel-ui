@@ -25,5 +25,10 @@ route.
 | `input.png` | `ui_pumpkin_text_field.png` | text field |
 | `select.png` | `ui_pumpkin_dropdown.png` | selected row / menu item |
 
-Modifications: none to the images; only CSS border-image slicing/scaling is
-applied at runtime.
+Modifications: the flat interior fill of the button sprites (button, button-hover,
+button-press, icon-button) was darkened from `#BF5F16` to `#8A3E0C`, and of the
+text-field sprite from `#BF5F16` to `#3A2210`, so primary-button ink and input
+placeholder/text reach WCAG AA on the rendered fill (`--dsw-alias-button-primary-fill`
+and `--px-input-bg` respectively). Rims, pumpkin vines and highlights are untouched.
+Only CSS border-image slicing/scaling is applied at runtime; all other pixels are
+the original artwork.

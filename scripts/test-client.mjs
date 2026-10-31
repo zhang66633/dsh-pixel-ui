@@ -307,6 +307,14 @@ console.log('== client: registration ==')
     // fell back to the pixel hand / I-beam over buttons and text.
     assert.ok(css.includes("html[data-pixel-theme='pixel-papernote'] body *"), 'papernote pencil covers every element')
     assert.ok(css.includes(') 4 4, auto !important'), 'pencil hotspot sits on the tip, not the eraser')
+    // The `border` shorthand only takes ONE width; `border: 6px 10px solid`
+    // is invalid and silently leaves border-width at 0, so the border-image
+    // paints over the content instead of reserving space. Widths must go
+    // through the border-width longhand (which accepts 1–4 values).
+    assert.ok(css.includes('border-width: var(--pxa-panel-width, 24px) !important'), 'panel reserves border space')
+    assert.ok(css.includes('border-width: var(--pxa-button-width) !important'), 'button reserves border space')
+    assert.ok(css.includes('border-width: var(--pxa-input-width, 8px) !important'), 'input reserves border space')
+    assert.equal(/border:\s*var\(--pxa-/.test(css), false, 'no multi-value border shorthand in the asset layer')
   })
   check('stylesheet widens the host content column and drops the scanline overlay', () => {
     const css = styleTags[0].textContent

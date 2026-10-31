@@ -1326,14 +1326,16 @@ html[data-pixel-asset] [data-menu-material] {
   outline-offset: -2px;
 }
 html[data-pixel-asset] [role='dialog'] {
-  border: var(--pxa-panel-width, 24px) solid transparent !important;
+  border: 0 solid transparent !important;
+  border-width: var(--pxa-panel-width, 24px) !important;
   border-image: var(--pxa-panel) var(--pxa-panel-slice, 24 fill) / var(--pxa-panel-width, 24px) / 0 var(--pxa-panel-repeat, stretch) !important;
   background: transparent !important;
   color: var(--pxa-ink) !important;
   box-sizing: border-box !important;
 }
 html[data-pixel-asset] [data-menu-material] {
-  border: var(--pxa-menu-width, 10px) solid transparent !important;
+  border: 0 solid transparent !important;
+  border-width: var(--pxa-menu-width, 10px) !important;
   border-image: var(--pxa-menu) var(--pxa-menu-slice, 10 fill) / var(--pxa-menu-width, 10px) / 0 stretch !important;
   background: transparent !important;
   box-sizing: border-box !important;
@@ -1356,7 +1358,8 @@ html[data-pixel-asset] [role='menuitem']:hover {
 }
 html[data-pixel-asset] button[class*='primary'],
 html[data-pixel-asset] button[class*='Primary'] {
-  border: var(--pxa-button-width) solid transparent !important;
+  border: 0 solid transparent !important;
+  border-width: var(--pxa-button-width) !important;
   border-image: var(--pxa-button) var(--pxa-button-slice) / var(--pxa-button-width) / 0 stretch !important;
   background: transparent !important;
   color: var(--pxa-button-ink) !important;
@@ -1378,7 +1381,8 @@ html[data-pixel-asset] button[class*='Primary']:active {
 /* 图标主按钮（发送/关闭）：用方形图标框，绝不把横条按钮塞进方块。 */
 html[data-pixel-asset] button[class*='primary']:has(> svg:only-child),
 html[data-pixel-asset] button[class*='Primary']:has(> svg:only-child) {
-  border: var(--pxa-icon-width) solid transparent !important;
+  border: 0 solid transparent !important;
+  border-width: var(--pxa-icon-width) !important;
   border-image: var(--pxa-icon) var(--pxa-icon-slice) / var(--pxa-icon-width) / 0 stretch !important;
   background: transparent !important;
   color: var(--pxa-button-ink) !important;
@@ -1392,7 +1396,8 @@ html[data-pixel-asset] button[class*='Primary']:has(> svg:only-child):hover {
 html[data-pixel-asset] input:not([type='checkbox']):not([type='radio']):not([type='range']),
 html[data-pixel-asset] textarea,
 html[data-pixel-asset] [contenteditable='true'] {
-  border: var(--pxa-input-width, 8px) solid transparent !important;
+  border: 0 solid transparent !important;
+  border-width: var(--pxa-input-width, 8px) !important;
   border-image: var(--pxa-input) var(--pxa-input-slice, 10 fill) / var(--pxa-input-width, 8px) / 0 stretch !important;
   background: transparent !important;
   color: var(--pxa-input-ink) !important;
@@ -1411,7 +1416,8 @@ html[data-pixel-asset] [contenteditable='true']:empty::before {
 }
 html[data-pixel-asset] [role='menuitem'][aria-current='page'],
 html[data-pixel-asset] [role='treeitem'][aria-selected='true'] {
-  border: var(--pxa-select-width, 8px) solid transparent !important;
+  border: 0 solid transparent !important;
+  border-width: var(--pxa-select-width, 8px) !important;
   border-image: var(--pxa-select) var(--pxa-select-slice, 10 fill) / var(--pxa-select-width, 8px) / 0 stretch !important;
   background: transparent !important;
   background-image: none !important;
