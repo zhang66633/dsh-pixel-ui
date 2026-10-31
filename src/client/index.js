@@ -1,10 +1,10 @@
 /**
  * dsh-pixel-ui — browser half (the pixel skin).
  *
- * Registers eight pixel themes on the ThemeService seam
+ * Registers nine pixel themes on the ThemeService seam
  * (`ctx.theme.register` with --dsw-alias-* token overrides): wood (dark),
  * paper (light), warm (dark), retro-green (dark), hologram / pumpkin /
- * papernote / marble (real 9-slice sprites, two light + two dark). The stylesheet
+ * papernote / marble / mithril (real 9-slice sprites, two light + three dark). The stylesheet
  * carries the pixel borders, fonts, cursors, and the asset-theme 9-slice
  * layer that alias tokens alone cannot express, scoped to `html[data-pixel-ui]`
  * with a `data-pixel-theme` variant attribute, plus `data-pixel-asset` while
@@ -56,7 +56,7 @@ const BOOTSTRAP_GLOBAL = '__DSH_PIXEL_UI__'
 const DEFAULT_SKIN = 'pixel-wood'
 
 /**
- * The eight pixel themes (Agent Xi palettes + four sprite palettes).
+ * The nine pixel themes (Agent Xi palettes + five sprite palettes).
  *
  * Every theme declares the same 23 tokens: the 17 --dsw-alias-* palette
  * tokens used by the flat skin, plus six --dsw-specific-* surfaces that the
@@ -297,12 +297,41 @@ const THEMES = [
       '--dsw-specific-tip': '#2A3548',
     },
   },
+  {
+    id: 'pixel-mithril',
+    colorScheme: 'dark',
+    tokens: {
+      '--dsw-alias-bg-base': '#120E24',
+      '--dsw-alias-bg-layer-1': '#1A1430',
+      '--dsw-alias-bg-layer-2': '#241C42',
+      '--dsw-alias-bg-overlay': '#171129',
+      '--dsw-alias-border-l1': '#3A3260',
+      '--dsw-alias-border-l2': '#9A93D6',
+      '--dsw-alias-brand-primary': '#B49BFF',
+      '--dsw-alias-label-primary': '#F0ECFF',
+      '--dsw-alias-label-secondary': '#BDB4E0',
+      '--dsw-alias-state-error-primary': '#FF7A8A',
+      '--dsw-alias-state-success-primary': '#7BE3B0',
+      '--dsw-alias-state-warn-primary': '#FFD166',
+      '--dsw-alias-state-idle-primary': '#776E9C',
+      '--dsw-specific-sidebar-fill': '#0F0B1E',
+      '--dsw-alias-button-primary-fill': '#9CA1A5',
+      '--dsw-alias-button-primary-hover': '#B7BCC0',
+      '--dsw-alias-label-primary-foreground': '#12101E',
+      '--dsw-specific-bubble': '#241C42',
+      '--dsw-specific-bubble-highlight': '#2E2552',
+      '--dsw-specific-menu': '#171129',
+      '--dsw-specific-input-major': '#1A1430',
+      '--dsw-specific-selector': '#3A3260',
+      '--dsw-specific-tip': '#241C42',
+    },
+  },
 ]
 
 const PIXEL_IDS = THEMES.map((theme) => theme.id)
 
 /** Themes whose surfaces come from 9-slice sprites (not just flat colors). */
-const ASSET_IDS = new Set(['pixel-hologram', 'pixel-pumpkin', 'pixel-papernote', 'pixel-marble'])
+const ASSET_IDS = new Set(['pixel-hologram', 'pixel-pumpkin', 'pixel-papernote', 'pixel-marble', 'pixel-mithril'])
 
 /** Built-in preference ids; together with the pixel ids they are restorable. */
 const RESTORABLE_IDS = new Set(['light', 'dark', 'system', ...PIXEL_IDS])
@@ -321,6 +350,7 @@ const MESSAGES = {
     'theme.pixel-pumpkin': '像素·南瓜灯',
     'theme.pixel-papernote': '像素·便签本',
     'theme.pixel-marble': '像素·云石',
+    'theme.pixel-mithril': '像素·秘银',
     'theme.system': '现代默认',
   },
   en: {
@@ -334,11 +364,12 @@ const MESSAGES = {
     'theme.pixel-pumpkin': 'Pixel · Pumpkin',
     'theme.pixel-papernote': 'Pixel · Papernote',
     'theme.pixel-marble': 'Pixel · Marble',
+    'theme.pixel-mithril': 'Pixel · Mithril',
     'theme.system': 'Modern default',
   },
 }
 
-/** Settings row choices: the eight skins plus the modern default escape. */
+/** Settings row choices: the nine skins plus the modern default escape. */
 const THEME_CHOICES = [
   { id: 'pixel-wood', swatch: '#F4D03F' },
   { id: 'pixel-paper', swatch: '#FFFDF5' },
@@ -348,6 +379,7 @@ const THEME_CHOICES = [
   { id: 'pixel-pumpkin', swatch: '#FF9E2C' },
   { id: 'pixel-papernote', swatch: '#F3DCBC' },
   { id: 'pixel-marble', swatch: '#E8EFF2' },
+  { id: 'pixel-mithril', swatch: '#B49BFF' },
   { id: 'system', swatch: '#7A7A7A' },
 ]
 
@@ -374,7 +406,7 @@ function createThemeRowStore() {
 }
 
 /**
- * General-section row: switch between the eight pixel skins and back to the
+ * General-section row: switch between the nine pixel skins and back to the
  * modern default. Reads selection state through props.useStore, localized
  * copy through props.t, and writes through the injected setTheme callback.
  * Each button carries aria-pressed so the current pick is announced, and the
@@ -471,7 +503,7 @@ function writeHostTheme(id) {
   } catch { /* fetch missing: ignore */ }
 }
 
-/** Client plugin body: register the eight themes, restore/persist the choice, inject CSS, locale and the settings row. */
+/** Client plugin body: register the nine themes, restore/persist the choice, inject CSS, locale and the settings row. */
 export function apply(ctx) {
   // Scope attributes mirror the active theme, so the stylesheet only shades
   // while a pixel theme is selected and the variant rules can pick the palette.

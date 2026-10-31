@@ -247,10 +247,10 @@ function boot({ localTheme = null, hostTheme = null, bootTheme = undefined } = {
 console.log('== client: registration ==')
 {
   const ctx = boot()
-  check('eight pixel themes registered with the 23-token palette', () => {
+  check('nine pixel themes registered with the 23-token palette', () => {
     const ids = ctx._themes.map((t) => t.id)
-    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 8)
-    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram', 'pixel-pumpkin', 'pixel-papernote', 'pixel-marble']) assert.ok(ids.includes(id))
+    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 9)
+    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram', 'pixel-pumpkin', 'pixel-papernote', 'pixel-marble', 'pixel-mithril']) assert.ok(ids.includes(id))
     const wood = ctx._themes.find((t) => t.id === 'pixel-wood')
     assert.equal(wood.colorScheme, 'dark')
     assert.equal(Object.keys(wood.tokens).length, 23)
@@ -278,6 +278,11 @@ console.log('== client: registration ==')
     assert.equal(Object.keys(marble.tokens).length, 23)
     assert.equal(marble.tokens['--dsw-alias-brand-primary'], '#7FB2E5')
     assert.equal(marble.tokens['--dsw-alias-button-primary-fill'], '#E8EFF2')
+    const mithril = ctx._themes.find((t) => t.id === 'pixel-mithril')
+    assert.equal(mithril.colorScheme, 'dark')
+    assert.equal(Object.keys(mithril.tokens).length, 23)
+    assert.equal(mithril.tokens['--dsw-alias-brand-primary'], '#B49BFF')
+    assert.equal(mithril.tokens['--dsw-alias-button-primary-fill'], '#9CA1A5')
     // Every theme must declare the same host-surface token set, otherwise a
     // host-native surface silently falls back to the modern palette.
     const keys = Object.keys(wood.tokens).sort()
@@ -299,6 +304,7 @@ console.log('== client: registration ==')
       "html[data-pixel-theme='pixel-pumpkin']",
       "html[data-pixel-theme='pixel-papernote']",
       "html[data-pixel-theme='pixel-marble']",
+      "html[data-pixel-theme='pixel-mithril']",
       "html[data-pixel-asset] [role='dialog']",
       '--pxa-panel: url("data:image/png;base64,',
       'border-image: var(--pxa-panel)',
@@ -525,18 +531,19 @@ console.log('== client: interactions ==')
   })
 
   const { tree, buttons, t } = renderRow(ctx)
-  check('row renders group + title + desc + nine choices', () => {
+  check('row renders group + title + desc + ten choices', () => {
     assert.equal(tree.props.role, 'group')
     assert.equal(tree.props['aria-label'], '像素主题')
     assert.ok(textOf(tree).includes('像素主题'))
     assert.ok(textOf(tree).includes('选择后立即生效'))
-    assert.equal(buttons.length, 9)
+    assert.equal(buttons.length, 10)
     assert.equal(textOf(buttons[0]), '像素·木屋')
     assert.equal(textOf(buttons[4]), '像素·全息')
     assert.equal(textOf(buttons[5]), '像素·南瓜灯')
     assert.equal(textOf(buttons[6]), '像素·便签本')
     assert.equal(textOf(buttons[7]), '像素·云石')
-    assert.equal(textOf(buttons[8]), '现代默认')
+    assert.equal(textOf(buttons[8]), '像素·秘银')
+    assert.equal(textOf(buttons[9]), '现代默认')
   })
   check('aria-pressed marks the current pick; swatch is decorative', () => {
     assert.equal(buttons[1].props['aria-pressed'], true)
@@ -546,7 +553,7 @@ console.log('== client: interactions ==')
     assert.equal(swatch.props.style.background, '#FFFDF5')
   })
   const putCountBefore = fetchCalls.filter((c) => c.method === 'PUT').length
-  buttons[8].props.onClick()
+  buttons[9].props.onClick()
   check('explicit pick writes both layers', () => {
     assert.equal(ctx.theme.getTheme().preference, 'system')
     assert.equal(globalThis.localStorage.getItem('dsh-pixel-ui:theme'), 'system')
@@ -557,7 +564,7 @@ console.log('== client: interactions ==')
   })
   const row2 = renderRow(ctx)
   check('row re-render moves aria-pressed to 现代默认', () => {
-    assert.equal(row2.buttons[8].props['aria-pressed'], true)
+    assert.equal(row2.buttons[9].props['aria-pressed'], true)
     assert.equal(row2.buttons[1].props['aria-pressed'], false)
   })
   row2.buttons[5].props.onClick()
@@ -576,6 +583,12 @@ console.log('== client: interactions ==')
   row4.buttons[7].props.onClick()
   check('marble is a sprite theme too', () => {
     assert.equal(ctx.theme.getTheme().preference, 'pixel-marble')
+    assert.equal(htmlAttrs.has('data-pixel-asset'), true)
+  })
+  const row4b = renderRow(ctx)
+  row4b.buttons[8].props.onClick()
+  check('mithril is a sprite theme as well', () => {
+    assert.equal(ctx.theme.getTheme().preference, 'pixel-mithril')
     assert.equal(htmlAttrs.has('data-pixel-asset'), true)
   })
   const row5 = renderRow(ctx)

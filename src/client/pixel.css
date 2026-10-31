@@ -1390,6 +1390,78 @@ html[data-pixel-theme='pixel-marble'] body {
   background-size: 4px 4px;
 }
 
+/* 秘银：靛紫底 + 银蓝薄框 + 紫高光。96×96 的 Frame_Standard 银边只在左右，
+ * 做对话框像幕布；这里统一用 32×32 Frame_Lite 的 6px 四边薄框。 */
+html[data-pixel-theme='pixel-mithril'] {
+  --px-wood-darkest: #120E24;
+  --px-wood-dark: #1A1430;
+  --px-wood-mid: #241C42;
+  --px-wood-warm: #2E2552;
+  --px-wood-light: #4A3F7A;
+  --px-wood-pale: #BDB4E0;
+  --px-text-on-dark: #F0ECFF;
+  --px-text-light: #BDB4E0;
+  --px-parchment: #F0ECFF;
+  --px-gold: #B49BFF;
+  --px-gold-bright: #D3C4FF;
+  --px-gold-dark: #8A6FE0;
+  --px-gold-deep: #5A4A9A;
+  --px-sidebar-fill: #0F0B1E;
+  --px-line: #0B0817;
+  --px-accent-bg: #B49BFF;
+  --px-accent-hover: #C9B6FF;
+  --px-accent-ink: #1A1030;
+  --px-input-bg: #646C79;
+  --px-input-text: #FFFFFF;
+  --px-input-ph: #F2F5FF;
+  --px-input-caret: #D3C4FF;
+  --px-tooltip-bg: #171129;
+  --px-code-bg: #171129;
+  --px-code-ink: #D3C4FF;
+  --px-code-meta: #BDB4E0;
+  --px-ink-on-mid: #F0ECFF;
+  --px-topbar-fill: #1A1430;
+  --px-dither: #1E1738;
+  --pxa-panel: url('pxasset:mithril/panel.png');
+  --pxa-panel-slice: 6 fill;
+  --pxa-panel-width: 6px;
+  --pxa-panel-repeat: stretch;
+  --pxa-menu: var(--pxa-panel);
+  --pxa-menu-slice: 6 fill;
+  --pxa-menu-width: 6px;
+  --pxa-menu-repeat: stretch;
+  --pxa-button: url('pxasset:mithril/button.png');
+  --pxa-button-hover: url('pxasset:mithril/button-hover.png');
+  --pxa-button-active: url('pxasset:mithril/button-press.png');
+  --pxa-button-slice: 6 6 10 6 fill;
+  --pxa-button-width: 6px 6px 9px 6px;
+  --pxa-button-ink: #12101E;
+  --pxa-button-hover-ink: #12101E;
+  --pxa-icon: url('pxasset:mithril/icon-button.png');
+  --pxa-icon-slice: 6 fill;
+  --pxa-icon-width: 6px;
+  --pxa-input: url('pxasset:mithril/input.png');
+  --pxa-input-slice: 6 fill;
+  --pxa-input-width: 6px;
+  --pxa-input-ink: #FFFFFF;
+  --pxa-placeholder: #F2F5FF;
+  --pxa-caret: #D3C4FF;
+  --pxa-select: url('pxasset:mithril/select.png');
+  --pxa-select-slice: 6 fill;
+  --pxa-select-width: 6px;
+  --pxa-ink: #F0ECFF;
+  --pxa-accent: #B49BFF;
+  --pxa-accent-bright: #D3C4FF;
+  --pxa-hover-wash: rgba(180, 155, 255, 0.12);
+  --pxa-tooltip-bg: #171129;
+  --pxa-tooltip-ink: #F0ECFF;
+}
+html[data-pixel-theme='pixel-mithril'] body {
+  background-color: var(--px-wood-darkest);
+  background-image: repeating-conic-gradient(rgba(180, 155, 255, 0.04) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+}
+
 /* ── 共用 9-slice 规则：只在素材主题生效 ─────────────────────────── */
 /* 便签的纸面几乎与页面同色，补 2px 墨线把「纸」钉出来；其他素材主题的
  * 边缘本身对比足够，--pxa-outline 不设即透明。 */
