@@ -8,7 +8,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
-![version](https://img.shields.io/badge/version-1.8.0-F4D03F)
+![version](https://img.shields.io/badge/version-1.8.1-F4D03F)
 ![themes](https://img.shields.io/badge/themes-7-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -63,6 +63,10 @@
 - 输入框：`input.png` 32×32 → `slice:10 fill`；选中行：`select-bar.png`；滚动条：`scroll-handle.png`；
 - **Tooltip / Toast 保持扁平薄边**（2px 青色），不再套 10px 面板框——这是木刻版本翻车的直接原因。
 
+![像素·全息组件预览：全息对话框、菜单、主按钮、输入框、选中行](./assets/preview-hologram.png)
+
+*图为静态组件预览（真实 CSS + 素材，headless 渲染；不是实机会话截图）。*
+
 > 素材：Complete UI Essential Pack v2.4 · `06_Hologram_Theme` by **Crusenho Agus Hennihuno**，CC BY 4.0；
 > 只取 8 张切片，完整署名与许可证在
 > [`assets/complete-ui/hologram/ATTRIBUTION.md`](assets/complete-ui/hologram/ATTRIBUTION.md)。
@@ -78,6 +82,12 @@
 - **图标按钮**：`button_simple1.png` 32×32 → `slice:4 4 10 4`；发送键不再挤压横条按钮；
 - **输入框 / 选中行**：`text_field.png` / `dropdown.png` 32×32 → `slice:6 fill`；选中行用素材自带的深红底，文字保持奶油色。
 
+![像素·南瓜灯组件预览：藤蔓对话框、菜单、主按钮、图标键、输入框、选中行](./assets/preview-pumpkin.png)
+
+*图为静态组件预览（真实 CSS + 素材，headless 渲染；不是实机会话截图）。*
+
+> 按钮与输入框的填充色从 `#BF5F16` 加深到 `#8A3E0C` / `#3A2210`，保证奶油色字与占位符在素材填充上 ≥4.5:1；藤蔓、金边与高光未改（见 ATTRIBUTION 的 Modifications）。
+
 > 素材：Complete UI Essential Pack v2.4 · `09_Pumpkin_Theme`，CC BY 4.0；
 > 源文件映射与署名在 [`assets/complete-ui/pumpkin/ATTRIBUTION.md`](assets/complete-ui/pumpkin/ATTRIBUTION.md)。
 
@@ -91,11 +101,15 @@
 - **输入框**：`Textfield01.png` 64×32 → `slice:4 4 6 4`；**光标**：`CursorPencil01.png`，铅笔贯穿按钮/输入框/正文，热区在笔尖；
 - 便签纸面与页面同色，额外用 2px 墨线（`--pxa-outline`）把“纸”钉出来，避免菜单看起来像悬浮文字。
 
+![像素·便签本组件预览：活页纸对话框、便签菜单、便签条按钮、输入框、选中行](./assets/preview-papernote.png)
+
+*图为静态组件预览（真实 CSS + 素材，headless 渲染；不是实机会话截图）。*
+
 > 素材：Complete UI Essential Pack v2.4 · `11_Papernote_Theme`，CC BY 4.0；
 > 源文件映射与署名在 [`assets/complete-ui/papernote/ATTRIBUTION.md`](assets/complete-ui/papernote/ATTRIBUTION.md)。
 
-> 截图取自 DSH Desktop（1920×1200 @125% 缩放），目前覆盖前四套；全息 / 南瓜灯 / 便签本的
-> 实机截图待补拍。截图由插件市场按本仓库根的
+> 前四套的截图取自 DSH Desktop（1920×1200 @125% 缩放）；全息 / 南瓜灯 / 便签本目前用上面的
+> 静态组件预览，实机截图待补拍。截图由插件市场按本仓库根的
 > [`screenshots.json`](screenshots.json) 读取——换图只推自己的仓库，不必提 PR。
 
 ## Motion & detail
@@ -146,7 +160,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.8.0.tgz
+dsh plugin add ./dsh-pixel-ui-1.8.1.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
