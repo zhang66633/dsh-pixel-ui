@@ -319,6 +319,16 @@ console.log('== client: registration ==')
     // fell back to the pixel hand / I-beam over buttons and text.
     assert.ok(css.includes("html[data-pixel-theme='pixel-papernote'] body *"), 'papernote pencil covers every element')
     assert.ok(css.includes(') 4 4, auto !important'), 'pencil hotspot sits on the tip, not the eraser')
+    assert.ok(css.includes('--dsw-alias-bg-layer-3'), 'extra host aliases are bridged to theme colors')
+    assert.ok(css.includes('--dsw-alias-interactive-bg-hover'), 'hover alias follows the theme')
+    assert.ok(css.includes("button:not([class]):not([role])"), 'classless buttons get a themed fallback')
+    assert.ok(css.includes("button[class*='danger']:not([role='menuitem'])"), 'danger outline skips menu items')
+    assert.ok(css.includes('[role=\'listbox\']'), 'listbox surface is themed')
+    assert.ok(css.includes('input:focus-visible'), 'inputs keep a visible focus ring')
+    assert.ok(css.includes('input:disabled'), 'disabled inputs are dimmed')
+    assert.ok(css.includes("html[data-pixel-asset] select"), 'sprite themes normalize native select colors')
+    assert.ok(css.includes('border-top-color: var(--px-line)'), 'inputs use the recessed bevel')
+    assert.ok(css.includes('border-top-color: color-mix(in srgb, var(--px-accent-bg) 72%, white)'), 'primary buttons use the raised bevel')
     // The `border` shorthand only takes ONE width; `border: 6px 10px solid`
     // is invalid and silently leaves border-width at 0, so the border-image
     // paints over the content instead of reserving space. Widths must go

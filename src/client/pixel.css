@@ -93,6 +93,14 @@ html[data-pixel-ui] {
   --px-dither: #241408;
   /* 暗角（CRT 只保留暗角，扫描线在非整数 DPR 上必糊） */
   --px-vignette: rgba(0, 0, 0, 0.2);
+  /* 宿主额外别称的兜底：这些 token 不在 23 个里，但宿主组件会读；
+   * 不映射的话会露出宿主默认蓝/灰，主题看起来“漏了一块”。 */
+  --dsw-alias-bg-layer-3: var(--px-wood-warm);
+  --dsw-alias-label-tertiary: var(--px-text-light);
+  --dsw-alias-border-l3: var(--px-wood-pale);
+  --dsw-alias-border-l4: var(--px-wood-pale);
+  --dsw-alias-interactive-bg-hover: var(--px-wood-dark);
+  --dsw-alias-menu-group-header-fill: var(--px-wood-mid);
   /* 内容列宽：宿主把 --dsh-conversation-column-width 写死成 0，
    * clamp(680px, 0 * .64, 920px) 恒取 680px 下限 → 宽屏上正文只占中间一条
    * （踩坑 #7）。这里补上那个变量应有的值：正文随视口撑开。 */
@@ -426,18 +434,44 @@ html[data-pixel-ui] button[class*='Primary'] {
   background-image: none !important;
   color: var(--px-accent-ink) !important;
   border: 2px solid var(--px-line) !important;
+  /* 上/左提亮、下/右压暗：2px 像素浮雕，不靠阴影 */
+  border-top-color: color-mix(in srgb, var(--px-accent-bg) 72%, white) !important;
+  border-left-color: color-mix(in srgb, var(--px-accent-bg) 72%, white) !important;
 }
 html[data-pixel-ui] button[class*='primary']:hover:not(:disabled),
 html[data-pixel-ui] button[class*='Primary']:hover:not(:disabled) {
   background-color: var(--px-accent-hover) !important;
 }
-html[data-pixel-ui] button[class*='danger'],
-html[data-pixel-ui] button[class*='Danger'] {
-  border: 2px solid var(--px-line) !important;
+html[data-pixel-ui] button[class*='danger']:not([role='menuitem']),
+html[data-pixel-ui] button[class*='Danger']:not([role='menuitem']) {
+  border: 2px solid var(--dsw-alias-state-error-primary) !important;
+  background-color: transparent !important;
+  color: var(--dsw-alias-state-error-primary) !important;
+}
+html[data-pixel-ui] button[class*='danger']:not([role='menuitem']):hover:not(:disabled),
+html[data-pixel-ui] button[class*='Danger']:not([role='menuitem']):hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--dsw-alias-state-error-primary) 16%, transparent) !important;
 }
 html[data-pixel-ui] button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+html[data-pixel-ui] [aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+/* 宿主自己的按钮都有 class/token；没有 class 的第三方面板按钮不能落回
+ * 浏览器默认的浅灰面（暗色主题会突然出现一块白）。只兜“纯文字、无角色”的
+ * 按钮，图标按钮和菜单/页签不碰。 */
+html[data-pixel-ui] button:not([class]):not([role]):not(:has(> svg:only-child)):not(:disabled) {
+  background-color: transparent !important;
+  color: var(--px-text-on-dark) !important;
+  border: 2px solid var(--px-wood-warm) !important;
+  padding: 4px 10px;
+}
+html[data-pixel-ui] button:not([class]):not([role]):not(:has(> svg:only-child)):not(:disabled):hover {
+  background-color: var(--px-wood-mid) !important;
+  border-color: var(--px-gold-dark) !important;
 }
 
 /* ── 页签（对话/轨迹/记忆）：文字 + 金下沿，**不加边框**
@@ -499,6 +533,11 @@ html[data-pixel-ui] [contenteditable='true'] {
   caret-shape: block;
   background-color: var(--px-input-bg) !important;
   border: 2px solid var(--px-gold-deep) !important;
+  /* 上/左压暗、下/右提亮：2px 内凹斜面，不靠 box-shadow */
+  border-top-color: var(--px-line) !important;
+  border-left-color: var(--px-line) !important;
+  border-bottom-color: var(--px-wood-pale) !important;
+  border-right-color: var(--px-wood-pale) !important;
   transition: border-color var(--px-t-fast) var(--px-step-2);
 }
 html[data-pixel-ui] input:not([type='checkbox']):not([type='radio']):hover:not(:focus),
@@ -525,6 +564,23 @@ html[data-pixel-ui] select:focus {
   border-color: var(--px-gold) !important;
   outline: none !important;
 }
+/* focus 只换边框在键盘操作时不够显眼；focus-visible 再补一圈金色外环。 */
+html[data-pixel-ui] input:focus-visible,
+html[data-pixel-ui] textarea:focus-visible,
+html[data-pixel-ui] select:focus-visible,
+html[data-pixel-ui] [contenteditable='true']:focus-visible {
+  outline: 2px solid var(--px-gold-bright) !important;
+  outline-offset: 1px !important;
+}
+html[data-pixel-ui] input:disabled,
+html[data-pixel-ui] textarea:disabled,
+html[data-pixel-ui] select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  color: var(--px-text-light) !important;
+  -webkit-text-fill-color: var(--px-text-light) !important;
+  background-color: color-mix(in srgb, var(--px-input-bg) 75%, var(--px-wood-dark)) !important;
+}
 html[data-pixel-ui] input::placeholder,
 html[data-pixel-ui] textarea::placeholder {
   color: var(--px-input-ph) !important;
@@ -541,12 +597,12 @@ html[data-pixel-ui] input[type='checkbox'],
 html[data-pixel-ui] input[type='radio'] {
   appearance: none;
   -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   padding: 0;
   flex-shrink: 0;
   background-color: var(--px-input-bg) !important;
-  border: 2px solid var(--px-line) !important;
+  border: 2px solid var(--px-wood-pale) !important;
   transition:
     background-color var(--px-t-fast) var(--px-step-2),
     border-color var(--px-t-fast) var(--px-step-2);
@@ -560,7 +616,8 @@ html[data-pixel-ui] input[type='checkbox']:checked {
   /* 12×12 手绘像素对勾（2px 阶梯），颜色由 --px-check 按主题切换 */
   background-image: var(--px-check) !important;
   background-repeat: no-repeat !important;
-  background-position: 3px 1px !important;
+  background-size: 12px 12px !important;
+  background-position: 0 0 !important;
   border: 2px solid var(--px-line) !important;
 }
 html[data-pixel-ui] input[type='radio']:checked {
@@ -568,14 +625,15 @@ html[data-pixel-ui] input[type='radio']:checked {
   /* 平色时代没有 inset 灰阶可用：8×8 手绘像素方点，颜色由 --px-radio 切换 */
   background-image: var(--px-radio) !important;
   background-size: 6px 6px !important;
-  background-position: 2px 2px !important;
+  background-position: 3px 3px !important;
   background-repeat: no-repeat !important;
+  border-color: var(--px-line) !important;
 }
 html[data-pixel-ui] select {
   appearance: none;
   -webkit-appearance: none;
   padding-right: 28px !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='8' height='2'/%3E%3Crect x='1' y='2' width='6' height='2'/%3E%3Crect x='2' y='4' width='4' height='2'/%3E%3Crect x='3' y='6' width='2' height='2'/%3E%3C/svg%3E") !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cg fill='%23F5E6C8'%3E%3Crect x='0' y='0' width='8' height='2'/%3E%3Crect x='1' y='2' width='6' height='2'/%3E%3Crect x='2' y='4' width='4' height='2'/%3E%3Crect x='3' y='6' width='2' height='2'/%3E%3C/g%3E%3Cg fill='%231A0F06'%3E%3Crect x='2' y='2' width='4' height='2'/%3E%3Crect x='3' y='4' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 8px center !important;
 }
@@ -663,6 +721,7 @@ html[data-pixel-ui] pre code {
   background: transparent !important;
   color: inherit !important;
   padding: 0;
+  tab-size: 2;
 }
 html[data-pixel-ui] blockquote {
   border: 2px solid var(--px-wood-light) !important;
@@ -688,6 +747,7 @@ html[data-pixel-ui] hr {
 html[data-pixel-ui] table {
   border: 2px solid var(--px-wood-warm) !important;
   border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
 }
 html[data-pixel-ui] tbody tr:nth-child(even) td {
   background-color: color-mix(in srgb, var(--px-wood-mid) 32%, transparent) !important;
@@ -815,6 +875,27 @@ html[data-pixel-ui] [data-menu-material] button:hover {
   background-position: 0 0, 0 0 !important;
   background-repeat: no-repeat, repeat !important;
 }
+/* 菜单项是 <button>，宿主不给底时浏览器会塞一块浅灰按钮面；这里统一透明，
+ * 当前项/悬停由下面的金条规则叠加。 */
+html[data-pixel-ui] [role='menuitem'],
+html[data-pixel-ui] [role='option'] {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  color: var(--px-text-on-dark) !important;
+}
+html[data-pixel-ui] [role='listbox'] {
+  border: 2px solid var(--px-line) !important;
+  background-color: var(--dsw-specific-menu, var(--px-wood-dark)) !important;
+  padding: 4px;
+}
+html[data-pixel-ui] [role='option'] {
+  padding: 5px 8px;
+}
+html[data-pixel-ui] [role='option'][aria-selected='true'] {
+  background-color: var(--px-wood-mid) !important;
+  color: var(--px-gold-bright) !important;
+}
 html[data-pixel-ui] [role='menuitem'] {
   transition:
     background-color var(--px-t-fast) var(--px-step-2),
@@ -930,6 +1011,9 @@ html[data-pixel-ui] [role='dialog'] {
   background-size: 10px 2px, 2px 10px, 10px 2px, 2px 10px !important;
   background-position: 0 0, 0 0, 100% 100%, 100% 100% !important;
   background-repeat: no-repeat !important;
+  /* 里侧再压一道暗线：外框 + 内衬，对话框不再是一块平底 */
+  outline: 2px solid var(--px-wood-darkest) !important;
+  outline-offset: -4px !important;
 }
 /* 思考中的行：保留宿主文字，但把 1.5s 的平滑扫光改成 4 帧阶梯，
  * 并在左侧补一条 2px 的闪烁光标（位置由宿主 decoration 承担，不加布局）。 */
@@ -1548,6 +1632,15 @@ html[data-pixel-asset] [contenteditable='true'] {
   color: var(--pxa-input-ink) !important;
   caret-color: var(--pxa-caret) !important;
   box-sizing: border-box !important;
+}
+/* 原生 select 用输入框的底色/文字色，不套 9-slice：border-image 的 fill 会
+ * 盖住右侧箭头，且不同主题的输入图填充色与箭头对比不稳定。 */
+html[data-pixel-asset] select {
+  background-color: var(--px-input-bg) !important;
+  color: var(--px-input-text) !important;
+  border: 2px solid var(--px-line) !important;
+  box-sizing: border-box !important;
+  padding-right: 30px !important;
 }
 html[data-pixel-asset] input::placeholder,
 html[data-pixel-asset] textarea::placeholder {
