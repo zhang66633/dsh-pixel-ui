@@ -329,6 +329,13 @@ console.log('== client: registration ==')
     assert.ok(css.includes("html[data-pixel-asset] select"), 'sprite themes normalize native select colors')
     assert.ok(css.includes('border-top-color: var(--px-line)'), 'inputs use the recessed bevel')
     assert.ok(css.includes('border-top-color: color-mix(in srgb, var(--px-accent-bg) 72%, white)'), 'primary buttons use the raised bevel')
+    assert.ok(css.includes('--px-cursor-blocked'), 'disabled/blocked cursor is themed')
+    assert.ok(css.includes('--px-cursor-grab'), 'draggable cursor is themed')
+    assert.ok(css.includes("[draggable='true']"), 'draggable elements use the grab cursor')
+    assert.ok(css.includes("[aria-busy='true']"), 'busy elements use the hourglass cursor')
+    assert.ok(css.includes('M8.5 1.5c-1.1 0-2 .9-2 2v8.6'), 'pointer cursor is a classic hand, not a recolored arrow')
+    assert.ok(css.includes('M7 3h10v3h-3v12h3v3H7v-3h3V6H7z'), 'text cursor is a proper I-beam')
+    assert.ok(css.includes("html[data-pixel-theme='pixel-papernote'] :is(button, input, select, textarea"), 'papernote still overrides pencil for blocked states')
     // The `border` shorthand only takes ONE width; `border: 6px 10px solid`
     // is invalid and silently leaves border-width at 0, so the border-image
     // paints over the content instead of reserving space. Widths must go

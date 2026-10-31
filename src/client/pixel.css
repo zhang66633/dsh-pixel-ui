@@ -111,6 +111,14 @@ html[data-pixel-ui] {
   /* 字体栈 */
   --px-font: 'Fusion Pixel 12', 'Press Start 2P', monospace;
   --px-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+  /* 像素光标：默认箭头 / 手 / I-beam / 禁止 / 抓取 / 忙碌 */
+  --px-cursor-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M3 2 L3 19 L7 15 L10 22 L13 21 L10 14 L16 14 Z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='1.5'/%3E%3C/svg%3E") 3 2, auto;
+  --px-cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M8.5 1.5c-1.1 0-2 .9-2 2v8.6L5.2 10.8c-.8-.8-2.1-.8-2.9 0-.8.8-.8 2.1 0 2.9l5.6 5.6c.4.4.9.6 1.5.6h6.4c1.1 0 2-.9 2-2v-5.6c0-.8-.5-1.6-1.2-1.9l-5.2-2.2V3.5c0-1.1-.9-2-2-2z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 9 2, pointer;
+  --px-cursor-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M7 3h10v3h-3v12h3v3H7v-3h3V6H7z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='2'/%3E%3C/svg%3E") 12 12, text;
+  --px-cursor-blocked: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='%231A0F06' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%23E74C3C' stroke-width='3'/%3E%3Cpath d='M6 6l12 12' stroke='%23E74C3C' stroke-width='3'/%3E%3C/svg%3E") 12 12, not-allowed;
+  --px-cursor-grab: grab;
+  --px-cursor-grabbing: grabbing;
+  --px-cursor-busy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M6 3h12v3l-4 4 4 4v3H6v-3l4-4-4-4z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='2'/%3E%3C/svg%3E") 12 12, progress;
   /* 动效：像素动画只走阶梯，不使用平滑曲线（v1.6.0） */
   --px-t-fast: 80ms;
   --px-t-mid: 140ms;
@@ -156,6 +164,10 @@ html[data-pixel-theme='pixel-paper'] {
   --px-sidebar-fill: #E8DCC8;
   --px-topbar-fill: #E8DCC8;
   --px-accent-hover: #5C4400;
+  /* 浅色纸面：光标改深填充 + 纸白描边 */
+  --px-cursor-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M3 2 L3 19 L7 15 L10 22 L13 21 L10 14 L16 14 Z' fill='%233A2A10' stroke='%23FFFDF5' stroke-width='1.5'/%3E%3C/svg%3E") 3 2, auto;
+  --px-cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M8.5 1.5c-1.1 0-2 .9-2 2v8.6L5.2 10.8c-.8-.8-2.1-.8-2.9 0-.8.8-.8 2.1 0 2.9l5.6 5.6c.4.4.9.6 1.5.6h6.4c1.1 0 2-.9 2-2v-5.6c0-.8-.5-1.6-1.2-1.9l-5.2-2.2V3.5c0-1.1-.9-2-2-2z' fill='%238A6400' stroke='%23FFFDF5' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 9 2, pointer;
+  --px-cursor-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M7 3h10v3h-3v12h3v3H7v-3h3V6H7z' fill='%233A2A10' stroke='%23FFFDF5' stroke-width='2'/%3E%3C/svg%3E") 12 12, text;
 }
 html[data-pixel-theme='pixel-warm'] {
   --px-wood-darkest: #1E0E04;
@@ -454,11 +466,11 @@ html[data-pixel-ui] button[class*='Danger']:not([role='menuitem']):hover:not(:di
 }
 html[data-pixel-ui] button:disabled {
   opacity: 0.55;
-  cursor: not-allowed;
+  cursor: var(--px-cursor-blocked);
 }
 html[data-pixel-ui] [aria-disabled='true'] {
   opacity: 0.55;
-  cursor: not-allowed;
+  cursor: var(--px-cursor-blocked);
 }
 /* 宿主自己的按钮都有 class/token；没有 class 的第三方面板按钮不能落回
  * 浏览器默认的浅灰面（暗色主题会突然出现一块白）。只兜“纯文字、无角色”的
@@ -564,19 +576,20 @@ html[data-pixel-ui] select:focus {
   border-color: var(--px-gold) !important;
   outline: none !important;
 }
-/* focus 只换边框在键盘操作时不够显眼；focus-visible 再补一圈金色外环。 */
+/* focus 只换边框在键盘操作时不够显眼；focus-visible 再补一圈深色外环，
+ * 边框同时提到 gold-bright，明暗主题都有一层高对比。 */
 html[data-pixel-ui] input:focus-visible,
 html[data-pixel-ui] textarea:focus-visible,
 html[data-pixel-ui] select:focus-visible,
 html[data-pixel-ui] [contenteditable='true']:focus-visible {
-  outline: 2px solid var(--px-gold-bright) !important;
-  outline-offset: 1px !important;
+  outline: 2px solid var(--px-line) !important;
+  outline-offset: 2px !important;
 }
 html[data-pixel-ui] input:disabled,
 html[data-pixel-ui] textarea:disabled,
 html[data-pixel-ui] select:disabled {
   opacity: 0.55;
-  cursor: not-allowed;
+  cursor: var(--px-cursor-blocked);
   color: var(--px-text-light) !important;
   -webkit-text-fill-color: var(--px-text-light) !important;
   background-color: color-mix(in srgb, var(--px-input-bg) 75%, var(--px-wood-dark)) !important;
@@ -1039,13 +1052,13 @@ html[data-pixel-ui] [data-state='ongoing'] * {
   animation-timing-function: steps(8, end) !important;
 }
 
-/* ── 像素光标（SVG data-URI 阶梯箭头） ──────────────────────────── */
+/* ── 像素光标（SVG data-URI：箭头 / 手 / I-beam / 禁止 / 抓取） ─── */
 html[data-pixel-ui] body {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M2 2v17h3v-3h3v-3h3v-3h3v-3h3V2z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='2'/%3E%3C/svg%3E") 2 2, auto;
+  cursor: var(--px-cursor-arrow);
 }
-/* 浅色纸面：白填充的箭头会和纸面糊在一起，换成深棕填充 + 纸白描边。 */
+/* 浅色纸面：深色箭头 + 纸白描边，避免白箭头糊在纸上。 */
 html[data-pixel-theme='pixel-paper'] body {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M2 2v17h3v-3h3v-3h3v-3h3v-3h3V2z' fill='%233A2A10' stroke='%23FFFDF5' stroke-width='2'/%3E%3C/svg%3E") 2 2, auto;
+  cursor: var(--px-cursor-arrow);
 }
 html[data-pixel-ui] button,
 html[data-pixel-ui] a,
@@ -1059,7 +1072,7 @@ html[data-pixel-ui] [role='button'],
 html[data-pixel-ui] [role='link'],
 html[data-pixel-ui] [aria-selected],
 html[data-pixel-ui] [aria-current] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M2 2v17h3v-3h3v-3h3v-3h3v-3h3V2z' fill='%23F4D03F' stroke='%231A0F06' stroke-width='2'/%3E%3C/svg%3E") 2 2, pointer;
+  cursor: var(--px-cursor-pointer);
 }
 /* 宿主的 .sessionRow / .projectRow 只在行上写 cursor:pointer；子 span 若被
  * 宿主另写 cursor 会导致箭头/默认小手混用。让可交互行内的非文本子元素继承
@@ -1070,7 +1083,31 @@ html[data-pixel-ui] :is(button, a, select, [role='tab'], [role='menuitem'], [rol
 html[data-pixel-ui] input,
 html[data-pixel-ui] textarea,
 html[data-pixel-ui] [contenteditable='true'] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Cpath d='M5 3h4v2h2v2h2v2h2v2h2v2h2v6h-2v2h-4v2H5z' fill='%23FFFDF5' stroke='%231A0F06' stroke-width='2'/%3E%3C/svg%3E") 4 3, text;
+  cursor: var(--px-cursor-text);
+}
+/* 语义状态：禁用/拖拽/忙碌/帮助；主题只负责换图形，状态钩子保持通用。 */
+html[data-pixel-ui] :is(button, input, select, textarea, [role='button'], [role='menuitem'], [role='switch']):disabled,
+html[data-pixel-ui] [aria-disabled='true'] {
+  cursor: var(--px-cursor-blocked) !important;
+}
+html[data-pixel-ui] [draggable='true'] {
+  cursor: var(--px-cursor-grab) !important;
+}
+html[data-pixel-ui] [draggable='true']:active {
+  cursor: var(--px-cursor-grabbing) !important;
+}
+html[data-pixel-ui] [aria-busy='true'] {
+  cursor: var(--px-cursor-busy) !important;
+}
+html[data-pixel-ui] [data-cursor='help'],
+html[data-pixel-ui] abbr[title] {
+  cursor: help !important;
+}
+html[data-pixel-ui] [data-cursor='pointer'] {
+  cursor: var(--px-cursor-pointer) !important;
+}
+html[data-pixel-ui] [data-cursor='text'] {
+  cursor: var(--px-cursor-text) !important;
 }
 
 /* ── 设置页「像素主题」行 ─────────────────────────────────────────
@@ -1399,6 +1436,20 @@ html[data-pixel-theme='pixel-papernote'] body {
 html[data-pixel-theme='pixel-papernote'] body,
 html[data-pixel-theme='pixel-papernote'] body * {
   cursor: url('pxasset:papernote/cursor.png') 4 4, auto !important;
+}
+/* 特殊状态优先于铅笔：禁用、拖拽、忙碌时给出明确反馈，不再全是同一支笔。 */
+html[data-pixel-theme='pixel-papernote'] :is(button, input, select, textarea, [role='button'], [role='menuitem']):disabled,
+html[data-pixel-theme='pixel-papernote'] [aria-disabled='true'] {
+  cursor: var(--px-cursor-blocked) !important;
+}
+html[data-pixel-theme='pixel-papernote'] [draggable='true'] {
+  cursor: var(--px-cursor-grab) !important;
+}
+html[data-pixel-theme='pixel-papernote'] [draggable='true']:active {
+  cursor: var(--px-cursor-grabbing) !important;
+}
+html[data-pixel-theme='pixel-papernote'] [aria-busy='true'] {
+  cursor: var(--px-cursor-busy) !important;
 }
 
 /* 云石：板岩底 + 白石框 + 钢青。白石的 20px 边框只给对话框和菜单；
