@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>dsh-pixel-ui · 换装间</title>
+<style>
+  @font-face {
+    font-family: 'Fusion Pixel 12';
+    src: url('../assets/fonts/fusion-pixel-12px.woff2') format('woff2');
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'Press Start 2P';
+    src: url('../assets/fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-display: block;
+  }
+  html, body { margin: 0; background: #0d0b12; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; object-fit: contain; }
+</style>
+</head>
+<body>
+<canvas id="stage" width="1920" height="1080"></canvas>
+<script>
+const W = 1920, H = 1080;
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d', { alpha: false });
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = 'high';
+
+const OUTFITS = [
+  { id: 'wood',      name: '像素·木屋',   en: 'PIXEL · WOOD',      tag: '深木 + 暖金', bg: '#1A0F06', panel: '#2C1A0C', code: '#241408', accent: '#F4D03F', accent2: '#FFE066', ink: '#F5E6C8', sub: '#AC8A63', card: '#FBF2DF', card2: '#E7D4B4' },
+  { id: 'paper',     name: '像素·羊皮纸', en: 'PIXEL · PAPER',     tag: '纸面 + 金棕', bg: '#F0E8D8', panel: '#E2D4BC', code: '#FFFDF5', accent: '#8A6400', accent2: '#C99A00', ink: '#3A2A10', sub: '#6B5020', card: '#FFFDF5', card2: '#EFE2C8' },
+  { id: 'warm',      name: '像素·暖阳',   en: 'PIXEL · WARM',      tag: '暖橙 + 木纹', bg: '#1E0E04', panel: '#34180A', code: '#2A1308', accent: '#FF8C42', accent2: '#FFA64D', ink: '#F0C8A0', sub: '#C08A5C', card: '#FFF0DC', card2: '#EBC9A4' },
+  { id: 'retro',     name: '像素·终端绿', en: 'PIXEL · RETRO',     tag: '墨绿 + 荧光', bg: '#0A0E0A', panel: '#0E140E', code: '#0C100C', accent: '#33FF33', accent2: '#66FF66', ink: '#33FF33', sub: '#22AA22', card: '#EAF7EA', card2: '#CBE6CB' },
+  { id: 'hologram',  name: '像素·全息',   en: 'PIXEL · HOLOGRAM',  tag: '深蓝 + 青霓', bg: '#071426', panel: '#0C1E36', code: '#08182A', accent: '#14DCEE', accent2: '#7FF6FF', ink: '#DDFBFF', sub: '#6FA9B8', card: '#EAFBFF', card2: '#C9EDF5' },
+  { id: 'pumpkin',   name: '像素·南瓜灯', en: 'PIXEL · PUMPKIN',   tag: '暗橙 + 暖金', bg: '#170D06', panel: '#2A160A', code: '#1F1008', accent: '#FF9E2C', accent2: '#FFC46B', ink: '#FFE2B8', sub: '#C08A50', card: '#FFF0D8', card2: '#F0CFA0' },
+  { id: 'papernote', name: '像素·便签本', en: 'PIXEL · PAPERNOTE', tag: '纸色 + 深棕', bg: '#F2E6D2', panel: '#EADCC4', code: '#FFF9F1', accent: '#8C5A2C', accent2: '#A3551B', ink: '#3A2412', sub: '#6E4E2E', card: '#FFF9F1', card2: '#EADBC0' },
+  { id: 'marble',    name: '像素·云石',   en: 'PIXEL · MARBLE',    tag: '板岩 + 白石', bg: '#161C26', panel: '#1F2836', code: '#121821', accent: '#7FB2E5', accent2: '#A9D1F2', ink: '#E9F0F7', sub: '#AEBCCB', card: '#F4F8FB', card2: '#DCE6EF' },
+  { id: 'mithril',   name: '像素·秘银',   en: 'PIXEL · MITHRIL',   tag: '靛紫 + 银蓝', bg: '#120E24', panel: '#1A1430', code: '#0F0B1E', accent: '#B49BFF', accent2: '#D3C4FF', ink: '#F0ECFF', sub: '#BDB4E0', card: '#F6F1FF', card2: '#DCD2F5' },
+];
+
+const IMG = {};
+const IMG_SRC = {
+  wood: 'chars/wood.webp', paper: 'chars/paper.webp', warm: 'chars/warm.webp', retro: 'chars/retro.webp',
+  hologram: 'chars/hologram.webp', pumpkin: 'chars/pumpkin.webp', papernote: 'chars/papernote.webp',
+  marble: 'chars/marble.webp', mithril: 'chars/mithril.webp',
+};
+
+const INTRO = 1.4, SLOT = 2.4, FINALE_DUR = 2.6, END_DUR = 1.2;
+const FINALE_AT = INTRO + OUTFITS.length * SLOT;
+const SCENES = [
+  { kind: 'intro', start: 0, end: INTRO },
+  ...OUTFITS.map((_, i) => ({ kind: 'theme', start: INTRO + i * SLOT, end: INTRO + (i + 1) * SLOT, idx: i })),
+  { kind: 'finale', start: FINALE_AT, end: FINALE_AT + FINALE_DUR },
+  { kind: 'end', start: FINALE_AT + FINALE_DUR, end: FINALE_AT + FINALE_DUR + END_DUR },
+];
+const DURATION = (FINALE_AT + FINALE_DUR + END_DUR) * 1000;
+
+/* ── helpers ─────────────────────────────────────────────── */
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = (t) => 1 - Math.pow(1 - clamp(t, 0, 1), 3);
+const easeInOut = (t) => { t = clamp(t, 0, 1); return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
+const hexA = (hex, a) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+};
+
+function text(str, x, y, size, color, { align = 'left', font = 'Fusion Pixel 12', weight = '', spacing = 0 } = {}) {
+  ctx.save();
+  ctx.font = `${weight} ${size}px "${font}", sans-serif`;
+  ctx.fillStyle = color;
+  ctx.textAlign = align;
+  ctx.textBaseline = 'alphabetic';
+  if (spacing) {
+    const chars = [...str];
+    let total = 0;
+    for (const c of chars) total += ctx.measureText(c).width + spacing;
+    total -= spacing;
+    let cx = align === 'center' ? x - total / 2 : align === 'right' ? x - total : x;
+    for (const c of chars) {
+      ctx.textAlign = 'left';
+      ctx.fillText(c, cx, y);
+      cx += ctx.measureText(c).width + spacing;
+    }
+  } else {
+    ctx.fillText(str, x, y);
+  }
+  ctx.restore();
+}
+
+function rect(x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+}
+
+function frame(x, y, w, h, color, thickness = 4) {
+  rect(x, y, w, thickness, color);
+  rect(x, y + h - thickness, w, thickness, color);
+  rect(x, y, thickness, h, color);
+  rect(x + w - thickness, y, thickness, h, color);
+}
+
+function dither(x, y, w, h, color, cell = 4, alpha = 1) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  for (let yy = 0; yy < h; yy += cell * 2) {
+    for (let xx = 0; xx < w; xx += cell * 2) {
+      ctx.fillRect(Math.round(x + xx), Math.round(y + yy), cell, cell);
+    }
+  }
+  ctx.restore();
+}
+
+function fillGrid(bg, gridColor) {
+  rect(0, 0, W, H, bg);
+  ctx.save();
+  ctx.strokeStyle = gridColor;
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= W; x += 48) {
+    ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke();
+  }
+  for (let y = 0; y <= H; y += 48) {
+    ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/* ── card + character ────────────────────────────────────── */
+function drawCardRect(o, x, y, w, h, scale = 1) {
+  // cream paper with a vertical tint
+  const g = ctx.createLinearGradient(x, y, x, y + h);
+  g.addColorStop(0, o.card);
+  g.addColorStop(1, o.card2);
+  ctx.fillStyle = g;
+  ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+  // scanlines
+  ctx.save();
+  ctx.globalAlpha = 0.05;
+  ctx.fillStyle = '#000';
+  for (let yy = 0; yy < h; yy += 6) ctx.fillRect(Math.round(x), Math.round(y + yy), Math.round(w), 1);
+  ctx.restore();
+  // border + corner notches
+  frame(x, y, w, h, o.accent, 8 * scale);
+  const c = 34 * scale;
+  rect(x, y, c, 8 * scale, o.accent2);
+  rect(x, y, 8 * scale, c, o.accent2);
+  rect(x + w - c, y, c, 8 * scale, o.accent2);
+  rect(x + w - 8 * scale, y, 8 * scale, c, o.accent2);
+  rect(x, y + h - 8 * scale, c, 8 * scale, o.accent2);
+  rect(x, y + h - c, 8 * scale, c, o.accent2);
+  rect(x + w - c, y + h - 8 * scale, c, 8 * scale, o.accent2);
+  rect(x + w - 8 * scale, y + h - c, 8 * scale, c, o.accent2);
+}
+
+function drawChar(img, x, y, w, h, clipL, clipR) {
+  if (!img) return;
+  const iw = img.width, ih = img.height;
+  const s = Math.min((w - 24) / iw, (h - 24) / ih);
+  const dw = iw * s, dh = ih * s;
+  const dx = x + (w - dw) / 2;
+  const dy = y + (h - dh) - 10;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(clipL, y, clipR - clipL, h);
+  ctx.clip();
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.drawImage(img, dx, dy, dw, dh);
+  ctx.restore();
+}
+
+function drawCard(o, img, { x, y, w, h, scale = 1, wipe = 1, prev = null, prevWipe = 0 } = {}) {
+  drawCardRect(o, x, y, w, h, scale);
+  const clipL = x + 8 * scale;
+  const clipR = x + w - 8 * scale;
+  if (prev && wipe < 1) {
+    const wx = lerp(clipL, clipR, wipe);
+    drawChar(prev.img, x, y, w, h, wx, clipR);       // old on the right
+    drawChar(img, x, y, w, h, clipL, wx);            // new on the left
+    rect(wx - 2, y + 8 * scale, 4, h - 16 * scale, o.accent2);
+    for (let yy = y + 12; yy < y + h - 12; yy += 18) {
+      rect(wx - 5, yy, 10, 6, o.accent);
+    }
+  } else {
+    drawChar(img, x, y, w, h, clipL, clipR);
+  }
+}
+
+/* ── UI mock ─────────────────────────────────────────────── */
+function drawMock(o, x, y, w, h, t) {
+  const pad = 14;
+  rect(x + 10, y + 10, w, h, 'rgba(0,0,0,0.25)');
+  rect(x, y, w, h, o.panel);
+  frame(x, y, w, h, o.accent, 4);
+  // titlebar
+  rect(x, y, w, 42, o.code);
+  rect(x + 14, y + 16, 10, 10, o.accent);
+  rect(x + 32, y + 16, 10, 10, o.sub);
+  rect(x + 50, y + 16, 10, 10, o.sub);
+  text('DeepSeek Harness', x + w - 16, y + 28, 18, o.sub, { align: 'right' });
+  // sidebar
+  rect(x, y + 42, 150, h - 42, o.code);
+  for (let i = 0; i < 5; i++) {
+    const yy = y + 70 + i * 44;
+    rect(x + 12, yy, 8, 26, i === 0 ? o.accent : o.sub);
+    text(['插件', '市场', '任务', '记忆', '设置'][i], x + 30, yy + 19, 18, i === 0 ? o.accent : o.sub);
+  }
+  // chat
+  const cx = x + 170;
+  const cw = w - 190;
+  rect(cx, y + 66, 150, 12, o.sub);
+  rect(cx, y + 92, cw, 3, o.accent);
+  // assistant block
+  rect(cx, y + 120, cw, 108, o.code);
+  text('素材主题：真 PNG 9-slice', cx + 14, y + 154, 20, o.ink);
+  text('对话框 / 菜单 / 主按钮 / 输入框', cx + 14, y + 186, 16, o.sub);
+  text('全部跟随主题换色。', cx + 14, y + 210, 16, o.sub);
+  // user bubble
+  const bw = 260;
+  rect(cx + cw - bw, y + 250, bw, 54, o.accent);
+  text('换一套皮肤试试！', cx + cw - bw + 16, y + 284, 18, o.bg);
+  // composer
+  const cy = y + h - 70;
+  rect(cx, cy, cw, 40, o.code);
+  frame(cx, cy, cw, 40, o.accent, 2);
+  const typing = '九套主题，一键换装' + ('.'.repeat(1 + (Math.floor(t / 300) % 3)));
+  text(typing, cx + 12, cy + 27, 16, o.sub);
+  rect(cx + cw - 92, cy + 6, 80, 28, o.accent);
+  text('发送', cx + cw - 52, cy + 26, 16, o.bg, { align: 'center' });
+}
+
+/* ── scene drawing ───────────────────────────────────────── */
+function sceneFor(t) {
+  for (const s of SCENES) if (t >= s.start && t < s.end) return s;
+  return SCENES[SCENES.length - 1];
+}
+
+function drawThemeScene(o, idx, local, t) {
+  fillGrid(o.bg, hexA(o.ink, 0.045));
+  // accent glow
+  const g = ctx.createRadialGradient(980, 500, 80, 980, 500, 900);
+  g.addColorStop(0, hexA(o.accent, 0.10));
+  g.addColorStop(1, hexA(o.accent, 0));
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // card entry / current wipe
+  const enter = easeOut(local / 0.7);
+  const cardX = idx === 0 ? lerp(-760, 150, enter) : 150;
+  const wipe = clamp(local / 0.55, 0, 1);
+  const prev = idx > 0 ? { img: IMG[OUTFITS[idx - 1].id] } : null;
+  drawCard(o, IMG[o.id], { x: cardX, y: 110, w: 720, h: 900, wipe, prev });
+
+  // header badge
+  const fade = clamp(local / 0.45, 0, 1);
+  ctx.save();
+  ctx.globalAlpha = fade;
+  rect(146, 52, 250, 34, o.accent);
+  text(`THEME 0${idx + 1} / 09`, 162, 76, 16, o.bg, { font: 'Press Start 2P' });
+  text('dsh-pixel-ui', 980, 120, 20, o.sub);
+
+  // title
+  text(o.name, 980, 250, 76, o.ink);
+  text(o.en, 982, 292, 18, o.accent, { font: 'Press Start 2P', spacing: 2 });
+  text(o.tag, 980, 332, 22, o.sub);
+
+  // palette
+  const cols = [o.accent, o.accent2, o.panel, o.code];
+  cols.forEach((c, i) => {
+    const px = 980 + i * 108;
+    rect(px, 366, 92, 34, c);
+    frame(px, 366, 92, 34, o.ink, 2);
+    text(c.toUpperCase(), px + 4, 416, 14, o.sub);
+  });
+
+  // mock
+  drawMock(o, 980, 470, 760, 420, t);
+
+  // footer rail
+  const railY = 984;
+  for (let i = 0; i < 9; i++) {
+    const on = i === idx;
+    rect(980 + i * 26, railY, 18, 6, on ? o.accent : hexA(o.ink, 0.25));
+  }
+  text('九套主题 · 一键换装', 980, 950, 20, o.sub);
+  ctx.restore();
+}
+
+function drawExtra(t, local) {
+  const dark = { bg: '#121016', ink: '#EDE8F5', sub: '#8E839F', accent: '#B49BFF', accent2: '#D3C4FF', panel: '#1A1430', code: '#171129', card: '#FBF2DF', card2: '#E7D4B4' };
+  fillGrid(dark.bg, 'rgba(255,255,255,0.035)');
+  const g = ctx.createRadialGradient(1500, 450, 60, 1500, 450, 900);
+  g.addColorStop(0, 'rgba(180,155,255,0.12)');
+  g.addColorStop(1, 'rgba(180,155,255,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+  const enter = easeOut(local / 0.7);
+  drawCard(OUTFITS[3], IMG.retro, { x: lerp(-700, 90, enter), y: 150, w: 560, h: 780, scale: 0.8 });
+
+  rect(760, 120, 760, 4, dark.accent);
+  text('衣柜里还有', 760, 210, 44, dark.sub);
+  text('5 套新皮肤', 760, 290, 84, dark.accent2);
+  text('全息 / 南瓜灯 / 便签本 / 云石 / 秘银', 762, 336, 22, dark.sub);
+
+  EXTRAS.forEach((e, i) => {
+    const p = clamp((local - 0.25 - i * 0.08) / 0.35, 0, 1);
+    if (p <= 0) return;
+    const yy = 400 + i * 92;
+    ctx.save();
+    ctx.globalAlpha = p;
+    rect(760, yy, 700, 72, dark.panel);
+    frame(760, yy, 700, 72, hexA(dark.accent, 0.6), 3);
+    rect(776, yy + 12, 48, 48, e.colors[0]);
+    rect(776, yy + 12, 48, 16, e.colors[1]);
+    rect(776, yy + 44, 48, 16, e.colors[2]);
+    text(`像素·${e.name}`, 846, yy + 34, 26, dark.ink);
+    text(e.en, 846, yy + 60, 14, dark.sub, { font: 'Press Start 2P' });
+    text(e.colors[0].toUpperCase(), 1420, yy + 44, 14, dark.sub, { font: 'Press Start 2P', align: 'right' });
+    ctx.restore();
+  });
+
+  text('…以及四套经典换装', 760, 900, 18, dark.sub);
+  text('共 9 套 · 全部 WCAG AA', 760, 934, 18, dark.sub);
+}
+
+function drawFinale(t, local) {
+  const dark = { bg: '#111016', ink: '#F0ECFF', sub: '#9C91B5', accent: '#B49BFF', accent2: '#D3C4FF', panel: '#1A1430', code: '#171129', card: '#FBF2DF', card2: '#E7D4B4' };
+  fillGrid(dark.bg, 'rgba(255,255,255,0.035)');
+  const enter = easeOut(local / 0.8);
+  drawCard(OUTFITS[0], IMG.wood, { x: lerp(-700, 120, enter), y: 150, w: 520, h: 800, scale: 0.75 });
+
+  rect(780, 160, 760, 4, dark.accent);
+  text('9 套主题', 780, 300, 96, dark.ink);
+  text('随时换装', 780, 400, 96, dark.accent2);
+  text('同一套像素语言，九种氛围', 782, 452, 24, dark.sub);
+
+  // install box
+  rect(780, 520, 780, 92, dark.code);
+  frame(780, 520, 780, 92, dark.accent, 4);
+  text('$', 804, 578, 28, dark.accent2, { font: 'Press Start 2P' });
+  text('dsh plugin add dsh-pixel-ui', 846, 578, 30, dark.ink);
+
+  text('npm i -g @deepseek-ai/dsh  ·  dsh 0.2.1-rc.3', 782, 660, 18, dark.sub);
+  text('github.com/zhang66633/dsh-pixel-ui', 782, 700, 22, dark.accent2, { font: 'Press Start 2P' });
+
+  // theme dots
+  const dots = ['#F4D03F', '#8A6400', '#FF8C42', '#33FF33', '#14DCEE', '#FF9E2C', '#A3551B', '#7FB2E5', '#B49BFF'];
+  dots.forEach((c, i) => {
+    const p = clamp((local - 0.8 - i * 0.05) / 0.3, 0, 1);
+    if (p <= 0) return;
+    rect(782 + i * 64, 790 - 20 * (1 - p), 48, 48, c);
+    frame(782 + i * 64, 790 - 20 * (1 - p), 48, 48, dark.ink, 2);
+  });
+  text('MIT · Complete UI CC BY 4.0', 782, 900, 16, dark.sub);
+}
+
+function drawIntro(t, local) {
+  fillGrid('#0E0B13', 'rgba(255,255,255,0.03)');
+  const p = clamp(local / 0.7, 0, 1);
+  text('dsh-pixel-ui', 960, 470, 92, '#F4D03F', { font: 'Press Start 2P', align: 'center' });
+  text('给代码换一套衣服', 960, 560, 40, '#EDE8F5', { align: 'center' });
+  text('9 套像素皮肤 · 一键换装', 960, 620, 22, '#9C91B5', { align: 'center' });
+  // loading bar
+  rect(760, 700, 400, 6, 'rgba(255,255,255,0.12)');
+  rect(760, 700, 400 * p, 6, '#F4D03F');
+}
+
+function drawEnd(t, local) {
+  fillGrid('#0E0B13', 'rgba(255,255,255,0.03)');
+  const p = clamp(local / 0.5, 0, 1);
+  ctx.save(); ctx.globalAlpha = p;
+  text('dsh-pixel-ui', 960, 470, 64, '#F4D03F', { font: 'Press Start 2P', align: 'center' });
+  text('九套像素皮肤 · 一键换装', 960, 540, 32, '#EDE8F5', { align: 'center' });
+  text('github.com/zhang66633/dsh-pixel-ui', 960, 610, 20, '#BDB4E0', { align: 'center' });
+  ctx.restore();
+}
+
+function draw(tMs) {
+  const t = tMs / 1000;
+  const scene = sceneFor(t);
+  const local = t - scene.start;
+  ctx.save();
+  ctx.globalAlpha = 1;
+  if (scene.kind === 'intro') drawIntro(t, local);
+  else if (scene.kind === 'theme') drawThemeScene(OUTFITS[scene.idx], scene.idx, local, t);
+  else if (scene.kind === 'finale') drawFinale(t, local);
+  else drawEnd(t, local);
+  ctx.restore();
+  // fade from/to black at the very edges
+  if (t < 0.6) {
+    rect(0, 0, W, H, `rgba(8,6,10,${1 - t / 0.6})`);
+  }
+  if (t > DURATION / 1000 - 0.6) {
+    const k = clamp((t - (DURATION / 1000 - 0.6)) / 0.6, 0, 1);
+    rect(0, 0, W, H, `rgba(8,6,10,${k})`);
+  }
+}
+
+/* ── boot ────────────────────────────────────────────────── */
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+async function boot() {
+  await document.fonts.load('12px "Fusion Pixel 12"');
+  await document.fonts.load('12px "Press Start 2P"');
+  await Promise.all(Object.entries(IMG_SRC).map(async ([k, src]) => { IMG[k] = await loadImage(src); }));
+  const params = new URLSearchParams(location.search);
+  const t = params.get('t');
+  if (t !== null) {
+    draw(parseFloat(t));
+    document.title = 'frame ' + t;
+    return;
+  }
+  if (params.get('record')) {
+    await record();
+    return;
+  }
+  const start = performance.now();
+  const loop = () => {
+    const now = performance.now() - start;
+    draw(now % DURATION);
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+
+async function record() {
+  const stream = canvas.captureStream(30);
+  const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp8')
+    ? 'video/webm;codecs=vp8'
+    : 'video/webm';
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 12000000 });
+  const chunks = [];
+  rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+  rec.onstop = async () => {
+    const blob = new Blob(chunks, { type: 'video/webm' });
+    try {
+      await fetch('http://127.0.0.1:8765/upload', { method: 'POST', body: blob });
+      document.title = 'RECORDED';
+    } catch (e) {
+      document.title = 'UPLOAD_FAILED';
+    }
+  };
+  const start = performance.now();
+  rec.start(100);
+  const loop = () => {
+    const t = performance.now() - start;
+    draw(Math.min(t, DURATION));
+    if (t < DURATION) requestAnimationFrame(loop);
+    else { draw(DURATION); setTimeout(() => rec.stop(), 400); }
+  };
+  requestAnimationFrame(loop);
+}
+
+boot().catch((e) => { document.title = 'ERR ' + e.message; console.error(e); });
+</script>
+</body>
+</html>
