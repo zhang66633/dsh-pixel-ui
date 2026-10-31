@@ -106,7 +106,7 @@ ffmpeg -ss 0 -t 7 -i promo/dsh-pixel-ui-promo.mp4 -i TEMP/palette.png \
 `:is(:hover, .px-force-hover)` 等，按 `?theme=&state=&asset=` 给对应元素加 class，再用
 Edge headless 逐帧截图；**这是 forced-state 演示，不是真实宿主截图**。真实宿主
 `http://127.0.0.1:63819/` 需要 `dsh web` 打印的带 token URL（token 只在该进程内存里），
-拿到后再回填真机截图。
+拿到后再回填真机截图。v1.12.1 已用 0.2.1-rc.5 真实宿主跑通九套；截图含工作区/会话名，只放 TEMP，未入库。
 
 ## 备注
 
