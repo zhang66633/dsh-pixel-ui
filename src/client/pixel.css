@@ -1308,7 +1308,13 @@ html[data-pixel-theme='pixel-papernote'] body {
   background-color: var(--px-wood-darkest);
   background-image: repeating-conic-gradient(rgba(140, 90, 44, 0.04) 0 25%, transparent 0 50%);
   background-size: 4px 4px;
-  cursor: url('pxasset:papernote/cursor.png') 26 26, auto;
+}
+/* 便签本：铅笔光标覆盖一切——按钮/链接/输入框/正文都不再退回像素手或
+ * I-beam，否则一块纸面上会同时出现三种指针。热区在笔尖 (4,4)：素材是
+ * 左上笔尖、右下橡皮，之前写成 26 26 等于点在橡皮上。 */
+html[data-pixel-theme='pixel-papernote'] body,
+html[data-pixel-theme='pixel-papernote'] body * {
+  cursor: url('pxasset:papernote/cursor.png') 4 4, auto !important;
 }
 
 /* ── 共用 9-slice 规则：只在素材主题生效 ─────────────────────────── */

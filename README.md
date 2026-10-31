@@ -88,7 +88,7 @@
 - **对话框**：`FrameStandard01.png` 96×96 → `slice:12 8 12 18`、`border-image-repeat:stretch round`；左边 18px 是装订孔，按比例纵向平铺；
 - **菜单 / 图标按钮 / 选中行**：`FrameLite01.png` 32×32 → `slice:6 fill`；选中行是一张包住整行的迷你便签；
 - **主按钮**：`Button03/02.png`（96×32 / 64×32）→ 便签条 + 左下折角；文字用深棕而不是宿主默认的奶油色；
-- **输入框**：`Textfield01.png` 64×32 → `slice:4 4 6 4`；**光标**：`CursorPencil01.png`，热区在笔尖；
+- **输入框**：`Textfield01.png` 64×32 → `slice:4 4 6 4`；**光标**：`CursorPencil01.png`，铅笔贯穿按钮/输入框/正文，热区在笔尖；
 - 便签纸面与页面同色，额外用 2px 墨线（`--pxa-outline`）把“纸”钉出来，避免菜单看起来像悬浮文字。
 
 > 素材：Complete UI Essential Pack v2.4 · `11_Papernote_Theme`，CC BY 4.0；

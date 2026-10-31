@@ -303,6 +303,10 @@ console.log('== client: registration ==')
     ]) assert.ok(css.includes(token), `asset layer carries ${token}`)
     assert.equal(css.includes('pxasset:'), false, 'build inlined every pxasset: reference')
     assert.equal(css.includes('/dsh-pixel-ui/assets/'), false, 'no runtime asset route needed')
+    // User report 2026-10-31: the pencil showed on blank paper only, then
+    // fell back to the pixel hand / I-beam over buttons and text.
+    assert.ok(css.includes("html[data-pixel-theme='pixel-papernote'] body *"), 'papernote pencil covers every element')
+    assert.ok(css.includes(') 4 4, auto !important'), 'pencil hotspot sits on the tip, not the eraser')
   })
   check('stylesheet widens the host content column and drops the scanline overlay', () => {
     const css = styleTags[0].textContent
