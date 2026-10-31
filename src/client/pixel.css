@@ -1,4 +1,4 @@
-/* dsh-pixel-ui — 星露谷风像素皮肤（木屋/羊皮纸/暖阳/终端绿四主题）
+/* dsh-pixel-ui — 星露谷风像素皮肤（木屋/羊皮纸/暖阳/终端绿/全息/南瓜灯/便签本）
  *
  * 设计原则（v1.5.0 重写，依据是桌面端实测）：
  *
@@ -31,7 +31,9 @@
  *    `prefers-reduced-motion: reduce` 下关掉。动效只表达「状态正在变化」
  *    （思考中/运行中/选中/按下/提示进入），不拿来做装饰。
  *
- * 作用域 html[data-pixel-ui]：任一像素主题激活时生效，data-pixel-theme 区分配色。
+ * 作用域 html[data-pixel-ui]：任一像素主题激活时生效，data-pixel-theme 区分配色；
+ * data-pixel-asset 只在三套真素材主题（全息/南瓜灯/便签本）出现，驱动共用
+ * 9-slice 层。前四套仍是零素材、零阴影的纯平面皮肤。
  */
 
 @font-face {
@@ -71,9 +73,11 @@ html[data-pixel-ui] {
   --px-input-text: #FFFDF5;
   --px-input-caret: #F4D03F;
   --px-input-ph: #B08A5E;
-  /* 勾/点：暗色主题用深木色，浅色纸面在主题块里换成纸白 */
+  /* 勾/点：暗色主题用深木色；纸面/便签本用预置的纸白版本（--px-*-light） */
   --px-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cg fill='%231A0F06'%3E%3Crect x='0' y='4' width='2' height='2'/%3E%3Crect x='0' y='6' width='2' height='2'/%3E%3Crect x='2' y='6' width='2' height='2'/%3E%3Crect x='2' y='8' width='2' height='2'/%3E%3Crect x='4' y='4' width='2' height='2'/%3E%3Crect x='4' y='6' width='2' height='2'/%3E%3Crect x='4' y='8' width='2' height='2'/%3E%3Crect x='4' y='10' width='2' height='2'/%3E%3Crect x='6' y='2' width='2' height='2'/%3E%3Crect x='6' y='4' width='2' height='2'/%3E%3Crect x='6' y='6' width='2' height='2'/%3E%3Crect x='6' y='8' width='2' height='2'/%3E%3Crect x='8' y='0' width='2' height='2'/%3E%3Crect x='8' y='2' width='2' height='2'/%3E%3Crect x='8' y='4' width='2' height='2'/%3E%3Crect x='8' y='6' width='2' height='2'/%3E%3Crect x='10' y='0' width='2' height='2'/%3E%3Crect x='10' y='2' width='2' height='2'/%3E%3Crect x='10' y='4' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E");
   --px-radio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='8' height='8' fill='%231A0F06'/%3E%3C/svg%3E");
+  --px-check-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cg fill='%23FFFDF5'%3E%3Crect x='0' y='4' width='2' height='2'/%3E%3Crect x='0' y='6' width='2' height='2'/%3E%3Crect x='2' y='6' width='2' height='2'/%3E%3Crect x='2' y='8' width='2' height='2'/%3E%3Crect x='4' y='4' width='2' height='2'/%3E%3Crect x='4' y='6' width='2' height='2'/%3E%3Crect x='4' y='8' width='2' height='2'/%3E%3Crect x='4' y='10' width='2' height='2'/%3E%3Crect x='6' y='2' width='2' height='2'/%3E%3Crect x='6' y='4' width='2' height='2'/%3E%3Crect x='6' y='6' width='2' height='2'/%3E%3Crect x='6' y='8' width='2' height='2'/%3E%3Crect x='8' y='0' width='2' height='2'/%3E%3Crect x='8' y='2' width='2' height='2'/%3E%3Crect x='8' y='4' width='2' height='2'/%3E%3Crect x='8' y='6' width='2' height='2'/%3E%3Crect x='10' y='0' width='2' height='2'/%3E%3Crect x='10' y='2' width='2' height='2'/%3E%3Crect x='10' y='4' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E");
+  --px-radio-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23FFFDF5'/%3E%3C/svg%3E");
   /* 代码 */
   --px-code-bg: #241408;
   --px-code-ink: #FFE066;
@@ -130,8 +134,8 @@ html[data-pixel-theme='pixel-paper'] {
   --px-input-caret: #8A6400;
   --px-input-ph: #8B7040;
   /* 深金底上的深木色勾看不清，纸面主题改成纸白勾/点 */
-  --px-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' shape-rendering='crispEdges'%3E%3Cg fill='%23FFFDF5'%3E%3Crect x='0' y='4' width='2' height='2'/%3E%3Crect x='0' y='6' width='2' height='2'/%3E%3Crect x='2' y='6' width='2' height='2'/%3E%3Crect x='2' y='8' width='2' height='2'/%3E%3Crect x='4' y='4' width='2' height='2'/%3E%3Crect x='4' y='6' width='2' height='2'/%3E%3Crect x='4' y='8' width='2' height='2'/%3E%3Crect x='4' y='10' width='2' height='2'/%3E%3Crect x='6' y='2' width='2' height='2'/%3E%3Crect x='6' y='4' width='2' height='2'/%3E%3Crect x='6' y='6' width='2' height='2'/%3E%3Crect x='6' y='8' width='2' height='2'/%3E%3Crect x='8' y='0' width='2' height='2'/%3E%3Crect x='8' y='2' width='2' height='2'/%3E%3Crect x='8' y='4' width='2' height='2'/%3E%3Crect x='8' y='6' width='2' height='2'/%3E%3Crect x='10' y='0' width='2' height='2'/%3E%3Crect x='10' y='2' width='2' height='2'/%3E%3Crect x='10' y='4' width='2' height='2'/%3E%3C/g%3E%3C/svg%3E");
-  --px-radio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='8' height='8' fill='%23FFFDF5'/%3E%3C/svg%3E");
+  --px-check: var(--px-check-light);
+  --px-radio: var(--px-radio-light);
   --px-code-bg: #E0D4BC;
   --px-code-ink: #5C4400;
   --px-tooltip-bg: #2A1B08;
@@ -1068,12 +1072,20 @@ html[data-pixel-ui] [contenteditable='true'] {
   flex-shrink: 0;
 }
 
-/* ── pixel-hologram：真 PNG 9-slice 主题（Complete UI · Hologram） ───
- * 深蓝全息：96×96 面板、96×32 主按钮、32×32 输入框/选中条/滚动条，
- * 以及 32×32 的 Frame_Lite 用作图标按钮（避免把 96×32 的横条按钮塞进方块）。
- * 工具提示/Toast 保持扁平薄边——不套大木框，这是上一版木刻的教训。
- * 素材 CC BY 4.0；署名见 assets/complete-ui/hologram/ATTRIBUTION.md。
+/* ── 真 PNG 9-slice 素材层：全息 / 南瓜灯 / 便签本 ───────────────────
+ * 三套素材主题共用下面这一层规则，差异全部收敛到 --pxa-* 变量
+ * （图片、切片、边框宽度、重复方式、文字色）。素材在构建时由
+ * scripts/asset-inline.mjs 转成 data URI：浏览器端不再依赖宿主素材路由，
+ * 换素材只需要重新 build + 刷新页面，不必重启 DSH Desktop。
+ * 素材：Complete UI Essential Pack v2.4 © Crusenho Agus Hennihuno，
+ * CC BY 4.0；每套的源文件映射与署名见 assets/complete-ui/<theme>/ATTRIBUTION.md。
+ *
+ * v1.7 留下的两条硬规则：
+ *   ① Tooltip / Toast 不套大面板图，只换成 2px 主题色边（木刻版翻车点）；
+ *   ② 横条主按钮和方形图标按钮用不同素材，绝不把 96×32 塞进方块。
  */
+
+/* 全息：深蓝 + 青。96×96 面板、96×32 主按钮、32×32 图标框。 */
 html[data-pixel-theme='pixel-hologram'] {
   --px-wood-darkest: #071426;
   --px-wood-dark: #10233B;
@@ -1102,19 +1114,40 @@ html[data-pixel-theme='pixel-hologram'] {
   --px-code-ink: #7DF3FF;
   --px-code-meta: #9BC4D4;
   --px-ink-on-mid: #E8F7FF;
-  --pxh-text: #E8F7FF;
-  --pxh-muted: #9BC4D4;
-  --pxh-cyan: #14DCEE;
-  --pxh-cyan-bright: #7DF3FF;
-  --pxh-overlay: #0A1A2E;
-  --pxh-panel: url('/dsh-pixel-ui/assets/hologram/panel.png');
-  --pxh-button: url('/dsh-pixel-ui/assets/hologram/button-primary.png');
-  --pxh-button-press: url('/dsh-pixel-ui/assets/hologram/button-primary-press.png');
-  --pxh-button-lock: url('/dsh-pixel-ui/assets/hologram/button-primary-lock.png');
-  --pxh-input: url('/dsh-pixel-ui/assets/hologram/input.png');
-  --pxh-select: url('/dsh-pixel-ui/assets/hologram/select-bar.png');
-  --pxh-scroll: url('/dsh-pixel-ui/assets/hologram/scroll-handle.png');
-  --pxh-icon: url('/dsh-pixel-ui/assets/hologram/icon-button.png');
+  --px-topbar-fill: #10233B;
+  --px-dither: #0C1E33;
+  --pxa-panel: url('pxasset:hologram/panel.png');
+  --pxa-panel-slice: 24 fill;
+  --pxa-panel-width: 24px;
+  --pxa-panel-repeat: stretch;
+  --pxa-menu: var(--pxa-panel);
+  --pxa-menu-slice: 20 fill;
+  --pxa-menu-width: 10px;
+  --pxa-button: url('pxasset:hologram/button-primary.png');
+  --pxa-button-hover: url('pxasset:hologram/button-primary-press.png');
+  --pxa-button-active: url('pxasset:hologram/button-primary-lock.png');
+  --pxa-button-slice: 8 20 fill;
+  --pxa-button-width: 6px 10px;
+  --pxa-button-ink: #E8F7FF;
+  --pxa-button-hover-ink: #E8F7FF;
+  --pxa-icon: url('pxasset:hologram/icon-button.png');
+  --pxa-icon-slice: 8 fill;
+  --pxa-icon-width: 5px;
+  --pxa-input: url('pxasset:hologram/input.png');
+  --pxa-input-slice: 10 fill;
+  --pxa-input-width: 8px;
+  --pxa-input-ink: #E8F7FF;
+  --pxa-placeholder: #9BC4D4;
+  --pxa-caret: #14DCEE;
+  --pxa-select: url('pxasset:hologram/select-bar.png');
+  --pxa-select-slice: 10 fill;
+  --pxa-select-width: 8px;
+  --pxa-ink: #E8F7FF;
+  --pxa-accent: #14DCEE;
+  --pxa-accent-bright: #7DF3FF;
+  --pxa-hover-wash: rgba(20, 220, 238, 0.1);
+  --pxa-tooltip-bg: #0A1A2E;
+  --pxa-tooltip-ink: #E8F7FF;
 }
 html[data-pixel-theme='pixel-hologram'] body {
   background-color: var(--px-wood-darkest);
@@ -1123,110 +1156,279 @@ html[data-pixel-theme='pixel-hologram'] body {
     linear-gradient(90deg, rgba(20, 220, 238, 0.045) 1px, transparent 1px);
   background-size: 24px 24px;
 }
-html[data-pixel-theme='pixel-hologram'] [role='dialog'] {
-  border: 24px solid transparent !important;
-  border-image: var(--pxh-panel) 24 fill / 24px / 0 stretch !important;
-  background: transparent !important;
-  box-sizing: border-box !important;
-}
-html[data-pixel-theme='pixel-hologram'] [data-menu-material] {
-  border: 10px solid transparent !important;
-  border-image: var(--pxh-panel) 20 fill / 10px / 0 stretch !important;
-  background: transparent !important;
-  box-sizing: border-box !important;
-  overflow-x: hidden !important;
-}
-html[data-pixel-theme='pixel-hologram'] [role='menu']:not([data-menu-material]) {
-  border: 0 !important;
-  border-image: none !important;
-  background: transparent !important;
-}
-html[data-pixel-theme='pixel-hologram'] [role='menuitem'] {
-  color: var(--pxh-text) !important;
-  background: transparent !important;
-  background-image: none !important;
-}
-html[data-pixel-theme='pixel-hologram'] [role='menuitem']:hover {
-  color: var(--pxh-cyan-bright) !important;
-  background-color: rgba(20, 220, 238, 0.1) !important;
-  background-image: none !important;
-}
-html[data-pixel-theme='pixel-hologram'] button[class*='primary'],
-html[data-pixel-theme='pixel-hologram'] button[class*='Primary'] {
-  border: 6px 10px solid transparent !important;
-  border-image: var(--pxh-button) 8 20 fill / 6px 10px / 0 stretch !important;
-  background: transparent !important;
-  color: var(--pxh-text) !important;
-  min-height: 32px;
-}
-html[data-pixel-theme='pixel-hologram'] button[class*='primary']:hover,
-html[data-pixel-theme='pixel-hologram'] button[class*='Primary']:hover {
-  border-image-source: var(--pxh-button-press) !important;
-  color: var(--pxh-text) !important;
-  background: transparent !important;
-  background-image: none !important;
-}
-html[data-pixel-theme='pixel-hologram'] button[class*='primary']:active,
-html[data-pixel-theme='pixel-hologram'] button[class*='Primary']:active {
-  border-image-source: var(--pxh-button-lock) !important;
-  transform: none !important;
-}
-/* Icon-only primary (send / close / etc.): use the small square frame,
- * never squeeze the wide 96×32 plaque into a 36px square. */
-html[data-pixel-theme='pixel-hologram'] button[class*='primary']:has(> svg:only-child),
-html[data-pixel-theme='pixel-hologram'] button[class*='Primary']:has(> svg:only-child) {
-  border: 5px solid transparent !important;
-  border-image: var(--pxh-icon) 8 fill / 5px / 0 stretch !important;
-  background: transparent !important;
-  color: var(--pxh-text) !important;
-  min-height: 0;
-}
-html[data-pixel-theme='pixel-hologram'] input:not([type='checkbox']):not([type='radio']):not([type='range']),
-html[data-pixel-theme='pixel-hologram'] textarea,
-html[data-pixel-theme='pixel-hologram'] [contenteditable='true'] {
-  border: 8px solid transparent !important;
-  border-image: var(--pxh-input) 10 fill / 8px / 0 stretch !important;
-  background: transparent !important;
-  color: var(--pxh-text) !important;
-  caret-color: var(--pxh-cyan) !important;
-  box-sizing: border-box !important;
-}
-html[data-pixel-theme='pixel-hologram'] input::placeholder,
-html[data-pixel-theme='pixel-hologram'] textarea::placeholder {
-  color: var(--pxh-muted) !important;
-}
-html[data-pixel-theme='pixel-hologram'] [role='menuitem'][aria-current='page'],
-html[data-pixel-theme='pixel-hologram'] [role='treeitem'][aria-selected='true'] {
-  border: 8px solid transparent !important;
-  border-image: var(--pxh-select) 10 fill / 8px / 0 stretch !important;
-  background: transparent !important;
-  background-image: none !important;
-  color: var(--pxh-text) !important;
-  box-sizing: border-box !important;
-}
-/* Tooltip and toast stay slim and flat: the old asset theme applied a 10px
- * frame to a tooltip and it looked like a floating door. */
-html[data-pixel-theme='pixel-hologram'] [role='tooltip'] {
-  border: 2px solid var(--pxh-cyan) !important;
-  border-image: none !important;
-  background-color: var(--pxh-overlay) !important;
-  color: var(--pxh-text) !important;
-}
-html[data-pixel-theme='pixel-hologram'] [role='alert'] {
-  border: 2px solid var(--pxh-cyan) !important;
-  border-left: 4px solid var(--pxh-cyan) !important;
-  border-image: none !important;
-  background-color: var(--pxh-overlay) !important;
-  color: var(--pxh-text) !important;
-}
 html[data-pixel-theme='pixel-hologram'] ::-webkit-scrollbar-thumb {
-  background: var(--pxh-scroll) center / 100% 100% no-repeat !important;
+  background: url('pxasset:hologram/scroll-handle.png') center / 100% 100% no-repeat !important;
   border: 2px solid var(--px-wood-darkest) !important;
 }
 html[data-pixel-theme='pixel-hologram'] ::-webkit-scrollbar-track {
   background: var(--px-wood-dark);
   border-left: 2px solid var(--px-line);
 }
-html[data-pixel-theme='pixel-hologram'] [role='tab']::after {
-  background: var(--pxh-cyan) !important;
+
+/* 南瓜灯：暖橙藤蔓包边。frame_full 30px 只给对话框；菜单用 frame_simple，
+ * 避免小块浮层被厚藤蔓包成“门板”。 */
+html[data-pixel-theme='pixel-pumpkin'] {
+  --px-wood-darkest: #170D06;
+  --px-wood-dark: #241409;
+  --px-wood-mid: #2F1B0C;
+  --px-wood-warm: #3A2210;
+  --px-wood-light: #8A4A18;
+  --px-wood-pale: #D89A5A;
+  --px-text-on-dark: #FFE9C9;
+  --px-text-light: #D8A76F;
+  --px-parchment: #FFE9C9;
+  --px-gold: #FF9E2C;
+  --px-gold-bright: #FFC85E;
+  --px-gold-dark: #D97706;
+  --px-gold-deep: #8A4A18;
+  --px-sidebar-fill: #1B0F07;
+  --px-line: #0E0703;
+  --px-accent-bg: #FF9E2C;
+  --px-accent-hover: #FFB45C;
+  --px-accent-ink: #2A1206;
+  --px-input-bg: #3A2210;
+  --px-input-text: #FFF6E6;
+  --px-input-ph: #F2C795;
+  --px-input-caret: #FFC85E;
+  --px-tooltip-bg: #1C0F07;
+  --px-code-bg: #120A05;
+  --px-code-ink: #FFC85E;
+  --px-code-meta: #D8A76F;
+  --px-ink-on-mid: #FFE9C9;
+  --px-topbar-fill: #241409;
+  --px-dither: #20120A;
+  --pxa-panel: url('pxasset:pumpkin/panel.png');
+  --pxa-panel-slice: 30 fill;
+  --pxa-panel-width: 30px;
+  --pxa-panel-repeat: round;
+  --pxa-menu: url('pxasset:pumpkin/popover.png');
+  --pxa-menu-slice: 12 fill;
+  --pxa-menu-width: 12px;
+  --pxa-button: url('pxasset:pumpkin/button.png');
+  --pxa-button-hover: url('pxasset:pumpkin/button-hover.png');
+  --pxa-button-active: url('pxasset:pumpkin/button-press.png');
+  --pxa-button-slice: 6 8 12 8 fill;
+  --pxa-button-width: 6px 8px 10px 8px;
+  --pxa-button-ink: #FFF6E6;
+  --pxa-button-hover-ink: #FFF6E6;
+  --pxa-icon: url('pxasset:pumpkin/icon-button.png');
+  --pxa-icon-slice: 4 4 10 4 fill;
+  --pxa-icon-width: 4px 4px 6px 4px;
+  --pxa-input: url('pxasset:pumpkin/input.png');
+  --pxa-input-slice: 6 fill;
+  --pxa-input-width: 6px;
+  --pxa-input-ink: #FFF6E6;
+  --pxa-placeholder: #F2C795;
+  --pxa-caret: #FFC85E;
+  --pxa-select: url('pxasset:pumpkin/select.png');
+  --pxa-select-slice: 6 fill;
+  --pxa-select-width: 6px;
+  --pxa-ink: #FFE9C9;
+  --pxa-accent: #FF9E2C;
+  --pxa-accent-bright: #FFC85E;
+  --pxa-hover-wash: rgba(255, 158, 44, 0.12);
+  --pxa-tooltip-bg: #1C0F07;
+  --pxa-tooltip-ink: #FFE9C9;
+}
+html[data-pixel-theme='pixel-pumpkin'] body {
+  background-color: var(--px-wood-darkest);
+  background-image: repeating-conic-gradient(rgba(255, 158, 44, 0.045) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+}
+
+/* 便签本：撕角活页纸 + 铅笔光标。panel 的左边 18px 是活页孔，
+ * 用 repeat round 让孔按比例排布，而不是被拉成长椭圆。 */
+html[data-pixel-theme='pixel-papernote'] {
+  --px-wood-darkest: #F2E6D2;
+  --px-wood-dark: #F6ECD9;
+  --px-wood-mid: #EFE3CE;
+  --px-wood-warm: #E6D7BC;
+  --px-wood-light: #C9AF8A;
+  --px-wood-pale: #A8895F;
+  --px-text-on-dark: #3A2412;
+  --px-text-light: #6E4E2E;
+  --px-parchment: #FFFAF2;
+  --px-gold: #6E3A10;
+  --px-gold-bright: #8C4A16;
+  --px-gold-dark: #5A2E0C;
+  --px-gold-deep: #4A2408;
+  --px-sidebar-fill: #F6ECD9;
+  --px-line: #8C5A2C;
+  --px-accent-bg: #A3551B;
+  --px-accent-hover: #8C4713;
+  --px-accent-ink: #FFF9F1;
+  --px-input-bg: #FFF9F1;
+  --px-input-text: #3A2412;
+  --px-input-ph: #7A5A38;
+  --px-input-caret: #8C4A16;
+  --px-tooltip-bg: #2E1C0C;
+  --px-code-bg: #F0E2CC;
+  --px-code-ink: #6E3A10;
+  --px-code-meta: #7A5A38;
+  --px-ink-on-mid: #3A2412;
+  --px-topbar-fill: #F6ECD9;
+  --px-dither: #E9DAC0;
+  --px-check: var(--px-check-light);
+  --px-radio: var(--px-radio-light);
+  --pxa-panel: url('pxasset:papernote/panel.png');
+  --pxa-panel-slice: 12 8 12 18 fill;
+  --pxa-panel-width: 12px 8px 12px 18px;
+  --pxa-panel-repeat: stretch round;
+  --pxa-menu: url('pxasset:papernote/popover.png');
+  --pxa-menu-slice: 6 fill;
+  --pxa-menu-width: 6px;
+  --pxa-button: url('pxasset:papernote/button.png');
+  --pxa-button-hover: url('pxasset:papernote/button-hover.png');
+  --pxa-button-active: url('pxasset:papernote/button.png');
+  --pxa-button-slice: 8 6 10 6 fill;
+  --pxa-button-width: 6px 5px 8px 6px;
+  --pxa-button-ink: #3A2412;
+  --pxa-button-hover-ink: #6E3A10;
+  --pxa-icon: url('pxasset:papernote/icon-button.png');
+  --pxa-icon-slice: 6 fill;
+  --pxa-icon-width: 6px;
+  --pxa-input: url('pxasset:papernote/input.png');
+  --pxa-input-slice: 4 4 6 4 fill;
+  --pxa-input-width: 4px 4px 5px 4px;
+  --pxa-input-ink: #3A2412;
+  --pxa-placeholder: #7A5A38;
+  --pxa-caret: #8C4A16;
+  --pxa-select: url('pxasset:papernote/popover.png');
+  --pxa-select-slice: 6 fill;
+  --pxa-select-width: 6px;
+  --pxa-ink: #3A2412;
+  --pxa-accent: #8C5A2C;
+  --pxa-accent-bright: #6E3A10;
+  --pxa-hover-wash: rgba(140, 90, 44, 0.14);
+  --pxa-tooltip-bg: #2E1C0C;
+  --pxa-tooltip-ink: #FFFAF2;
+  --pxa-outline: #8C5A2C;
+}
+html[data-pixel-theme='pixel-papernote'] body {
+  background-color: var(--px-wood-darkest);
+  background-image: repeating-conic-gradient(rgba(140, 90, 44, 0.04) 0 25%, transparent 0 50%);
+  background-size: 4px 4px;
+  cursor: url('pxasset:papernote/cursor.png') 26 26, auto;
+}
+
+/* ── 共用 9-slice 规则：只在素材主题生效 ─────────────────────────── */
+/* 便签的纸面几乎与页面同色，补 2px 墨线把「纸」钉出来；其他素材主题的
+ * 边缘本身对比足够，--pxa-outline 不设即透明。 */
+html[data-pixel-asset] [role='dialog'],
+html[data-pixel-asset] [data-menu-material] {
+  outline: 2px solid var(--pxa-outline, transparent);
+  outline-offset: -2px;
+}
+html[data-pixel-asset] [role='dialog'] {
+  border: var(--pxa-panel-width, 24px) solid transparent !important;
+  border-image: var(--pxa-panel) var(--pxa-panel-slice, 24 fill) / var(--pxa-panel-width, 24px) / 0 var(--pxa-panel-repeat, stretch) !important;
+  background: transparent !important;
+  color: var(--pxa-ink) !important;
+  box-sizing: border-box !important;
+}
+html[data-pixel-asset] [data-menu-material] {
+  border: var(--pxa-menu-width, 10px) solid transparent !important;
+  border-image: var(--pxa-menu) var(--pxa-menu-slice, 10 fill) / var(--pxa-menu-width, 10px) / 0 stretch !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+html[data-pixel-asset] [role='menu']:not([data-menu-material]) {
+  border: 0 !important;
+  border-image: none !important;
+  background: transparent !important;
+}
+html[data-pixel-asset] [role='menuitem'] {
+  color: var(--pxa-ink) !important;
+  background: transparent !important;
+  background-image: none !important;
+}
+html[data-pixel-asset] [role='menuitem']:hover {
+  color: var(--pxa-accent-bright) !important;
+  background-color: var(--pxa-hover-wash) !important;
+  background-image: none !important;
+}
+html[data-pixel-asset] button[class*='primary'],
+html[data-pixel-asset] button[class*='Primary'] {
+  border: var(--pxa-button-width) solid transparent !important;
+  border-image: var(--pxa-button) var(--pxa-button-slice) / var(--pxa-button-width) / 0 stretch !important;
+  background: transparent !important;
+  color: var(--pxa-button-ink) !important;
+  min-height: 32px;
+}
+html[data-pixel-asset] button[class*='primary']:hover,
+html[data-pixel-asset] button[class*='Primary']:hover {
+  border-image-source: var(--pxa-button-hover) !important;
+  color: var(--pxa-button-hover-ink, var(--pxa-button-ink)) !important;
+  background: transparent !important;
+  background-image: none !important;
+}
+html[data-pixel-asset] button[class*='primary']:active,
+html[data-pixel-asset] button[class*='Primary']:active {
+  border-image-source: var(--pxa-button-active, var(--pxa-button)) !important;
+  transform: translate(1px, 1px) !important;
+  transition-duration: 0s !important;
+}
+/* 图标主按钮（发送/关闭）：用方形图标框，绝不把横条按钮塞进方块。 */
+html[data-pixel-asset] button[class*='primary']:has(> svg:only-child),
+html[data-pixel-asset] button[class*='Primary']:has(> svg:only-child) {
+  border: var(--pxa-icon-width) solid transparent !important;
+  border-image: var(--pxa-icon) var(--pxa-icon-slice) / var(--pxa-icon-width) / 0 stretch !important;
+  background: transparent !important;
+  color: var(--pxa-button-ink) !important;
+  min-height: 0;
+}
+html[data-pixel-asset] button[class*='primary']:has(> svg:only-child):hover,
+html[data-pixel-asset] button[class*='Primary']:has(> svg:only-child):hover {
+  border-image-source: var(--pxa-icon) !important;
+  color: var(--pxa-accent-bright) !important;
+}
+html[data-pixel-asset] input:not([type='checkbox']):not([type='radio']):not([type='range']),
+html[data-pixel-asset] textarea,
+html[data-pixel-asset] [contenteditable='true'] {
+  border: var(--pxa-input-width, 8px) solid transparent !important;
+  border-image: var(--pxa-input) var(--pxa-input-slice, 10 fill) / var(--pxa-input-width, 8px) / 0 stretch !important;
+  background: transparent !important;
+  color: var(--pxa-input-ink) !important;
+  caret-color: var(--pxa-caret) !important;
+  box-sizing: border-box !important;
+}
+html[data-pixel-asset] input::placeholder,
+html[data-pixel-asset] textarea::placeholder {
+  color: var(--pxa-placeholder) !important;
+  -webkit-text-fill-color: var(--pxa-placeholder) !important;
+  opacity: 1;
+}
+html[data-pixel-asset] [contenteditable='true']:empty::before {
+  color: var(--pxa-placeholder) !important;
+  -webkit-text-fill-color: var(--pxa-placeholder) !important;
+}
+html[data-pixel-asset] [role='menuitem'][aria-current='page'],
+html[data-pixel-asset] [role='treeitem'][aria-selected='true'] {
+  border: var(--pxa-select-width, 8px) solid transparent !important;
+  border-image: var(--pxa-select) var(--pxa-select-slice, 10 fill) / var(--pxa-select-width, 8px) / 0 stretch !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--pxa-ink) !important;
+  box-sizing: border-box !important;
+}
+/* 浮层只换颜色：2px 主题色边 + 实色底，不套面板图。 */
+html[data-pixel-asset] [role='tooltip'] {
+  border: 2px solid var(--pxa-accent) !important;
+  border-image: none !important;
+  background-color: var(--pxa-tooltip-bg) !important;
+  color: var(--pxa-tooltip-ink) !important;
+}
+html[data-pixel-asset] [role='alert'] {
+  border: 2px solid var(--pxa-accent) !important;
+  border-left: 4px solid var(--pxa-accent) !important;
+  border-image: none !important;
+  background-color: var(--pxa-tooltip-bg) !important;
+  color: var(--pxa-tooltip-ink) !important;
+}
+html[data-pixel-asset] [role='dialog'] button:not(:disabled):not([class*='primary']):not([class*='Primary']):hover {
+  background-color: var(--pxa-hover-wash) !important;
+}
+html[data-pixel-asset] [role='tab']::after {
+  background: var(--pxa-accent) !important;
 }

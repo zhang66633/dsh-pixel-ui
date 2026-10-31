@@ -88,6 +88,12 @@ function pairsFor(theme, vars) {
     ['active nav label / wood-mid', P('--px-gold-bright'), P('--px-wood-mid'), 4.5],
     ['row idle text / row idle bg', P('--px-text-on-dark'), P('--px-wood-dark'), 4.5],
     ['text-light / bg-layer-1 (sidebar meta)', P('--px-text-light'), T('--dsw-alias-bg-layer-1'), 4.5],
+    // Host-native surfaces painted straight from tokens (v1.8.0): the user
+    // bubble, the popover surface and the composer input must keep the same
+    // primary-label legibility the rest of the skin is audited for.
+    ['label-primary / user bubble', T('--dsw-alias-label-primary'), T('--dsw-specific-bubble'), 4.5],
+    ['label-primary / menu surface', T('--dsw-alias-label-primary'), T('--dsw-specific-menu'), 4.5],
+    ['label-primary / composer input', T('--dsw-alias-label-primary'), T('--dsw-specific-input-major'), 4.5],
     // UI pairs (>= 3.0)
     ['brand-primary / bg-base', T('--dsw-alias-brand-primary'), T('--dsw-alias-bg-base'), 3],
     ['border-l2 / bg-base', T('--dsw-alias-border-l2'), T('--dsw-alias-bg-base'), 3],

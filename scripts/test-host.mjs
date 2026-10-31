@@ -54,10 +54,9 @@ mod.apply(ctx)
 
 const fontRoute = routes.find((r) => r.path === '/dsh-pixel-ui/fonts')
 const prefRoute = routes.find((r) => r.path === '/dsh-pixel-ui/preference')
-const assetRoute = routes.find((r) => r.path === '/dsh-pixel-ui/assets/hologram')
 assert.ok(fontRoute, 'fonts prefix route registered')
 assert.ok(prefRoute, 'preference exact route registered')
-assert.ok(assetRoute, 'hologram assets prefix route registered')
+assert.equal(routes.length, 2, 'no asset route: 9-slice sprites are inlined in the client bundle')
 
 /** Minimal ServerResponse double. */
 function makeRes() {
@@ -123,19 +122,6 @@ res = await call(fontRoute, 'GET', '/dsh-pixel-ui/fonts/..%2f..%2fpackage.json')
 check('traversal 404', () => assert.equal(res.statusCode, 404))
 res = await call(fontRoute, 'GET', '/dsh-pixel-ui/fonts/%2e%2e/%2e%2e/package.json')
 check('encoded traversal 404', () => assert.equal(res.statusCode, 404))
-
-console.log('== host: hologram assets route ==')
-const panel = readFileSync(join(ROOT, 'assets/complete-ui/hologram/panel.png'))
-res = await call(assetRoute, 'GET', '/dsh-pixel-ui/assets/hologram/panel.png')
-check('panel 200 + type + exact bytes', () => {
-  assert.equal(res.statusCode, 200)
-  assert.equal(res.headers['content-type'], 'image/png')
-  assert.ok(Buffer.compare(res.body, panel) === 0)
-})
-res = await call(assetRoute, 'GET', '/dsh-pixel-ui/assets/hologram/package.json')
-check('unknown asset 404', () => assert.equal(res.statusCode, 404))
-res = await call(assetRoute, 'GET', '/dsh-pixel-ui/assets/hologram/..%2f..%2fpackage.json')
-check('asset traversal 404', () => assert.equal(res.statusCode, 404))
 
 console.log('== host: preference route ==')
 res = await call(prefRoute, 'GET', '/dsh-pixel-ui/preference')

@@ -1,12 +1,14 @@
 /**
  * dsh-pixel-ui — browser half (the pixel skin).
  *
- * Registers five pixel themes on the ThemeService seam
+ * Registers seven pixel themes on the ThemeService seam
  * (`ctx.theme.register` with --dsw-alias-* token overrides): wood (dark),
- * paper (light), warm (dark), retro-green (dark). The stylesheet carries
- * the pixel borders, fonts, CRT overlay, and component tweaks that alias
- * tokens alone cannot express, scoped to `html[data-pixel-ui]` with a
- * `data-pixel-theme` variant attribute for the four palettes.
+ * paper (light), warm (dark), retro-green (dark), hologram / pumpkin /
+ * papernote (real 9-slice sprites, all dark except papernote). The stylesheet
+ * carries the pixel borders, fonts, cursors, and the asset-theme 9-slice
+ * layer that alias tokens alone cannot express, scoped to `html[data-pixel-ui]`
+ * with a `data-pixel-theme` variant attribute, plus `data-pixel-asset` while
+ * one of the sprite themes is active.
  *
  * Theme-choice memory is two-layered on purpose:
  *   1. the browser `localStorage` mirror (instant, per-origin);
@@ -53,7 +55,15 @@ const BOOTSTRAP_GLOBAL = '__DSH_PIXEL_UI__'
 /** Default skin for a first run (no mirror, no durable preference). */
 const DEFAULT_SKIN = 'pixel-wood'
 
-/** The four pixel themes (Agent Xi palettes) registered on the ThemeService. */
+/**
+ * The seven pixel themes (Agent Xi palettes + three sprite palettes).
+ *
+ * Every theme declares the same 23 tokens: the 17 --dsw-alias-* palette
+ * tokens used by the flat skin, plus six --dsw-specific-* surfaces that the
+ * Host paints itself (user bubble, composer input, menu surface, selection
+ * button, tip). Theming those through tokens keeps host-native surfaces in
+ * palette without a single class-name selector.
+ */
 const THEMES = [
   {
     id: 'pixel-wood',
@@ -76,6 +86,12 @@ const THEMES = [
       '--dsw-alias-button-primary-fill': '#F4D03F',
       '--dsw-alias-button-primary-hover': '#FFE066',
       '--dsw-alias-label-primary-foreground': '#1A0F06',
+      '--dsw-specific-bubble': '#3A2515',
+      '--dsw-specific-bubble-highlight': '#4A3020',
+      '--dsw-specific-menu': '#241408',
+      '--dsw-specific-input-major': '#1A0F06',
+      '--dsw-specific-selector': '#4A3020',
+      '--dsw-specific-tip': '#3A2515',
     },
   },
   {
@@ -99,6 +115,12 @@ const THEMES = [
       '--dsw-alias-button-primary-fill': '#7A5A00',
       '--dsw-alias-button-primary-hover': '#5C4400',
       '--dsw-alias-label-primary-foreground': '#FFFDF5',
+      '--dsw-specific-bubble': '#E3D4B8',
+      '--dsw-specific-bubble-highlight': '#D8C7A6',
+      '--dsw-specific-menu': '#FFFDF5',
+      '--dsw-specific-input-major': '#FFFDF5',
+      '--dsw-specific-selector': '#D4C4A8',
+      '--dsw-specific-tip': '#D4C4A8',
     },
   },
   {
@@ -122,6 +144,12 @@ const THEMES = [
       '--dsw-alias-button-primary-fill': '#FF8C42',
       '--dsw-alias-button-primary-hover': '#FFA64D',
       '--dsw-alias-label-primary-foreground': '#1E0E04',
+      '--dsw-specific-bubble': '#4A2210',
+      '--dsw-specific-bubble-highlight': '#5C2E16',
+      '--dsw-specific-menu': '#2A1308',
+      '--dsw-specific-input-major': '#1E0E04',
+      '--dsw-specific-selector': '#5C2E16',
+      '--dsw-specific-tip': '#4A2210',
     },
   },
   {
@@ -145,6 +173,12 @@ const THEMES = [
       '--dsw-alias-button-primary-fill': '#33FF33',
       '--dsw-alias-button-primary-hover': '#66FF66',
       '--dsw-alias-label-primary-foreground': '#0A0E0A',
+      '--dsw-specific-bubble': '#101A10',
+      '--dsw-specific-bubble-highlight': '#162016',
+      '--dsw-specific-menu': '#0C100C',
+      '--dsw-specific-input-major': '#0A0E0A',
+      '--dsw-specific-selector': '#2A402A',
+      '--dsw-specific-tip': '#162016',
     },
   },
   {
@@ -168,11 +202,78 @@ const THEMES = [
       '--dsw-alias-button-primary-fill': '#2C416D',
       '--dsw-alias-button-primary-hover': '#385586',
       '--dsw-alias-label-primary-foreground': '#E8F7FF',
+      '--dsw-specific-bubble': '#12314F',
+      '--dsw-specific-bubble-highlight': '#1A3E60',
+      '--dsw-specific-menu': '#0A1A2E',
+      '--dsw-specific-input-major': '#10233B',
+      '--dsw-specific-selector': '#244A6A',
+      '--dsw-specific-tip': '#0A1A2E',
+    },
+  },
+  {
+    id: 'pixel-pumpkin',
+    colorScheme: 'dark',
+    tokens: {
+      '--dsw-alias-bg-base': '#170D06',
+      '--dsw-alias-bg-layer-1': '#241409',
+      '--dsw-alias-bg-layer-2': '#2F1B0C',
+      '--dsw-alias-bg-overlay': '#1C0F07',
+      '--dsw-alias-border-l1': '#4A2A12',
+      '--dsw-alias-border-l2': '#C4741F',
+      '--dsw-alias-brand-primary': '#FF9E2C',
+      '--dsw-alias-label-primary': '#FFE9C9',
+      '--dsw-alias-label-secondary': '#D8A76F',
+      '--dsw-alias-state-error-primary': '#FF7A66',
+      '--dsw-alias-state-success-primary': '#9BD57A',
+      '--dsw-alias-state-warn-primary': '#FFC24B',
+      '--dsw-alias-state-idle-primary': '#A06A3E',
+      '--dsw-specific-sidebar-fill': '#1B0F07',
+      '--dsw-alias-button-primary-fill': '#8A3E0C',
+      '--dsw-alias-button-primary-hover': '#A64E10',
+      '--dsw-alias-label-primary-foreground': '#FFF6E6',
+      '--dsw-specific-bubble': '#5A2E10',
+      '--dsw-specific-bubble-highlight': '#6E3A14',
+      '--dsw-specific-menu': '#241409',
+      '--dsw-specific-input-major': '#2A170A',
+      '--dsw-specific-selector': '#4A2A12',
+      '--dsw-specific-tip': '#3A2210',
+    },
+  },
+  {
+    id: 'pixel-papernote',
+    colorScheme: 'light',
+    tokens: {
+      '--dsw-alias-bg-base': '#F2E6D2',
+      '--dsw-alias-bg-layer-1': '#F6ECD9',
+      '--dsw-alias-bg-layer-2': '#EEE1C9',
+      '--dsw-alias-bg-overlay': '#FFFAF2',
+      '--dsw-alias-border-l1': '#E2D1B4',
+      '--dsw-alias-border-l2': '#8C5A2C',
+      '--dsw-alias-brand-primary': '#9A5518',
+      '--dsw-alias-label-primary': '#3A2412',
+      '--dsw-alias-label-secondary': '#6E4E2E',
+      '--dsw-alias-state-error-primary': '#A33225',
+      '--dsw-alias-state-success-primary': '#3F7A3A',
+      '--dsw-alias-state-warn-primary': '#8A5A00',
+      '--dsw-alias-state-idle-primary': '#94795C',
+      '--dsw-specific-sidebar-fill': '#F6ECD9',
+      '--dsw-alias-button-primary-fill': '#A3551B',
+      '--dsw-alias-button-primary-hover': '#8C4713',
+      '--dsw-alias-label-primary-foreground': '#FFF9F1',
+      '--dsw-specific-bubble': '#F3DCBC',
+      '--dsw-specific-bubble-highlight': '#EBC9A0',
+      '--dsw-specific-menu': '#FFFAF2',
+      '--dsw-specific-input-major': '#FFF9F1',
+      '--dsw-specific-selector': '#DCC7A4',
+      '--dsw-specific-tip': '#E6D7BC',
     },
   },
 ]
 
 const PIXEL_IDS = THEMES.map((theme) => theme.id)
+
+/** Themes whose surfaces come from 9-slice sprites (not just flat colors). */
+const ASSET_IDS = new Set(['pixel-hologram', 'pixel-pumpkin', 'pixel-papernote'])
 
 /** Built-in preference ids; together with the pixel ids they are restorable. */
 const RESTORABLE_IDS = new Set(['light', 'dark', 'system', ...PIXEL_IDS])
@@ -188,6 +289,8 @@ const MESSAGES = {
     'theme.pixel-warm': '像素·暖阳',
     'theme.pixel-retro': '像素·终端绿',
     'theme.pixel-hologram': '像素·全息',
+    'theme.pixel-pumpkin': '像素·南瓜灯',
+    'theme.pixel-papernote': '像素·便签本',
     'theme.system': '现代默认',
   },
   en: {
@@ -198,17 +301,21 @@ const MESSAGES = {
     'theme.pixel-warm': 'Pixel · Warm',
     'theme.pixel-retro': 'Pixel · Terminal Green',
     'theme.pixel-hologram': 'Pixel · Hologram',
+    'theme.pixel-pumpkin': 'Pixel · Pumpkin',
+    'theme.pixel-papernote': 'Pixel · Papernote',
     'theme.system': 'Modern default',
   },
 }
 
-/** Settings row choices: the four skins plus the modern default escape. */
+/** Settings row choices: the seven skins plus the modern default escape. */
 const THEME_CHOICES = [
   { id: 'pixel-wood', swatch: '#F4D03F' },
   { id: 'pixel-paper', swatch: '#FFFDF5' },
   { id: 'pixel-warm', swatch: '#FF8C42' },
   { id: 'pixel-retro', swatch: '#33FF33' },
   { id: 'pixel-hologram', swatch: '#14DCEE' },
+  { id: 'pixel-pumpkin', swatch: '#FF9E2C' },
+  { id: 'pixel-papernote', swatch: '#F3DCBC' },
   { id: 'system', swatch: '#7A7A7A' },
 ]
 
@@ -235,7 +342,7 @@ function createThemeRowStore() {
 }
 
 /**
- * General-section row: switch between the five pixel skins and back to the
+ * General-section row: switch between the seven pixel skins and back to the
  * modern default. Reads selection state through props.useStore, localized
  * copy through props.t, and writes through the injected setTheme callback.
  * Each button carries aria-pressed so the current pick is announced, and the
@@ -332,16 +439,23 @@ function writeHostTheme(id) {
   } catch { /* fetch missing: ignore */ }
 }
 
-/** Client plugin body: register the five themes, restore/persist the choice, inject CSS, locale and the settings row. */
+/** Client plugin body: register the seven themes, restore/persist the choice, inject CSS, locale and the settings row. */
 export function apply(ctx) {
   // Scope attributes mirror the active theme, so the stylesheet only shades
   // while a pixel theme is selected and the variant rules can pick the palette.
+  // `data-pixel-asset` marks the sprite themes so the shared 9-slice layer runs
+  // only for them (flat themes stay flat).
   const syncScope = () => {
     const active = ctx.theme.getTheme().active
     const on = PIXEL_IDS.includes(active.id)
     document.documentElement.toggleAttribute('data-pixel-ui', on)
-    if (on) document.documentElement.setAttribute('data-pixel-theme', active.id)
-    else document.documentElement.removeAttribute('data-pixel-theme')
+    if (on) {
+      document.documentElement.setAttribute('data-pixel-theme', active.id)
+      document.documentElement.toggleAttribute('data-pixel-asset', ASSET_IDS.has(active.id))
+    } else {
+      document.documentElement.removeAttribute('data-pixel-theme')
+      document.documentElement.removeAttribute('data-pixel-asset')
+    }
     return on
   }
 

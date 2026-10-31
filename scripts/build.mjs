@@ -10,8 +10,27 @@
 import { build } from 'esbuild'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { inlinePixelAssets } from './asset-inline.mjs'
 
 const { name: id } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
+
+const CSS_ENTRY = fileURLToPath(new URL('../src/client/pixel.css', import.meta.url))
+
+/**
+ * The stylesheet imports the 9-slice sprites through the `pxasset:` scheme;
+ * this hook inlines them as data URIs, so `lib/client.js` is the only file the
+ * browser half needs (no host asset route, no restart after an asset update).
+ */
+const pixelAssetPlugin = {
+  name: 'dsh-pixel-ui:inline-pixel-assets',
+  setup(build) {
+    build.onLoad({ filter: /pixel\.css$/ }, () => {
+      const { css, assets } = inlinePixelAssets(readFileSync(CSS_ENTRY, 'utf8'))
+      console.log(`inlined ${assets.length} 9-slice sprites: ${assets.join(', ')}`)
+      return { contents: css, loader: 'text' }
+    })
+  },
+}
 
 const PLATFORM_EXTERNALS = [
   'react', 'react/jsx-runtime', 'react-dom', 'react-dom/client',
@@ -34,6 +53,7 @@ await build({
   charset: 'utf8',
   loader: { '.css': 'text' },
   external: PLATFORM_EXTERNALS,
+  plugins: [pixelAssetPlugin],
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? 'production'),
   },

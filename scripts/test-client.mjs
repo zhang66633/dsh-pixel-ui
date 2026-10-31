@@ -247,23 +247,38 @@ function boot({ localTheme = null, hostTheme = null, bootTheme = undefined } = {
 console.log('== client: registration ==')
 {
   const ctx = boot()
-  check('five pixel themes registered with the 17-token palette', () => {
+  check('seven pixel themes registered with the 23-token palette', () => {
     const ids = ctx._themes.map((t) => t.id)
-    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 5)
-    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram']) assert.ok(ids.includes(id))
+    assert.equal(ids.filter((id) => id.startsWith('pixel-')).length, 7)
+    for (const id of ['pixel-wood', 'pixel-paper', 'pixel-warm', 'pixel-retro', 'pixel-hologram', 'pixel-pumpkin', 'pixel-papernote']) assert.ok(ids.includes(id))
     const wood = ctx._themes.find((t) => t.id === 'pixel-wood')
     assert.equal(wood.colorScheme, 'dark')
-    assert.equal(Object.keys(wood.tokens).length, 17)
+    assert.equal(Object.keys(wood.tokens).length, 23)
     assert.equal(wood.tokens['--dsw-alias-state-idle-primary'], '#7A5C3E')
     assert.equal(wood.tokens['--dsw-alias-button-primary-fill'], '#F4D03F')
+    assert.equal(wood.tokens['--dsw-specific-bubble'], '#3A2515')
     const paper = ctx._themes.find((t) => t.id === 'pixel-paper')
     assert.equal(paper.colorScheme, 'light')
     assert.equal(paper.tokens['--dsw-alias-brand-primary'], '#8A6400')
     const hologram = ctx._themes.find((t) => t.id === 'pixel-hologram')
     assert.equal(hologram.colorScheme, 'dark')
-    assert.equal(Object.keys(hologram.tokens).length, 17)
+    assert.equal(Object.keys(hologram.tokens).length, 23)
     assert.equal(hologram.tokens['--dsw-alias-brand-primary'], '#14DCEE')
     assert.equal(hologram.tokens['--dsw-alias-button-primary-fill'], '#2C416D')
+    const pumpkin = ctx._themes.find((t) => t.id === 'pixel-pumpkin')
+    assert.equal(pumpkin.colorScheme, 'dark')
+    assert.equal(Object.keys(pumpkin.tokens).length, 23)
+    assert.equal(pumpkin.tokens['--dsw-alias-brand-primary'], '#FF9E2C')
+    const papernote = ctx._themes.find((t) => t.id === 'pixel-papernote')
+    assert.equal(papernote.colorScheme, 'light')
+    assert.equal(Object.keys(papernote.tokens).length, 23)
+    assert.equal(papernote.tokens['--dsw-alias-button-primary-fill'], '#A3551B')
+    // Every theme must declare the same host-surface token set, otherwise a
+    // host-native surface silently falls back to the modern palette.
+    const keys = Object.keys(wood.tokens).sort()
+    for (const theme of ctx._themes.filter((t) => t.id.startsWith('pixel-'))) {
+      assert.deepEqual(Object.keys(theme.tokens).sort(), keys, `${theme.id} token set`)
+    }
   })
   check('stylesheet injected with plugin dataset', () => {
     assert.equal(styleTags.length, 1)
@@ -272,16 +287,22 @@ console.log('== client: registration ==')
     assert.ok(styleTags[0].textContent.includes('--px-accent-bg'))
     assert.equal(styleTags[0].appended, true)
   })
-  check('hologram theme uses real 9-slice assets from the host route', () => {
+  check('sprite themes ship inlined 9-slice assets (no host asset route)', () => {
     const css = styleTags[0].textContent
     for (const token of [
       "html[data-pixel-theme='pixel-hologram']",
-      '/dsh-pixel-ui/assets/hologram/panel.png',
-      '/dsh-pixel-ui/assets/hologram/button-primary.png',
-      '/dsh-pixel-ui/assets/hologram/input.png',
-      'border-image: var(--pxh-panel) 24 fill / 24px / 0 stretch !important',
-      '/dsh-pixel-ui/assets/hologram/icon-button.png',
-    ]) assert.ok(css.includes(token), `asset theme carries ${token}`)
+      "html[data-pixel-theme='pixel-pumpkin']",
+      "html[data-pixel-theme='pixel-papernote']",
+      "html[data-pixel-asset] [role='dialog']",
+      '--pxa-panel: url("data:image/png;base64,',
+      'border-image: var(--pxa-panel)',
+      '--pxa-button: url("data:image/png;base64,',
+      '--pxa-icon: url("data:image/png;base64,',
+      '--pxa-input: url("data:image/png;base64,',
+      '--pxa-select: url("data:image/png;base64,',
+    ]) assert.ok(css.includes(token), `asset layer carries ${token}`)
+    assert.equal(css.includes('pxasset:'), false, 'build inlined every pxasset: reference')
+    assert.equal(css.includes('/dsh-pixel-ui/assets/'), false, 'no runtime asset route needed')
   })
   check('stylesheet widens the host content column and drops the scanline overlay', () => {
     const css = styleTags[0].textContent
@@ -372,6 +393,7 @@ console.log('== client: registration ==')
     assert.deepEqual(snapshot.fontFamilies, { text: '', code: '', terminal: '' })
     assert.equal(snapshot.active.id, 'pixel-wood')
     assert.equal(htmlAttrs.get('data-pixel-ui'), '')
+    assert.equal(htmlAttrs.has('data-pixel-asset'), false, 'flat theme does not arm the 9-slice layer')
   })
 }
 
@@ -483,15 +505,17 @@ console.log('== client: interactions ==')
   })
 
   const { tree, buttons, t } = renderRow(ctx)
-  check('row renders group + title + desc + six choices', () => {
+  check('row renders group + title + desc + eight choices', () => {
     assert.equal(tree.props.role, 'group')
     assert.equal(tree.props['aria-label'], '像素主题')
     assert.ok(textOf(tree).includes('像素主题'))
     assert.ok(textOf(tree).includes('选择后立即生效'))
-    assert.equal(buttons.length, 6)
+    assert.equal(buttons.length, 8)
     assert.equal(textOf(buttons[0]), '像素·木屋')
     assert.equal(textOf(buttons[4]), '像素·全息')
-    assert.equal(textOf(buttons[5]), '现代默认')
+    assert.equal(textOf(buttons[5]), '像素·南瓜灯')
+    assert.equal(textOf(buttons[6]), '像素·便签本')
+    assert.equal(textOf(buttons[7]), '现代默认')
   })
   check('aria-pressed marks the current pick; swatch is decorative', () => {
     assert.equal(buttons[1].props['aria-pressed'], true)
@@ -501,7 +525,7 @@ console.log('== client: interactions ==')
     assert.equal(swatch.props.style.background, '#FFFDF5')
   })
   const putCountBefore = fetchCalls.filter((c) => c.method === 'PUT').length
-  buttons[5].props.onClick()
+  buttons[7].props.onClick()
   check('explicit pick writes both layers', () => {
     assert.equal(ctx.theme.getTheme().preference, 'system')
     assert.equal(globalThis.localStorage.getItem('dsh-pixel-ui:theme'), 'system')
@@ -512,13 +536,27 @@ console.log('== client: interactions ==')
   })
   const row2 = renderRow(ctx)
   check('row re-render moves aria-pressed to 现代默认', () => {
-    assert.equal(row2.buttons[5].props['aria-pressed'], true)
+    assert.equal(row2.buttons[7].props['aria-pressed'], true)
     assert.equal(row2.buttons[1].props['aria-pressed'], false)
   })
-  row2.buttons[0].props.onClick()
-  check('pick from modern default re-activates the skin', () => {
+  row2.buttons[5].props.onClick()
+  check('picking a sprite theme arms data-pixel-asset', () => {
+    assert.equal(ctx.theme.getTheme().preference, 'pixel-pumpkin')
+    assert.equal(htmlAttrs.get('data-pixel-theme'), 'pixel-pumpkin')
+    assert.equal(htmlAttrs.has('data-pixel-asset'), true)
+  })
+  const row3 = renderRow(ctx)
+  row3.buttons[6].props.onClick()
+  check('papernote is also a sprite theme (asset layer stays armed)', () => {
+    assert.equal(ctx.theme.getTheme().preference, 'pixel-papernote')
+    assert.equal(htmlAttrs.has('data-pixel-asset'), true)
+  })
+  const row4 = renderRow(ctx)
+  row4.buttons[0].props.onClick()
+  check('picking a flat theme disarms the 9-slice layer', () => {
     assert.equal(ctx.theme.getTheme().preference, 'pixel-wood')
     assert.equal(htmlAttrs.get('data-pixel-theme'), 'pixel-wood')
+    assert.equal(htmlAttrs.has('data-pixel-asset'), false)
     assert.equal(globalThis.localStorage.getItem('dsh-pixel-ui:theme'), 'pixel-wood')
   })
 }
