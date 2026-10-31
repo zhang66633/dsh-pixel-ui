@@ -96,6 +96,18 @@ ffmpeg -ss 0 -t 7 -i promo/dsh-pixel-ui-promo.mp4 -i TEMP/palette.png \
 页面本身零构建：`promo/index.html` + `chars/*.webp` + 字体（`../assets/fonts`）即可。
 修改每套主题的停留时长，调 `index.html` 里的 `SLOT = 2.4`；总长 `DURATION` 会自动重算。
 
+## 状态录像（v1.12.0）
+
+- [state-tour.mp4](./state-tour.mp4)：18 秒，1600×1000，九套主题 × normal / hover / pressed / focus
+- [state-tour.gif](./state-tour.gif)：800×500 预览
+- [state-matrix.png](./state-matrix.png)：9×4 状态矩阵
+
+做法：`state-board.html` 用真实皮肤 CSS，把 `:hover` / `:active` / `:focus-visible` 替换成
+`:is(:hover, .px-force-hover)` 等，按 `?theme=&state=&asset=` 给对应元素加 class，再用
+Edge headless 逐帧截图；**这是 forced-state 演示，不是真实宿主截图**。真实宿主
+`http://127.0.0.1:63819/` 需要 `dsh web` 打印的带 token URL（token 只在该进程内存里），
+拿到后再回填真机截图。
+
 ## 备注
 
 - 角色图由用户提供/确认；Complete UI 的切片仍按 CC BY 4.0 署名（见仓库根 `README.md`）。
