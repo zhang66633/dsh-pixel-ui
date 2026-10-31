@@ -65,13 +65,6 @@
 
 ![像素·全息组件预览：全息对话框、菜单、主按钮、输入框、选中行](./assets/preview-hologram.png)
 
-*图为静态组件预览（真实 CSS + 素材，headless 渲染；不是实机会话截图）。*
-
-> 素材：Complete UI Essential Pack v2.4 · `06_Hologram_Theme` by **Crusenho Agus Hennihuno**，CC BY 4.0；
-> 只取 8 张切片，完整署名与许可证在
-> [`assets/complete-ui/hologram/ATTRIBUTION.md`](assets/complete-ui/hologram/ATTRIBUTION.md)。
-> 全息是**第五套**，和南瓜灯/便签本同属真素材分支；前四套仍保持零立体、零阴影。
-
 ### 像素·南瓜灯 · `pixel-pumpkin`
 
 > 深色 · 近黑 `#170D06` + 南瓜橙 `#FF9E2C` + 暖金 `#FFC85E`；对话框用 96×96 的藤蔓边框，菜单/主按钮/输入框/选中行各用一张 32×32 或 96×32 的切片。
@@ -84,13 +77,6 @@
 
 ![像素·南瓜灯组件预览：藤蔓对话框、菜单、主按钮、图标键、输入框、选中行](./assets/preview-pumpkin.png)
 
-*图为静态组件预览（真实 CSS + 素材，headless 渲染；不是实机会话截图）。*
-
-> 按钮与输入框的填充色从 `#BF5F16` 加深到 `#8A3E0C` / `#3A2210`，保证奶油色字与占位符在素材填充上 ≥4.5:1；藤蔓、金边与高光未改（见 ATTRIBUTION 的 Modifications）。
-
-> 素材：Complete UI Essential Pack v2.4 · `09_Pumpkin_Theme`，CC BY 4.0；
-> 源文件映射与署名在 [`assets/complete-ui/pumpkin/ATTRIBUTION.md`](assets/complete-ui/pumpkin/ATTRIBUTION.md)。
-
 ### 像素·便签本 · `pixel-papernote`
 
 > 浅色 · 纸面 `#F2E6D2` + 奶油便签 `#FFF9F1` + 深棕 `#8C5A2C`；对话框是一张带装订孔与撕边的活页纸，鼠标指针换成 32×32 铅笔。
@@ -102,15 +88,6 @@
 - 便签纸面与页面同色，额外用 2px 墨线（`--pxa-outline`）把“纸”钉出来，避免菜单看起来像悬浮文字。
 
 ![像素·便签本组件预览：活页纸对话框、便签菜单、便签条按钮、输入框、选中行](./assets/preview-papernote.png)
-
-*图为静态组件预览（真实 CSS + 素材，headless 渲染；不是实机会话截图）。*
-
-> 素材：Complete UI Essential Pack v2.4 · `11_Papernote_Theme`，CC BY 4.0；
-> 源文件映射与署名在 [`assets/complete-ui/papernote/ATTRIBUTION.md`](assets/complete-ui/papernote/ATTRIBUTION.md)。
-
-> 前四套的截图取自 DSH Desktop（1920×1200 @125% 缩放）；全息 / 南瓜灯 / 便签本目前用上面的
-> 静态组件预览，实机截图待补拍。截图由插件市场按本仓库根的
-> [`screenshots.json`](screenshots.json) 读取——换图只推自己的仓库，不必提 PR。
 
 ## Motion & detail
 
@@ -264,8 +241,5 @@ npm test         # test:compat + test:host + test:client + test:contrast
 分别见 [`hologram`](assets/complete-ui/hologram/ATTRIBUTION.md) /
 [`pumpkin`](assets/complete-ui/pumpkin/ATTRIBUTION.md) /
 [`papernote`](assets/complete-ui/papernote/ATTRIBUTION.md) 的 ATTRIBUTION。
-
-> 未收录 PixelPocketPhoneUI 的 PNG：该素材包只有 © IndigoLay 与 Unity Asset Store EULA，
-> 没有随包再分发许可。若将来拿到书面许可，可按同一 `pxasset:` 流程接入（见 `docs/dev/踩坑记录.md` #13）。
 
 安全问题请通过 GitHub **security advisory** 私下报告，不要发公开 issue。
