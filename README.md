@@ -8,7 +8,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.5-blue)
-![version](https://img.shields.io/badge/version-1.13.1-F4D03F)
+![version](https://img.shields.io/badge/version-1.13.2-F4D03F)
 ![themes](https://img.shields.io/badge/themes-9-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -22,23 +22,27 @@
 
 ## 主题
 
-| 主题 | id | 风格 |
-| --- | --- | --- |
-| 像素·木屋 | `pixel-wood` | 深木 + 金（默认） |
-| 像素·羊皮纸 | `pixel-paper` | 浅色纸面 + 金棕 |
-| 像素·暖阳 | `pixel-warm` | 暖木 + 橙 |
-| 像素·终端绿 | `pixel-retro` | 墨绿 + 荧光绿 |
-| 像素·全息 | `pixel-hologram` | 深蓝 + 青色 9-slice |
-| 像素·南瓜灯 | `pixel-pumpkin` | 暗橙藤蔓框 + 暖金 |
-| 像素·便签本 | `pixel-papernote` | 活页纸 + 铅笔光标 |
-| 像素·云石 | `pixel-marble` | 板岩 + 白石框 + 钢青 |
-| 像素·秘银 | `pixel-mithril` | 靛紫 + 银蓝薄框 |
+> 九套全展示。前四套为真实 DSH 宿主截图，后五套为组件预览图。
 
-| 木屋 | 羊皮纸 | 全息 |
-| --- | --- | --- |
-| ![](assets/screenshot-wood.png) | ![](assets/screenshot-paper.png) | ![](assets/preview-hologram.png) |
+<table>
+  <tr>
+    <td align="center" width="33%"><a href="./assets/screenshot-wood.png"><img src="./assets/screenshot-wood.png" alt="像素·木屋" width="100%" loading="lazy"></a><br><b>像素·木屋</b><br><code>pixel-wood</code> · 深木 + 金（默认）</td>
+    <td align="center" width="33%"><a href="./assets/screenshot-paper.png"><img src="./assets/screenshot-paper.png" alt="像素·羊皮纸" width="100%" loading="lazy"></a><br><b>像素·羊皮纸</b><br><code>pixel-paper</code> · 浅色纸面 + 金棕</td>
+    <td align="center" width="33%"><a href="./assets/screenshot-warm.png"><img src="./assets/screenshot-warm.png" alt="像素·暖阳" width="100%" loading="lazy"></a><br><b>像素·暖阳</b><br><code>pixel-warm</code> · 暖木 + 橙</td>
+  </tr>
+  <tr>
+    <td align="center"><a href="./assets/screenshot-retro.png"><img src="./assets/screenshot-retro.png" alt="像素·终端绿" width="100%" loading="lazy"></a><br><b>像素·终端绿</b><br><code>pixel-retro</code> · 墨绿 + 荧光绿</td>
+    <td align="center"><a href="./assets/preview-hologram.png"><img src="./assets/preview-hologram.png" alt="像素·全息" width="100%" loading="lazy"></a><br><b>像素·全息</b><br><code>pixel-hologram</code> · 深蓝 + 青色 9-slice</td>
+    <td align="center"><a href="./assets/preview-pumpkin.png"><img src="./assets/preview-pumpkin.png" alt="像素·南瓜灯" width="100%" loading="lazy"></a><br><b>像素·南瓜灯</b><br><code>pixel-pumpkin</code> · 暗橙藤蔓框 + 暖金</td>
+  </tr>
+  <tr>
+    <td align="center"><a href="./assets/preview-papernote.png"><img src="./assets/preview-papernote.png" alt="像素·便签本" width="100%" loading="lazy"></a><br><b>像素·便签本</b><br><code>pixel-papernote</code> · 活页纸 + 铅笔光标</td>
+    <td align="center"><a href="./assets/preview-marble.png"><img src="./assets/preview-marble.png" alt="像素·云石" width="100%" loading="lazy"></a><br><b>像素·云石</b><br><code>pixel-marble</code> · 板岩 + 白石框 + 钢青</td>
+    <td align="center"><a href="./assets/preview-mithril.png"><img src="./assets/preview-mithril.png" alt="像素·秘银" width="100%" loading="lazy"></a><br><b>像素·秘银</b><br><code>pixel-mithril</code> · 靛紫 + 银蓝薄框</td>
+  </tr>
+</table>
 
-更多截图见 [`assets/`](assets/)。
+高清原图见 [`assets/`](assets/)。
 
 ## 安装
 
@@ -47,7 +51,7 @@
 dsh plugin add dsh-pixel-ui
 
 # 或 GitHub Releases 的 tgz
-dsh plugin add ./dsh-pixel-ui-1.13.1.tgz
+dsh plugin add ./dsh-pixel-ui-1.13.2.tgz
 
 # 或源码 link
 dsh plugin add github:zhang66633/dsh-pixel-ui
