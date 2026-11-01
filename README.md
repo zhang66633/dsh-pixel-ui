@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/cover.jpg" alt="dsh-pixel-ui 主题角色封面：像素·木屋 / 像素·羊皮纸 / 像素·暖阳 / 像素·终端绿" width="720" />
+  <img src="./assets/cover.png" alt="dsh-pixel-ui 像素人鱼女仆封面：九套主题视觉" width="620" />
 </p>
 
 # 🪵 dsh-pixel-ui
