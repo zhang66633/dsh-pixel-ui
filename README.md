@@ -8,7 +8,7 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen)
 ![dsh](https://img.shields.io/badge/dsh-0.2.1--rc.3-blue)
-![version](https://img.shields.io/badge/version-1.12.1-F4D03F)
+![version](https://img.shields.io/badge/version-1.13.0-F4D03F)
 ![themes](https://img.shields.io/badge/themes-9-orange)
 ![contrast](https://img.shields.io/badge/WCAG-AA%20audited-brightgreen)
 
@@ -25,6 +25,7 @@
 5. **桌面端友好**：内容列宽随视口撑开（`clamp(680px, 64vw - 140px, 1200px)`，窄屏仍是宿主原本的 680px），皮肤选择在 `dsh-app://` 页面上也能恢复；素材在构建期转成 data URI 内联，换素材只需重新 build + 刷新页面，不必重启宿主。
 6. **控件细节（v1.11.0）**：菜单/选项/原生 select 不再落回宿主默认浅灰；无 class 的第三方按钮、危险按钮有主题描边；输入框内凹 2px 斜面 + `focus-visible` 金环 + 禁用态；表格等宽数字；宿主额外别称（`bg-layer-3` / `border-l3/l4` / `interactive-bg-hover` / `menu-group-header-fill`）也映射到主题色；
 7. **光标与状态（v1.12.0）**：默认箭头是经典斜切轮廓，链接/按钮用平滑像素手，输入框是真正的 I-beam，禁用/禁止是红圈斜杠，忙碌是沙漏；纸面主题用深金/深棕填充，便签本保留铅笔但在禁用/拖拽/忙碌时切到对应状态；拖拽交回系统 `grab`/`grabbing`，避免自绘拳头变形；真实宿主 0.2.1-rc.5 回填时补了“新会话”按钮与 Lexical 输入 placeholder 两处漏色；
+8. **最新版适配（v1.13.0）**：compat 门禁推进到 DSH `0.2.1-rc.5`，真实宿主九套主题已跑通；`engines.dsh` / peers / dshReleases 三处声明一致。
 
 **适合谁**：想要像素风 / 星露谷风 / 复古终端外观的 dsh 用户；想给会话截图加一点氛围感的博主和开发者。
 
@@ -140,7 +141,7 @@
 
 | 项 | 支持范围 |
 | --- | --- |
-| dsh 生态 | `0.1.0-rc.6` ~ `0.2.x`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；`0.2.1-rc.3` 已按源码逐条核对，并用 0.2.1 真实的 `ThemeRuntime` 跑通注册/恢复/切换契约；见 `docs/dev/迭代记录.md`） |
+| dsh 生态 | `0.1.0-rc.6` ~ `0.2.x`（ThemeService `register`/`setTheme` + `settings.general.item` 槽位；`0.2.1-rc.5` 已按源码逐条核对，并用 0.2.1 真实的 `ThemeRuntime` 跑通注册/恢复/切换契约；见 `docs/dev/迭代记录.md`） |
 | 兼容声明 | 同时声明 `engines.dsh` 与 `@deepseek-ai/dsh-*` peers：0.2.1 的 app-boot 优先读 `engines.dsh`，dshmarket 的发现页把两者取交集；任一判定器都能过 |
 | DSH Desktop | 2.0.x（web 兼容模式/高级模式均适用） |
 | 模式 | 七深色 + 两浅色（`colorScheme` 按主题声明） |
@@ -162,7 +163,7 @@ GitHub Releases（无需 npm，同样开箱即用）：
 
 ```bash
 # 下载 Releases 里的 dsh-pixel-ui-<version>.tgz
-dsh plugin add ./dsh-pixel-ui-1.12.1.tgz
+dsh plugin add ./dsh-pixel-ui-1.13.0.tgz
 ```
 
 GitHub 源码（构建产物已随仓库提交，无需构建）：
@@ -250,7 +251,7 @@ npm run build    # 构建 lib/client.js（wire 格式，CSS 以文本内联，9-
 npm test         # test:compat + test:host + test:client + test:contrast
 ```
 
-- `scripts/check-compat.mjs`：`engines.dsh` / dsh peers / dshReleases 的声明门禁（0.2.1-rc.3 严格安装路径）
+- `scripts/check-compat.mjs`：`engines.dsh` / dsh peers / dshReleases 的声明门禁（0.2.1-rc.5 严格安装路径）
 - `scripts/asset-inline.mjs`：把 CSS 里的 `url('pxasset:<theme>/<file>.png')` 换成 data URI，并用 `ASSET_DIRS` 白名单校验主题名
 - `scripts/test-host.mjs`：node 半边（字体白名单 / 偏好路由读写与校验 / **确认没有素材路由** / dispose）
 - `scripts/test-client.mjs`：browser 半边（加载真实 lib/client.js，覆盖注册、恢复矩阵、交互、渲染、动效门禁、**五套素材主题的内联 9-slice**、`data-pixel-asset` 开关、dispose）
