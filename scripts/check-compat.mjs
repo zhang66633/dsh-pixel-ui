@@ -23,7 +23,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 
 /** The strict-install target the user asked for (2026-10-25). */
-const CURRENT_DSH = '0.2.1-rc.3'
+const CURRENT_DSH = '0.2.1-rc.5'
 
 /** Host releases this package has exercised, oldest first. */
 const HOST_RELEASES = [
@@ -33,6 +33,7 @@ const HOST_RELEASES = [
   '0.2.0-rc.1',
   '0.2.0-rc.2',
   '0.2.1-rc.3',
+  '0.2.1-rc.5',
 ]
 
 const DS_PEERS = Object.entries(manifest.peerDependencies ?? {})
@@ -94,12 +95,12 @@ for (const version of HOST_RELEASES) {
   })
 }
 
-console.log('== compat: DSH 0.2.1-rc.3 strict install gate ==')
-check('0.2.1-rc.3 is declared compatible', () => assert.equal(releases[CURRENT_DSH], 'compatible'))
-check('engines.dsh admits 0.2.1-rc.3 without includePrerelease', () => {
+console.log('== compat: DSH 0.2.1-rc.5 strict install gate ==')
+check('0.2.1-rc.5 is declared compatible', () => assert.equal(releases[CURRENT_DSH], 'compatible'))
+check('engines.dsh admits 0.2.1-rc.5 without includePrerelease', () => {
   assert.ok(semver.satisfies(CURRENT_DSH, enginesRange))
 })
-check('every dsh peer admits 0.2.1-rc.3 without includePrerelease', () => {
+check('every dsh peer admits 0.2.1-rc.5 without includePrerelease', () => {
   for (const peer of DS_PEERS) {
     assert.ok(semver.satisfies(CURRENT_DSH, peer.range), `${peer.name} needs an explicit >=0.2.1-0 segment`)
   }
